@@ -1,4 +1,7 @@
-export default (t) => {
-    //console.log(e.target.value)
-    console.log(`export default ${t}`)
+
+export default (e,setHtml) => {
+    isEqualAfter2('good')
+   // nDigits()
+   //console.log(`${strDevelopment[0]} ${strDevelopment[strDevelopment.length-1]}`)
+    setHtml(`Result: ${e} ${strDevelopment}`)
 }

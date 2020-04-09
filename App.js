@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import 'react-native-gesture-handler';
 import {
   SafeAreaView,
   StyleSheet,
@@ -20,7 +21,7 @@ import {
 import { WebView } from 'react-native-webview';
 import onChangeText from './functions/onChangeText.js'
 //import loading from './html/Loading.html'
-import install from './functions/install.js'
+import install, {label} from './functions/install.js'
 import loading from './functions/loading.js'
 import {
   Header,
@@ -29,22 +30,82 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+import Steps from './components/steps.js'
+import Config from './components/config.js'
+//import {} from './functions/clean/clean'
+import {} from './functions/evaluate/expresion'
+import {} from './functions/lang'
 const {width, height} = Dimensions.get('window');
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+strltx = ''
+strDevelopment = 'I love my dog! Dogs are great'
+StepsC = 0
+toDecimalVal = 0
+MoreDVal = 0
+DegRad = 0
 
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
+
+  const installFiles = () => {
+    install().then((band) => {
+      setBandIns(band)
+      
+
+    }).catch((error) => {
+      setBandIns(false)
+      console.log('Error  ' + error);
+    });
+  };
+
+  const stackSteps = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Steps" component={Steps}
+          options={{
+            title: 'Steps',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center'
+          }}
+        />
+      </Stack.Navigator>
+    );
+  }
+
+  const stackConfig = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Config" component={Config}
+          options={{
+            title: 'Config',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center'
+          }}
+        />
+      </Stack.Navigator>
+    );
+  }
+
   if (bandIns === null) {
     if (html === null){
-      install().then((band) => {
-        if(band){
-          setHtml(loading())
-        }
-        setBandIns(band)
-      }).catch((error) => {
-        setBandIns(false)
-        console.log('Error  ' + error);
-      });
+      installFiles();
     }
   return (
     <>
@@ -54,7 +115,7 @@ const App: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body} > 
-            <Text style={styles.sectionTitle}>CARGANDO...</Text> 
+            <Text style={[styles.sectionTitle,{color: 'green'}]}>{label}</Text> 
           </View>
         </ScrollView>
     </SafeAreaView>
@@ -76,58 +137,18 @@ const App: () => React$Node = () => {
     </>)
   }
   if (bandIns === true)
-    return(
-     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {/*<Header />*/}
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <Text style={styles.sectionTitle}>Steps</Text>
-            <View style={styles.sectionContainer}>
-              <TextInput
-                style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                onChangeText={text => onChangeText(text)}
-                placeholder={'Digita una expresion'}
-                //defaultValue={'Digita una expresion'}
-              />
-
-              {/*<Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>*/}
-            </View>
-            <WebView
-              //injectedJavaScript={'true'}
-              domStorageEnabled={true}
-              allowFileAccess={true}
-              allowFileAccessFromFileURLs={true}
-              allowUniversalAccessFromFileURLs={true}
-              // originWhitelist={['*']}
-              source={{html: html}}
-              //source={{html: require('./html/Loading.html')}}
-              //source={{uri: loading()}} 
-              //automaticallyAdjustContentInsets={true}
-              //scrollEnabled={true}
-              style={{
-                flex: 1,
-                display: 'flex',
-                width: width,
-                height: height,
-              }}
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Steps">
+          <Drawer.Screen name="Steps" 
+          component={stackSteps}
+         />
+         <Drawer.Screen name="Config" 
+          component={stackConfig}
+         />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
 
 };
 
