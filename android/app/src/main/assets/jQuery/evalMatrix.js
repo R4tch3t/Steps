@@ -97,7 +97,11 @@ jQuery.noConflict();
             if($(e).next().attr("class")==="mo"&&$(e).next().html()!=='='){
                 if($(e).next().children().html()==="]"){
                       $sign = $(e).prev().html();
-                      $a = $(e).prev().prev().html();
+                      if($(e).prev().prev().attr('class')==='mfrac'){
+                        $a = $(e).prev().prev().children().children().next().children().html()
+                      }else{
+                        $a = $(e).prev().prev().html();
+                      }
                       $b = $(e).html();
                       $(e).css("cursor","pointer");
                       e = $(e).prev();
