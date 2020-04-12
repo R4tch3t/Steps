@@ -10,8 +10,10 @@
         //let rOriginal=V.strDevelopment.range(of: rstr)
         
         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: str, with: rstr, options: String.CompareOptions.caseInsensitive, range: rOriginal)
-        let re = new RegExp(str, 'gi');
-        strDevelopment = strDevelopment.replace(re, rstr)
+        //let re = new RegExp(str, 'gi');
+        str = str.toLowerCase()
+        strDevelopment = strDevelopment.toLowerCase()
+        strDevelopment = strDevelopment.split(str).join(rstr)
         //strDevelopment = strDevelopment.replace(`/${str}/gi`, `${rstr}`)
     }
 
@@ -41,12 +43,9 @@
     }
     
     replacestrs=(str)=>{
-        let re = new RegExp('c', 'g');
-        let rstr = str.replace(re, 'C O S');
-        re = new RegExp('s', 'g');
-        rstr = rstr.replace(re, 'S E N');
-        re = new RegExp('t', 'g');
-        rstr = rstr.replace(re, 'T A N')
+        let rstr = str.split('c').join('C O S');
+        rstr = rstr.split('s').join('S E N');
+        rstr = rstr.split('t').join('T A N')
         return rstr
     }
     
@@ -77,25 +76,24 @@
                 if (uniChar === 40) {
                     band=false
                     if (PreuniChar === 45) {
-                        let re = new RegExp('-', 'g');
-                        numbers = numbers.replace(re, '');
+                        numbers = numbers.split('-').join('');
                         Fun+="-"
                     }
                 }
                 
-                if (Number(numbers)) {
+                if (isNumber(numbers)) {
                     
                     if (band && !par){
-                        Fun+="("+tofrac(MthS.DoubleStr(numbers))+")"+char
+                        Fun+="("+tofrac(DoubleStr(numbers))+")"+char
                         
                     }else{
                         if (band) {
                          
-                            Fun+="("+tofrac(MthS.DoubleStr(numbers))+")"+char
+                            Fun+="("+tofrac(DoubleStr(numbers))+")"+char
                             
                         }else{
                             
-                            Fun+=tofrac(MthS.DoubleStr(numbers))+char
+                            Fun+=tofrac(DoubleStr(numbers))+char
                         
                         }
                     }
@@ -118,7 +116,7 @@
                    
                     Fun+=char
                     
-                    }
+                }
                
             }
             
@@ -131,25 +129,24 @@
                    Fun+=PreChar
         }
         
-        if (Number(numbers)) {
+        if (isNumber(numbers)) {
             
             if (band && !par) {
-                Fun+="("+tofrac(MthS.DoubleStr(numbers))+")"
+                Fun+="("+tofrac(DoubleStr(numbers))+")"
             }else{
                 if (band) {
-                    Fun+="("+tofrac(MthS.DoubleStr(numbers))+")"
+                    Fun+="("+tofrac(DoubleStr(numbers))+")"
                 }else{
-                    Fun+=tofrac(MthS.DoubleStr(numbers))
+                    Fun+=tofrac(DoubleStr(numbers))
                 }
             }
             
         }
-          
         return Fun
     }
     
     isInt = (str) => {       
-        return (!str.contains(".") && MthS.isNumber(str))
+        return (!str.includes(".") && isNumber(str))
     }
     
     // Decimal a Fraccion
@@ -255,18 +252,13 @@
         let s=str        
         let STR=[]
         let OP=[]
-        let re = new RegExp(" ", 'g');
         
-        s=str.replace(re, "")
-        re = new RegExp(")(", 'g');
-        s=s.replace(re, ")*(")
+        s=str.split(' ').join("")
+        s=s.split(')(').join(")*(")
         s=s.toLowerCase()
-        re = new RegExp("cos", 'g');
-        s=s.replace(re, "c")
-        re = new RegExp("sen", 'g');
-        s=s.replace(re, "s")
-        re = new RegExp("tan", 'g');
-        s=s.replace(re, "t")
+        s=s.split("cos").join("c")
+        s=s.split("sen").join("s")
+        s = s.split("tan").join("t")
 
         var str=s.split('')
         s=""
@@ -353,8 +345,7 @@
 
                     
                     aux=Evaluate(aux)
-                    re = new RegExp("("+aux+")", 'g');
-                    strDevelopment=strDevelopment.replace(re, aux)
+                    strDevelopment=strDevelopment.split("("+aux+")").join(aux)
 
                     
                     if (isFrac(aux) || toDecimalVal==1) {
@@ -363,8 +354,7 @@
                             s+="-"+aux
                         }
                         else{
-                            re = new RegExp("-", 'g');
-                            s+=aux.replacingOccurrences(re, "")
+                            s += aux.split('-').join("")
                             s=cleanR(s)
                         }
                         
@@ -382,21 +372,14 @@
 
             
         }
-        re = new RegExp("*--", 'g');
-        strDevelopment=strDevelopment.replace(re, "*")
-        re = new RegExp("log10_", 'g');
-        strDevelopment=strDevelopment.replace(re, "log_10")
-        re = new RegExp("log2_", 'g');
-        strDevelopment=strDevelopment.replace(re, "log_2")
-        re = new RegExp("/--", 'g');
-        strDevelopment=strDevelopment.replace(re, "/")
+        strDevelopment=strDevelopment.split("*--").join("*")
+        strDevelopment=strDevelopment.split("log10_").join("log_10")
+        strDevelopment=strDevelopment.split("log2_").join("log_2")
+        strDevelopment=strDevelopment.split("/--").join("/")
 
         s="(,"+s+",)"
-        re = new RegExp(",,", 'g');
-        s=s.replace(re, ",")
-        re = new RegExp("-+", 'g');
-        s=s.replace(re, "-")
-        
+        s=s.split(",,").join(",")
+        s=s.split("-+").join("-")
         
         STR=s.split(",")
         return STR.reverse()
@@ -405,26 +388,19 @@
     DepurarI=(str)=>{
         let s=str;
         let STR=[];
-        let re = new RegExp(' ', 'g');
-        s = str.replace(re, '');
-        re = new RegExp(')(', 'g');
-        s = str.replace(re, ')*(');
+        s = str.split(' ').join('');
+        s = str.split(')(').join(')*(');
         s=s.toLowerCase();
-        re = new RegExp('cos', 'gi');
-        s = str.replace(re, 'c');
-        re = new RegExp('sen', 'gi');
-        s = str.replace(re, 's');
-        re = new RegExp('tan', 'gi');
-        s = str.replace(re, 't');
+        s = str.split('cos').join('c');
+        s = str.split('sen').join('s');
+        s = str.split('tan').join('t');
   
         strDevelopment=""
         s=cleanstrD(s)
         
         s="(,"+s+",)"
-        re = new RegExp(',,', 'g');
-        s = str.replace(re, ',');
-        re = new RegExp('-+', 'g');
-        s = str.replace(re, '-');
+        s = str.split(',,').join(',');
+        s = str.split('-+').join('-');
         
         STR=s.split("")
         return STR.reverse()

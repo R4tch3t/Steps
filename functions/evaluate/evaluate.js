@@ -57,7 +57,7 @@ Evaluate=(str)=>{
                 STR.push(S.pop())
             }
             S.splice(0)
-            
+            console.log(STR)
             while (STR.length>0) {
                 
                 switch (STR[STR.length-1]) {
@@ -66,50 +66,39 @@ Evaluate=(str)=>{
                     let auxStr = S[S.length-1] === undefined ? "+": S.pop()
                     let aux1Str = S[S.length-1] === undefined ? "+": S.pop()
                     let aux2Str=""
-                    let re = new RegExp("(" + aux1Str + ")", 'g');
+                    
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
-                        strDevelopment = strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment = strDevelopment.replace(re, auxStr)
-                        re = new RegExp("(", 'g');
-                        auxStr = auxStr.replace(re, "")
-                        aux1Str = aux1Str.replace(re, "")
-                        re = new RegExp(")", 'g');
-                        auxStr = auxStr.replace(re, "")
-                        aux1Str = aux1Str.replace(re, "")
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment = strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment = strDevelopment.replace(re, auxStr)
+                        strDevelopment = strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
+                        auxStr = auxStr.split("(").join("")
+                        aux1Str = aux1Str.split("(").join("")
+                        auxStr = auxStr.split(")").join("")
+                        aux1Str = aux1Str.split(")").join("")
+                        strDevelopment = strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment = strDevelopment.split("("+auxStr+")").join(auxStr)
 
                         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: "("+aux1Str+")", with: aux1Str)
                         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: "("+auxStr+")", with: auxStr)
                         str2=aux1Str+"+"+auxStr
-
+                        
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
                         StepsC += 1
-                        re = new RegExp("pi", 'g');
-                        auxStr = auxStr.replace(re, Math.PI.toString())
-                        re = new RegExp("pi", 'g');
-                        aux1Str = aux1Str.replace(re, Math.PI.toString())
-                        //auxStr=auxStr.replacingOccurrences(of: "pi", with: String(Double.pi))
-                        //aux1Str=aux1Str.replacingOccurrences(of: "pi", with: String(Double.pi))
+                        auxStr = auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str = aux1Str.split("pi").join(Math.PI.toString())
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
-                            let aux = (Number(auxStr) ? Number(auxStr) : 0.0)
-                            let aux1 = (Number(aux1Str) ? Number(aux1Str) : 0.0)//(Double(aux1Str) ? ? 0.0)
+                            let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
+                            let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = nDigits(auxStr, aux1Str)
 
                             res = (round((aux + aux1)*nD)/nD).toString()
-                            re = new RegExp("e+", 'g');
-                            res = res.replace(re, 'e')
-                            //res = res.replacingOccurrences(of: "e+", with: "e")
-                        //res =  MthS.ShaveStr( (MthS.plusstr(auxStr, aux1Str)),16 )
+                            res = res.split("e+").join('e')
                         }else{
-
+                            console.log(`${auxStr} + ${aux1Str}`)
                             res = plusstr(auxStr, aux1Str)
+                            console.log(`res ${res}`)
                         }
-
+                        
                         res=cleanR(res)
 
                      if ((aux1Str.startsWith("-") && (BiggerThan(auxStr, "0.0") || auxStr == "0.0")) && (auxStr != "oo" && aux1Str != "oo")) {
@@ -117,40 +106,32 @@ Evaluate=(str)=>{
                             auxStr=aux1Str
                             aux1Str=aux2Str
                             //aux1Str=aux1Str.replacingOccurrences(of: "+", with: "")
-                            re = new RegExp("+", 'g');
-                            aux1Str = aux1Str.replace(re, '')
+                            aux1Str = aux1Str.split("+").join('')
                             str3=aux1Str+auxStr
-                            re = new RegExp("--", 'g');
-                            strDevelopment = strDevelopment.replace(re, '+')
-                            re = new RegExp("+-", 'g');
-                            strDevelopment = strDevelopment.replace(re, '-')
-                            re = new RegExp("-+", 'g');
-                            strDevelopment = strDevelopment.replace(re, '-')
+                            strDevelopment = strDevelopment.split("--").join('+')
+                            strDevelopment = strDevelopment.split("+-").join('-')
+                            strDevelopment = strDevelopment.split("-+").join('-')
                             change=true
                             
                         }else{
                             change=false
-                            re = new RegExp("+", 'g');
-                            aux1Str = aux1Str.replace(re, '')
+                            aux1Str = aux1Str.split("+").join('')
                         }
-                        re = new RegExp("+-", 'g');
-                        str2 = str2.replace(re, '-')
-                        str3 = str3.replace(re, '-')
+                        str2 = str2.split("+-").join('-')
+                        str3 = str3.split("+-").join('-')
                         
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
-                        re = new RegExp("--", 'g');
-                        strDevelopment = strDevelopment.replace(re, '+')
-                        re = new RegExp("+-", 'g');
-                        strDevelopment = strDevelopment.replace(re, '-')
-                        re = new RegExp("-+", 'g');
-                        strDevelopment = strDevelopment.replace(re, '-')
+                        strDevelopment = strDevelopment.split("--").join('+')
+                        strDevelopment = strDevelopment.split("+-").join('-')
+                        strDevelopment = strDevelopment.split("-+").join('-')
                         
-                        re = new RegExp("++", 'g');
-                        str2 = str2.replace(re, '+')
-                        str3 = str3.replace(re, '+')
-
+                        str2 = str2.split("++").join()
+                        str3 = str3.split("++").join('+')
+                        console.log(`str1: ${str1} strDevelopment: ${strDevelopment} `)
+                        console.log(`str2: ${str2} str3: ${str3} res: ${res}`)
+                        console.log(`strltx: ${strltx}`)
                         StepLatex(str1, strDevelopment, str2, str3, res, change, true)
-                        
+                        console.log(`strltx: ${strltx}`)
                         str1="-> "
                         if (change) {
                             if (toDecimalVal===1) {
@@ -176,40 +157,33 @@ Evaluate=(str)=>{
 
                             }
                         }
-                        re = new RegExp("+", 'g');
                         if (toDecimalVal===1) {
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                             //str1=str1+str2+" = "+res.replacingOccurrences(of: "+", with: "")
                         }else{
-                            str1=str1+str2+" = "+scanNumbers(res.replace(re, ""),false)
+                            str1=str1+str2+" = "+scanNumbers(res.split("+").join(""),false)
                             //str1=str1+str2+" = "+scanNumbers(res.replacingOccurrences(of: "+", with: ""),false)
                         }
-                        re = new RegExp(" + -", 'g');
-                        str1 = str1.replace(re, ' - ');
-                        re = new RegExp("pi", 'g');
-                        str1 = str1.replace(re, Math.PI.toString());
+                        str1 = str1.split(" + -").join(' - ');
+                        str1 = str1.split("pi").join(Math.PI.toString());
                         //str1=str1.replacingOccurrences(of: " + -", with: " - ")
                         //str1=str1.replacingOccurrences(of: "pi", with: String(Double.pi))
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
                     }
                      else if (isFrac(auxStr) && isFrac(aux1Str)) {
-                        re = new RegExp("(", 'g');
-                        auxStr = auxStr.replace(re, '');
-                        aux1Str = aux1Str.replace(re, '');
-                        re = new RegExp(")", 'g');
-                        auxStr = auxStr.replace(re, '');
-                        aux1Str = aux1Str.replace(re, '');
+                        auxStr = auxStr.split("(").join('');
+                        aux1Str = aux1Str.split("(").join('');
+                        auxStr = auxStr.split(")").join('');
+                        aux1Str = aux1Str.split(")").join('');
                         /*aux1Str=aux1Str.replacingOccurrences(of: "(", with: "")
                         aux1Str=aux1Str.replacingOccurrences(of: ")", with: "")
                         auxStr=auxStr.replacingOccurrences(of: "(", with: "")
                         auxStr=auxStr.replacingOccurrences(of: ")", with: "")*/
                        str2=aux1Str+"+"+auxStr
                        StepsC += 1
-                       re = new RegExp("("+auxStr+")", 'g');
-                       strDevelopment = strDevelopment.replace(re, auxStr);
-                       re = new RegExp("("+aux1Str+")", 'g');
-                       strDevelopment = strDevelopment.replace(re, aux1Str);
+                       strDevelopment = strDevelopment.split("("+auxStr+")").join(auxStr);
+                       strDevelopment = strDevelopment.split("("+aux1Str+")").join(aux1Str);
                         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: "("+auxStr+")", with: auxStr)
                         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: "("+aux1Str+")", with: aux1Str)
                         if (auxStr.includes(".")) {
@@ -219,14 +193,13 @@ Evaluate=(str)=>{
                         if (aux1Str.includes(".")) {
                             aux1Str=tofrac(aux1Str)
                         }
-                        re = new RegExp("+-", 'g');
-                        res=EvaluateFrac((aux1Str+"+"+auxStr).replace(re,"-"))
+                        res=EvaluateFrac((aux1Str+"+"+auxStr).split("+-").join("-"))
                      
-                        str2=str2.replace(re, "-")
+                        str2=str2.split("+-").join("-")
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
                         StepLatex(str1, strDevelopment, str2, str3, res, false, true)
                         str2=aux1Str+"+"+auxStr
-                        str2=str2.replace(re, "-")
+                        str2=str2.split("+-").join("-")
                         str1 = "-> ["+str2+"]="+StepsFrac(str2)+"="+res
                         
                          strltx+="<p style='text-align:center' >`"+str1+"`</p>"
@@ -243,17 +216,14 @@ Evaluate=(str)=>{
                 case "-":
                     STR.pop()
                     
-                    let auxStr = S[S.length-1] === undefined ? "-": S.pop()
-                    let aux1Str=S[s.length-1] === undefined ? "-": S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "");
-                    aux1Str=aux1Str.replace(re, "");
-                    re = new RegExp(")", 'g');
-                    auxStr=auxStr.replace(re, "");
-                    aux1Str=aux1Str.replace(re, "");
+                    auxStr = S[S.length-1] === undefined ? "-": S.pop()
+                    aux1Str=S[s.length-1] === undefined ? "-": S.pop()
+                    auxStr=auxStr.split("(").join("");
+                    aux1Str=aux1Str.split("(").join("");
+                    auxStr=auxStr.split(")").join("");
+                    aux1Str=aux1Str.split(")").join("");
 
-                    re = new RegExp("+", 'g');
-                    aux1Str=aux1Str.replace(re, "");
+                    aux1Str=aux1Str.split("+").join("");
                     //aux1Str=aux1Str.replacingOccurrences(of: "+", with: "")
                     str2=aux1Str+"-"+auxStr
 
@@ -263,41 +233,31 @@ Evaluate=(str)=>{
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
                         StepsC += 1
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace("pi", Math.PI.toString())
-                        aux1Str=aux1Str.replace("pi", Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str=aux1Str.split("pi").join(Math.PI.toString())
                        if (MoreDVal !== 1 && toDecimalVal === 1) {
-                            let aux = (Number(auxStr) ? Number(auxStr) : 0.0)
-                            let aux1 = (Number(aux1Str) ? Number(aux1Str) : 0.0)
+                            let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
+                            let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = nDigits(auxStr, aux1Str)
 
                             res = (round((aux - aux1)*nD)/nD).toString()
-                            re = new RegExp("+", 'g');
-                            res = res.replace(re, "")
+                            res = res.split('+').join("")
                         }else{
                             res = minusstr(aux1Str, auxStr)
                         }
                         
                         res=cleanR(res)
-                        re = new RegExp("--", 'g');
-                        str2=str2.replace(re, "+")
+                        str2=str2.split("--").join("+")
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
                         
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp(auxStr+aux1Str, 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str+auxStr)
-                        re = new RegExp(aux1Str+auxStr, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr+aux1Str)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split(auxStr+aux1Str).join(aux1Str+auxStr)
+                        strDevelopment=strDevelopment.split(aux1Str+auxStr).join(auxStr+aux1Str)
                         
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("+-", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("+-").join("-")
+                        strDevelopment=strDevelopment.split("-+").join("-")
                         StepLatex(str1, strDevelopment, str2, str2, res, false, true)
                         
                         str1="-> "
@@ -308,8 +268,7 @@ Evaluate=(str)=>{
                             str2="( "+scanNumbers(str2,false)+" )"
                             str1=str1+str2+" = "+tofrac(DoubleStr(res))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
                         
                     }
@@ -323,14 +282,13 @@ Evaluate=(str)=>{
                         if (aux1Str.includes(".")) {
                             aux1Str=tofrac(aux1Str)
                         }
-                        re = new RegExp("+-", 'g');
-                        res=EvaluateFrac((aux1Str+"-"+auxStr).replace(re, "-"))
+                        res=EvaluateFrac((aux1Str+"-"+auxStr).split("+-").join("-"))
                         
-                        str2=str2.replace(re, "-")
+                        str2 = str2.split("+-").join("-")
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
                         StepLatex(str1, strDevelopment, str2, str3, res, false, true)
                         str2=aux1Str+"-"+auxStr
-                        str2=str2.replace(re, "-")
+                        str2=str2.split("+-").join("-")
                         str1 = "-> ["+str2+"]="+StepsFrac(str2)+"="+res
                         
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
@@ -346,51 +304,41 @@ Evaluate=(str)=>{
                 case "*":
                     STR.pop()
                     
-                    let auxStr = S[S.length-1] === undefined ? "*": S.pop()
-                    let aux1Str=S[S.length-1] === undefined ? "*": S.pop()
+                    auxStr = S[S.length-1] === undefined ? "*": S.pop()
+                    aux1Str=S[S.length-1] === undefined ? "*": S.pop()
                     
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    aux1Str=aux1Str.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    aux1Str=aux1Str.replace(re, "")
+                    auxStr=auxStr.split("(").join("")
+                    aux1Str=aux1Str.split("(").join("")
+                    auxStr=auxStr.split(")").join("")
+                    aux1Str=aux1Str.split(")").join("")
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         StepsC += 1
                         str2=aux1Str+"*"+auxStr
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
                         
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
-                        aux1Str = aux1Str.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str = aux1Str.split("pi").join(Math.PI.toString())
 
                         if (MoreDVal !== 1&&toDecimalVal === 1) {
-                            //res =  MthS.ShaveStr( (MthS.forstr(auxStr, aux1Str)),16 )
-                            let aux = (Number(auxStr) ? Number(auxStr) : 0.0)
-                            let aux1 = (Number(aux1Str) ? Number(aux1Str) : 0.0)
+                            let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
+                            let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = place(auxStr, aux1Str)
                             res = (round(aux * aux1 * nD) / nD).toString()
-                            re = new RegExp("+", 'g');
-                            res = res.replace(re, "")
+                            res = res.split("+").join("")
 
                         }else{
                             res =  forstr(auxStr, aux1Str)
                         }
                         
                         res=cleanR(res)
-                        re = new RegExp("*+", 'g');
-                        str2=str2.replace(re, "*")
+                        str2=str2.split("*+").join("*")
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
 
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
                         
                         if (LessThan(aux1Str,"0.0") && LessThan(auxStr,"0.0")){
                             StepLatex(str1, strDevelopment, str2, str2, "+"+res, false, true)
@@ -401,35 +349,28 @@ Evaluate=(str)=>{
                         str1="-> "
                         if (toDecimalVal===1){
                             str2="[ "+aux1Str+" * "+auxStr+" ]"
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")) {
                                 str2=scanNumbers(aux1Str+"*"+auxStr,false)
                                 str2="["+str2+"]="+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+DoubleStr(tofrac(res.replace(re, "")))
+                            str1=str1+str2+" = "+DoubleStr(tofrac(res.split("+").join("")))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
                         
                     }
                     else if (isFrac(auxStr) && isFrac(aux1Str)) {
-                        re = new RegExp("(", 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
-                        re = new RegExp(")", 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
+                        aux1Str=aux1Str.split("(").join("")
+                        auxStr=auxStr.split("(").join("")
+                        aux1Str=aux1Str.split(")").join("")
+                        auxStr=auxStr.split(")").join("")
                         str2=aux1Str+"*"+auxStr
                         StepsC += 1
 
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
                         
                         if (auxStr.includes(".")) {
                             auxStr=tofrac(auxStr)
@@ -459,23 +400,19 @@ Evaluate=(str)=>{
                     break
                 case "√":
                     STR.pop()
-                    var auxStr = S[S.length-1] === undefined ? "": S.pop()
-                    var aux1Str=S[S.length-1] === undefined ? "": S.pop()
-                    let re = new RegExp("(", 'g');
+                    auxStr = S[S.length-1] === undefined ? "": S.pop()
+                    aux1Str=S[S.length-1] === undefined ? "": S.pop()
 
-                    auxStr=auxStr.replace(re, "")
-                    aux1Str = aux1Str.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr = auxStr.replace(re, "")
-                    aux1Str = aux1Str.replace(re, "")
+                    auxStr=auxStr.split("(").join("")
+                    aux1Str = aux1Str.split("(").join("")
+                    auxStr = auxStr.split(")").join("")
+                    aux1Str = aux1Str.split(")").join("")
  
                     if ((isNumber(auxStr) && isNumber(aux1Str)) || (auxStr===""||aux1Str==="")) {
 
                         str2=aux1Str+"√"+auxStr;
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
 
                         if (!strDevelopment.includes("√"+auxStr)) {
                             aux1Str=auxStr
@@ -484,16 +421,13 @@ Evaluate=(str)=>{
                         } else {
                             auxStr=DoubleStr(auxStr)
                         }
-                       // aux1Str=MthS.DoubleStr(aux1Str)
                         StepsC += 1
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
-                        aux1Str = aux1Str.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str = aux1Str.split("pi").join(Math.PI.toString())
 
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
                             res = sqrtStr(auxStr, aux1Str)
-                            re = new RegExp("e+", 'g');
-                            res = res.replace(re, "e")
+                            res = res.split("e+").join("e")
                         }else{
                             res = sqrtStr(auxStr, aux1Str)
                             res = moreDStr(res)
@@ -507,8 +441,7 @@ Evaluate=(str)=>{
 
                         str2="root("+aux1Str+")("+auxStr+")"
 
-                        re = new RegExp(aux1Str+"√"+auxStr, 'g');
-                        strltx=strltx.replace(re, str2)
+                        strltx=strltx.split(aux1Str+"√"+auxStr).join(str2)
 
                         str1="-> "
                         if (change) {
@@ -538,28 +471,22 @@ Evaluate=(str)=>{
                         }else{
                             str1=str1+str2+" = "+scanNumbers(res,false)
                         }
-                        re = new RegExp(' + -', 'g');
-                        str1=str1.replace(re, " - ")
-                        re = new RegExp('pi', 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split(' + -').join(" - ")
+                        str1=str1.split('pi').join(Math.PI.toString())
 
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
 
                     }
                     else if (isFrac(auxStr) && isFrac(aux1Str)) {
-                        re = new RegExp('(', 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
-                        re = new RegExp(')', 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
+                        aux1Str=aux1Str.split('(').join("")
+                        auxStr=auxStr.split('(').join("")
+                        aux1Str=aux1Str.split(')').join("")
+                        auxStr=auxStr.split(')').join("")
                         str2=aux1Str+"+"+auxStr
                         StepsC += 1
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")", aux1Str)
                         if (auxStr.includes(".")){
                             auxStr=tofrac(auxStr)
                         }
@@ -567,13 +494,12 @@ Evaluate=(str)=>{
                         if (aux1Str.includes(".")) {
                             aux1Str=tofrac(aux1Str)
                         }
-                        re = new RegExp("+-", 'g');
-                        res=EvaluateFrac((aux1Str+"+"+auxStr).replace(re, "-"))
-                        str2=str2.replace(re, "-")
+                        res=EvaluateFrac((aux1Str+"+"+auxStr).split("+-").join("-"))
+                        str2=str2.split("+-").join("-")
                         str1=strToLang("Paso")+StepsC+": quad"
                         StepLatex(str1, strDevelopment, str2, str3, res, false, true)
                         str2=aux1Str+"+"+auxStr
-                        str2=str2.replace(re, "-")
+                        str2=str2.split("+-").join("-")
                         str1 = "-> ["+str2+"]="+StepsFrac(str2)+"="+res
 
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
@@ -588,26 +514,22 @@ Evaluate=(str)=>{
                     break
                 case "^":
                     STR.pop()
-                    let auxStr = S[S.length-1] === undefined ? "0":S.pop()
-                    let aux1Str=S[S.length-1] === undefined ? "0": S.pop()
-                    let re = new RegExp("("+aux1Str+")", 'g');
+                    auxStr = S[S.length-1] === undefined ? "0":S.pop()
+                    aux1Str=S[S.length-1] === undefined ? "0": S.pop()
 
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         str2=aux1Str+"^"+auxStr
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
                         StepsC += 1
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
-                        aux1Str = aux1Str.replace(re, Math.PI.toString())
+                        aux1Str = aux1Str.split("pi").join(Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
 
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
                             res = powStr(aux1Str, auxStr)
-                            re = new RegExp("e+", 'g');
-                            res = res.replace(re, "e")
+                            res = res.split("e+").join("e")
                             res = "("+res+")"
                         }else{
                             res = powStr(aux1Str, auxStr)
@@ -617,8 +539,7 @@ Evaluate=(str)=>{
                         res=cleanR(res)
 
                         change=false
-                        re = new RegExp("+", 'g');
-                        aux1Str=aux1Str.replace(re, "")
+                        aux1Str=aux1Str.split("+").join("")
 
                         str1=strToLang("Paso")+StepsC+": quad"
 
@@ -643,25 +564,20 @@ Evaluate=(str)=>{
                         }else{
                             str1=str1+str2+" = "+scanNumbers(res,false)
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
 
                     }
                     else if (isFrac(auxStr) && isFrac(aux1Str)) {
-                        re = new RegExp("(", 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
-                        re = new RegExp(")", 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
+                        aux1Str=aux1Str.split("(").join("")
+                        auxStr=auxStr.split("(").join("")
+                        aux1Str=aux1Str.split(")").join("")
+                        auxStr=auxStr.split(")").join("")
                         str2=aux1Str+"+"+auxStr
                         StepsC += 1
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
                         if (auxStr.includes(".")) {
                             auxStr=tofrac(auxStr)
                         }
@@ -669,14 +585,13 @@ Evaluate=(str)=>{
                         if (aux1Str.includes(".")) {
                             aux1Str=tofrac(aux1Str)
                         }
-                        re = new RegExp("+-", 'g');
-                        res=EvaluateFrac((aux1Str+"+"+auxStr).replace(re, "-"))
+                        res=EvaluateFrac((aux1Str+"+"+auxStr).split("+-").join("-"))
 
-                        str2=str2.replace(re, "-")
+                        str2=str2.split("+-").join("-")
                         str1=strToLang("Paso")+StepsC+": quad"
                         StepLatex(str1, strDevelopment, str2, str3, res, false, true)
                         str2=aux1Str+"+"+auxStr
-                        str2=str2.replace(re, "-")
+                        str2=str2.split("+-").join("-")
                         str1 = "-> ["+str2+"]="+StepsFrac(str2)+"="+res
 
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
@@ -693,11 +608,9 @@ Evaluate=(str)=>{
                 case "ln":
                     STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "0": S.pop()
-                    let re = new RegExp(")", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    re = new RegExp("(", 'g');
-                    auxStr = auxStr.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? "0": S.pop()
+                    auxStr=auxStr.split(")").join("")
+                    auxStr = auxStr.split("(").join("")
 
                     if (auxStr.includes("/")) {
                         //auxStr.removeFirst()
@@ -709,8 +622,7 @@ Evaluate=(str)=>{
                         let aux1S=auxStr
 
                         auxStr=dividestr(n1, n2, 8)
-                        re = new RegExp(aux1S, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split(aux1S).join(auxStr)
                     }
 
                     str2="ln("+auxStr+")"
@@ -718,12 +630,10 @@ Evaluate=(str)=>{
 
                     if (isNumber(auxStr)) {
                         StepsC += 1
-                        re = new RegExp('pi', 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split('pi').join(Math.PI.toString())
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
                             res =  ShaveStr(lnStr(auxStr), 16)
-                            re = new RegExp('e+', 'g');
-                            res = res.replace("e+", "e")
+                            res = res.split("e+").join("e")
                         }else{
                             res = lnStr(auxStr)
                         }
@@ -731,32 +641,25 @@ Evaluate=(str)=>{
                         res=cleanR(res)
 
                         str1=strToLang("Paso")+StepsC+": quad"
-                        re = new RegExp("ln"+auxStr, 'g');
-                        strDevelopment=strDevelopment.replace(re, "ln("+auxStr+")")
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("ln"+auxStr).join("ln("+auxStr+")")
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
 
                             StepLatex(str1, strDevelopment, str2, str2, res, false, true)
 
                         str1="-> "
                         str2="ln("+auxStr+")"
                         if (toDecimalVal===1) {
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")) {
                                 str2=scanNumbers("ln("+auxStr+")",false)
-                                re = new RegExp("ln", 'g');
-                                str2=str2.replace(re, "ln(")+")"
+                                str2=str2.split("ln").join("ln(")+")"
                                 str2=str2+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+tofrac(DoubleStr(res.replace(re, "")))
+                            str1=str1+str2+" = "+tofrac(DoubleStr(res.split("+").join("")))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
                     }else{
@@ -772,11 +675,9 @@ Evaluate=(str)=>{
                 case "log10_":
                     STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "0": S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr=auxStr.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? "0": S.pop()
+                    auxStr=auxStr.split("(").join("")
+                    auxStr=auxStr.split(")").join("")
 
                     if (auxStr.includes("/")){
                         auxStr = auxStr.slice(1, auxStr.length - 1)
@@ -787,23 +688,19 @@ Evaluate=(str)=>{
                         let aux1S=auxStr
 
                         auxStr=dividestr(n1, n2, 8)
-                        re = new RegExp(aux1S, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split(aux1S).join(auxStr)
                     }
 
                     str2="log_10("+auxStr+")"
                     auxStr=DoubleStr(auxStr)
-                    re = new RegExp("log_10"+auxStr, 'g');
-                    strDevelopment=strDevelopment.replace(re, str2)
+                    strDevelopment=strDevelopment.split("log_10"+auxStr).join(str2)
 
                     if (isNumber(auxStr)) {
                         StepsC += 1
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
                             res =  ShaveStr(log10Str(auxStr), 16)
-                            re = new RegExp("e+", 'g');
-                            res = res.replace(re, "e")
+                            res = res.split("e+").join('e')
                         }else{
                             res = log10Str(auxStr)
                         }
@@ -811,33 +708,26 @@ Evaluate=(str)=>{
                         res=cleanR(res)
 
                         str1=strToLang("Paso")+StepsC+": quad"
-                        re = new RegExp("log10_"+auxStr, 'g');
-                        strDevelopment=strDevelopment.replace(re, "log_10("+auxStr+")")
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("log10_"+auxStr).join("log_10("+auxStr+")")
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
 
                             StepLatex(str1, strDevelopment, str2, str2, res, false, true)
 
                         str1="-> "
                         str2="log_10("+auxStr+")"
                         if (toDecimalVal===1){
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")) {
                                 str2=scanNumbers("log_10("+auxStr+")",false)
-                                re = new RegExp("log_10", 'g');
-                                str2=str2.replace(re, "log_10(")+")"
+                                str2=str2.split("log_10").join("log_10(")+")"
                                 str2=str2+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+tofrac(DoubleStr(res.replace(re, "")))
+                            str1=str1+str2+" = "+tofrac(DoubleStr(res.split("+").join("")))
 
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
 
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
@@ -853,11 +743,9 @@ Evaluate=(str)=>{
                     break
                 case "log2_":
                     STR.pop()
-                    let auxStr = S[S.length-1] === undefined ? "0": S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr=auxStr.replace(")", "")
+                    auxStr = S[S.length-1] === undefined ? "0": S.pop()
+                    auxStr=auxStr.split("(").join("")
+                    auxStr=auxStr.split(")").join("")
 
                     if (auxStr.includes("/")){
                         auxStr = auxStr.slice(1, auxStr.length - 1)
@@ -867,23 +755,19 @@ Evaluate=(str)=>{
                         let aux1S=auxStr
 
                         auxStr=dividestr(n1, n2, 8)
-                        re = new RegExp(aux1S, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split(aux1S).join(auxStr)
                     }
 
                     str2="log_2("+auxStr+")"
                     auxStr=DoubleStr(auxStr)
-                    re = new RegExp("log_2"+auxStr, 'g');
-                    strDevelopment=strDevelopment.replace(re, str2)
+                    strDevelopment=strDevelopment.split("log_2"+auxStr).join(str2)
 
                     if (isNumber(auxStr)) {
                         StepsC += 1
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
                             res = ShaveStr(log2Str(auxStr), 16)
-                            re = new RegExp("e+", 'g');
-                            res = res.replace(re, "e")
+                            res = res.split("e+").join("e")
                         }else{
                             res = log2Str(auxStr)
                         }
@@ -891,31 +775,24 @@ Evaluate=(str)=>{
                         res=cleanR(res)
 
                         str1=strToLang("Paso")+StepsC+": quad"
-                        re = new RegExp("log2_"+auxStr, 'g');
-                        strDevelopment=strDevelopment.replace(re, "log_2("+auxStr+")")
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("log2_"+auxStr).join("log_2("+auxStr+")")
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
                         StepLatex(str1, strDevelopment, str2, str2, res, false, true)
 
                         str1="-> "
                         str2="log_2("+auxStr+")"
-                        if (toDecimalVal==1) {
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                        if (toDecimalVal===1) {
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")){
                                 str2=scanNumbers("log_2("+auxStr+")",false)
-                                re = new RegExp("log_2", 'g');
-                                str2=str2.replace(re, "log_2(")+")"
+                                str2=str2.split("log_2").join("log_2(")+")"
                                 str2=str2+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+tofrac(DoubleStr(res.replace(re, "")))
+                            str1=str1+str2+" = "+tofrac(DoubleStr(res.split("+").join("")))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1 = str1.split("pi").join(Math.PI.toString())
 
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
@@ -932,11 +809,9 @@ Evaluate=(str)=>{
                 case "c":
                     STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "c" : S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr = auxStr.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? "c" : S.pop()
+                    auxStr=auxStr.split("(").join("")
+                    auxStr = auxStr.split(")").join("")
                     if (auxStr.includes("/")) {
                         auxStr = auxStr.slice(1, auxStr.length - 1)
 
@@ -946,8 +821,7 @@ Evaluate=(str)=>{
                         let aux1S=auxStr
 
                         auxStr=dividestr(n1, n2, 8)
-                        re = new RegExp(aux1S, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split(aux1S).join(auxStr)
                     }
 
                     str2="c"+auxStr
@@ -955,46 +829,36 @@ Evaluate=(str)=>{
 
                     if (isNumber(auxStr)) {
                         StepsC += 1
-                        re = new RegExp('pi', 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split('pi').join(Math.PI.toString())
                         if (MoreDVal !== 1&&toDecimalVal === 1) {
                             res = ShaveStr((cosStr(auxStr, DegRad)), 16)
-                            re = new RegExp('e+', 'g');
-                            res = res.replace(re, "e")
+                            res = res.split('e+').join("e")
                         }else{
                             res = cosStr(auxStr, DegRad)
                         }
 
                         res=cleanR(res)
-                        re = new RegExp('c+', 'g');
-                        str2=str2.replace(re, "c")
+                        str2=str2.split('c+').join("c")
                         str1=strToLang("Paso")+StepsC+": quad"
 
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
                         StepLatex(str1, strDevelopment, str2, str2, res, false, true)
 
                         str1="-> "
                         str2="C O S("+auxStr+")"
                         if (toDecimalVal===1) {
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")) {
                                 str2=scanNumbers("c"+auxStr,false)
-                                re = new RegExp("c", 'g');
-                                str2=str2.replace(re, "C O S(")+")"
+                                str2=str2.split("c").join("C O S(")+")"
                                 str2=str2+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+tofrac(DoubleStr(res.replace(re, "")))
+                            str1=str1+str2+" = "+tofrac(DoubleStr(res.split("+").join("")))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
                     }else{
                         res=WrongExpresion()
@@ -1009,11 +873,9 @@ Evaluate=(str)=>{
                 case "s":
                     STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "s" : S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr = auxStr.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? "s" : S.pop()
+                    auxStr=auxStr.split("(").join("")
+                    auxStr = auxStr.split(")").join("")
                     if (auxStr.includes("/")){
                         auxStr = auxStr.slice(1, auxStr.length - 1)
 
@@ -1023,55 +885,44 @@ Evaluate=(str)=>{
                         let aux1S=auxStr
 
                         auxStr=dividestr(n1, n2, 8)
-                        re = new RegExp(aux1S, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split(aux1S).join(auxStr)
                     }
                     str2="s"+auxStr
                     auxStr=DoubleStr(auxStr)
                     if (isNumber(auxStr)) {
                         StepsC += 1
-                        re = new RegExp('pi', 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split('pi').join(Math.PI.toString())
                         if (MoreDVal !== 1 && toDecimalVal === 1) {
                             res = ShaveStr((senStr(auxStr,DegRad)), 16)
-                            re = new RegExp('e+', 'g');
-                            res = res.replace(re, "e")
+                            res = res.split('e+').join("e")
                         }else{
                             res = senStr(auxStr,DegRad)
                         }
 
                         res=cleanR(res)
 
-                        re = new RegExp('s+', 'g');
-                        str2=str2.replace(re, "s")
+                        str2=str2.split('s+').join("s")
                         str1=strToLang("Paso")+StepsC+": quad"
 
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
                         StepLatex(str1, strDevelopment, str2, str2, res, false, true)
 
                         str1="-> "
                         str2="S E N("+auxStr+")"
                         if (toDecimalVal===1){
                             //str2="[ Cos("+String(auxStr)+" ) ]"
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")) {
                                 str2=scanNumbers("s"+auxStr,false)
-                                re = new RegExp("s", 'g');
-                                str2=str2.replace(re, "S E N(")+")"
+                                str2=str2.split("s").join("S E N(")+")"
                                 str2=str2+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+tofrac(DoubleStr(res.replace(re, "")))
+                            str1=str1+str2+" = "+tofrac(DoubleStr(res.split("+").join("")))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
 
                     }else{
@@ -1087,11 +938,9 @@ Evaluate=(str)=>{
                 case "t":
                     STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "t" : S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    re = new RegExp(")", 'g');
-                    auxStr = auxStr.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? "t" : S.pop()
+                    auxStr=auxStr.split("(").join("")
+                    auxStr = auxStr.split(")").join("")
 
                     if (auxStr.includes("/")) {
                         auxStr = auxStr.slice(1, auxStr.length - 1)
@@ -1101,54 +950,43 @@ Evaluate=(str)=>{
                         let aux1S=auxStr
 
                         auxStr=dividestr(n1, n2, 8)
-                        re = new RegExp(aux1S, 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split(aux1S).join(auxStr)
                     }
 
                     str2="t"+auxStr
                     auxStr=DoubleStr(auxStr)
                     if (isNumber(auxStr)) {
                         StepsC += 1
-                        re = new RegExp('pi', 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split('pi').join(Math.PI.toString())
                         if (MoreDVal !== 1 && toDecimalVal === 1){
                             res = ShaveStr((tanStr(auxStr,DegRad)), 16)
-                            re = new RegExp('e+', 'g');
-                            res = res.replace(re, "e")
+                            res = res.split('e+').join("e")
                         }else{
                             res = tanStr(auxStr, DegRad)
                         }
 
                         res=cleanR(res)
-                        re = new RegExp('t+', 'g');
-                        str2=str2.replace(re, "t")
+                        str2=str2.split('t+').join("t")
                         str1=strToLang("Paso")+StepsC+": quad"
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
                         StepLatex(str1, strDevelopment, str2, str2, res, false, true)
 
                         str1="-> "
                         str2="T A N("+auxStr+")"
                         if (toDecimalVal===1){
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")){
                                 str2=scanNumbers("t"+auxStr,false)
-                                re = new RegExp("t", 'g');
-                                str2=str2.replace(re, "T A N(")+")"
+                                str2=str2.split("t").join("T A N(")+")"
                                 str2=str2+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+tofrac(DoubleStr(res.replace(re, "")))
+                            str1=str1+str2+" = "+tofrac(DoubleStr(res.split("+").join("")))
 
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
                     }else{
                         res=WrongExpresion()
@@ -1162,50 +1000,41 @@ Evaluate=(str)=>{
                     break
                 case "·":
                 case "⋅":
-                    let auxStr = S[S.length-1] === undefined ? STR[STR.length-1] : S.pop()
-                    let aux1Str=S[S.length-1] === undefined ? STR[STR.length-1] : S.pop()
-                    let re = new RegExp("(", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    aux1Str = aux1Str.replace(re, "")
-                    let re = new RegExp(")", 'g');
-                    auxStr = auxStr.replace(re, "")
-                    aux1Str = aux1Str.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? STR[STR.length-1] : S.pop()
+                    aux1Str=S[S.length-1] === undefined ? STR[STR.length-1] : S.pop()
+                    auxStr=auxStr.split("(").join("")
+                    aux1Str = aux1Str.split("(").join("")
+                    auxStr = auxStr.split(")").join("")
+                    aux1Str = aux1Str.split(")").join("")
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         StepsC += 1
                         str2=aux1Str+''+STR[STR.length-1]+''+auxStr
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
 
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
-                        aux1Str = aux1Str.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str = aux1Str.split("pi").join(Math.PI.toString())
 
                         if (MoreDVal !== 1&&toDecimalVal === 1){
-                            let aux = (Number(auxStr) ? Number(auxStr) : 0.0)
-                            let aux1 = (Number(aux1Str) ? Number(aux1Str) : 0.0)
+                            let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
+                            let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = place(auxStr, aux1Str)
 
                             res = (round((aux * aux1)*nD)/nD).toString()
-                            re = new RegExp("+", 'g');
-                            res = res.replace(re, "")
+                            res = res.split("+").join("")
 
                         }else{
                             res =  forstr(auxStr, aux1Str)
                         }
 
                         res=cleanR(res)
-                        re = new RegExp(STR[STR.length-1]+"+", 'g');
-                        str2=str2.replace(re, STR[STR.length-1])
+                        str2=str2.split(STR[STR.length-1]+"+").join(STR[STR.length-1])
                         str1=strToLang("Paso")+StepsC+": quad"
 
-                        re = new RegExp("--", 'g');
-                        strDevelopment=strDevelopment.replace(re, "+")
-                        re = new RegExp("-+", 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split("--").join("+")
+                        strDevelopment=strDevelopment.split("-+").join("-")
 
                         if (LessThan(aux1Str,"0.0") && LessThan(auxStr,"0.0")) {
                             StepLatex(str1, strDevelopment, str2, str2, "+"+res, false, true)
@@ -1217,35 +1046,28 @@ Evaluate=(str)=>{
                         str1="-> "
                         if (toDecimalVal===1){
                             str2="[ "+String(aux1Str)+" · "+String(auxStr)+" ]"
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+res.replace(re, "")
+                            str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(STR[STR.length-1])) {
 
                                 str2=scanNumbers(aux1Str+"·"+auxStr,false)
                                 str2="["+str2+"]="+StepsFrac(str2)
                             }
-                            re = new RegExp("+", 'g');
-                            str1=str1+str2+" = "+DoubleStr(tofrac(res.replace(re, "")))
+                            str1=str1+str2+" = "+DoubleStr(tofrac(res.split("+").join("")))
                         }
-                        re = new RegExp("pi", 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split("pi").join(Math.PI.toString())
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"
                     }
                     else if (isFrac(auxStr) && isFrac(aux1Str)) {
-                        re = new RegExp("(", 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr = auxStr.replace(re, "")
-                        re = new RegExp(")", 'g');
-                        aux1Str = aux1Str.replace(re, "")
-                        auxStr = auxStr.replace(re, "")
+                        aux1Str=aux1Str.split("(").join("")
+                        auxStr = auxStr.split("(").join("")
+                        aux1Str = aux1Str.split(")").join("")
+                        auxStr = auxStr.split(")").join("")
                         str2=aux1Str+"·"+auxStr
                         StepsC += 1
 
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
 
                         if (auxStr.includes(".")) {
                             auxStr=tofrac(auxStr)
@@ -1275,61 +1097,52 @@ Evaluate=(str)=>{
                     
                     break
                 case "/":
-                    STR.removeLast()
+                    STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "÷": S.pop()
-                    let aux1Str=S[S.length-1] === undefined ? "÷": S.pop()
+                    auxStr = S[S.length-1] === undefined ? "÷": S.pop()
+                    aux1Str=S[S.length-1] === undefined ? "÷": S.pop()
                     let band = true
-                    let re = new RegExp("+", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    aux1Str=aux1Str.replace(re, "")
+                    auxStr=auxStr.split("+").join("")
+                    aux1Str=aux1Str.split("+").join("")
 
                     if (isNumber(auxStr) && isNumber(aux1Str)){
 
                         str2=aux1Str+"/"+auxStr
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
 
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
-                        aux1Str=aux1Str.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str=aux1Str.split("pi").join(Math.PI.toString())
                         if (toDecimalVal === 1) {
                             if (MoreDVal !== 1) {
                                 if (aux1Str.includes("e")) {
-                                    re = new RegExp(aux1Str, 'g');
-                                    strDevelopment=strDevelopment.replace(re, "("+aux1Str+")")
+                                    strDevelopment=strDevelopment.split(aux1Str).join("("+aux1Str+")")
                                     aux1Str="("+aux1Str+")"
                                     str2=aux1Str+"/"+auxStr
                                 }
                                 if (auxStr.includes("e")) {
-                                    re = new RegExp(auxStr, 'g');
-                                    strDevelopment=strDevelopment.replace(re, "("+auxStr+")")
+                                    strDevelopment=strDevelopment.split(auxStr).join("("+auxStr+")")
                                     auxStr="("+auxStr+")"
                                     str2=aux1Str+"/"+auxStr
                                 }
                                 let auxStrD=auxStr
-                                re = new RegExp('(', 'g');
-                                auxStrD=auxStrD.replace(re, "")
+                                auxStrD=auxStrD.split('(').join("")
                                 let aux1StrD=aux1Str
-                                aux1StrD=aux1Str.replace(re, "")
-                                re = new RegExp(')', 'g');
-                                auxStrD=auxStrD.replace(re, "")
-                                aux1StrD = aux1Str.replace(re, "")
+                                aux1StrD=aux1Str.split('(').join("")
+                                auxStrD=auxStrD.split(')').join("")
+                                aux1StrD = aux1Str.split(')').join("")
 
-                                let aux = (Number(auxStr) ? Number(auxStr) : 0.0)
-                                let aux1 = (Number(aux1Str) ? Number(aux1Str) : 0.0)
+                                let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
+                                let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
 
                                 res = (aux1 / aux).toString()
                                 if (res.length > 16) {
                                     let nD = pow(10.0, 14.0)
                                     res = (round((aux1 / aux)*nD)/nD).toString()
                                 }
-                                re = new RegExp('e+', 'g');
-                                res = res.replace(re, "e")
+                                res = res.split('e+').join("e")
                             } else {
                                 res = dividestr(aux1Str, auxStr, 128)
                             }
@@ -1338,8 +1151,7 @@ Evaluate=(str)=>{
                             }
 
                             res=cleanR(res)
-                            re = new RegExp('--', 'g');
-                            strDevelopment=strDevelopment.replace(re, "+")
+                            strDevelopment=strDevelopment.split('--').join("+")
 
                         }else{
 
@@ -1351,7 +1163,6 @@ Evaluate=(str)=>{
                                 res="("+aux1Str+"/"+auxStr+")"
                             }
 
-                            //  res =  MthS.ShaveStr( (MthS.dividestr(aux1Str, auxStr,22)),17 )
                         }
 
                         band = str2.includes(".") || toDecimalVal === 1
@@ -1360,15 +1171,12 @@ Evaluate=(str)=>{
                             StepsC += 1
                         }
 
-                        //if str2.contains(".") || V.todecimal.state == 1 {
                         str1=strToLang("Paso")+StepsC+": quad"
 
-                        re = new RegExp('-+', 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split('-+').join("-")
 
                         StepLatex(str1, strDevelopment, str2, str2, res, false,band)
-                        re = new RegExp('+', 'g');
-                        res=res.replace(re, "")
+                        res=res.split('+').join("")
                         str1="-> "
 
                         if (toDecimalVal===1) {
@@ -1384,35 +1192,28 @@ Evaluate=(str)=>{
 
                                 str2="["+str2+"]="+StepsFrac(str2)
                             }
-                            re = new RegExp('÷', 'g');
-                            str2=str2.replace(re, "/")
+                            str2=str2.split('÷').join("/")
 
                             str1=str1+str2+" = "+tofrac(DoubleStr(res))
 
 
                         }
-                        re = new RegExp('pi', 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split('pi').join(Math.PI.toString())
 
                         if (band) {
                             strltx+="<p style='text-align:center' >`"+str1+"`</p>"
                         }
-                        // }
                     }
                     else if (isFrac(auxStr) && isFrac(aux1Str)){
-                        re = new RegExp('(', 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
-                        re = new RegExp(')', 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
+                        aux1Str=aux1Str.split('(').join("")
+                        auxStr=auxStr.split('(').join("")
+                        aux1Str=aux1Str.split(')').join("")
+                        auxStr=auxStr.split(')').join("")
 
                         str2=aux1Str+"/"+auxStr
                         StepsC += 1
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
                         if (auxStr.includes(".")) {
                             auxStr=tofrac(auxStr)
                         }
@@ -1443,54 +1244,45 @@ Evaluate=(str)=>{
                 case "%":
                     STR.pop()
 
-                    let auxStr = S[S.length-1] === undefined ? "%": S.pop()
-                    let aux1Str=S[S.length-1] === undefined ? "%": S.pop()
-                    let band = true
-                    let re = new RegExp("+", 'g');
-                    auxStr=auxStr.replace(re, "")
-                    aux1Str=aux1Str.replace(re, "")
+                    auxStr = S[S.length-1] === undefined ? "%": S.pop()
+                    aux1Str=S[S.length-1] === undefined ? "%": S.pop()
+                    band = true
+                    auxStr=auxStr.split("+").join("")
+                    aux1Str=aux1Str.split("+").join("")
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         str2=aux1Str+"%"+auxStr
-                        re = new RegExp("("+aux1Str+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, aux1Str)
-                        re = new RegExp("("+auxStr+")", 'g');
-                        strDevelopment=strDevelopment.replace(re, auxStr)
+                        strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
+                        strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
 
                         auxStr=DoubleStr(auxStr)
                         aux1Str=DoubleStr(aux1Str)
-                        re = new RegExp("pi", 'g');
-                        auxStr=auxStr.replace(re, Math.PI.toString())
-                        aux1Str=aux1Str.replace(re, Math.PI.toString())
+                        auxStr=auxStr.split("pi").join(Math.PI.toString())
+                        aux1Str=aux1Str.split("pi").join(Math.PI.toString())
                         if (toDecimalVal === 1) {
                             if (MoreDVal !== 1) {
                                 if (aux1Str.includes("e")) {
-                                    re = new RegExp(aux1Str, 'g');
-                                    strDevelopment=strDevelopment.replace(re, "("+aux1Str+")")
+                                    strDevelopment=strDevelopment.split(aux1Str).join("("+aux1Str+")")
                                     aux1Str="("+aux1Str+")"
                                     str2=aux1Str+"%"+auxStr
                                 }
                                 if (auxStr.includes("e")) {
-                                    re = new RegExp(auxStr, 'g');
-                                    strDevelopment=strDevelopment.replace(re, "("+auxStr+")")
+                                    strDevelopment=strDevelopment.split(auxStr).join("("+auxStr+")")
                                     auxStr="("+auxStr+")"
                                     str2=aux1Str+"%"+auxStr
 
                                 }
-                                re = new RegExp('(', 'g');
                                 var auxStrD=auxStr
-                                auxStrD=auxStrD.replace(re, "")
+                                auxStrD=auxStrD.split('(').join("")
                                 //auxStrD=auxStrD.replacingOccurrences(of: ")", with: "")
                                 var aux1StrD=aux1Str
-                                aux1StrD=aux1StrD.replace(re, "")
-                                re = new RegExp(')', 'g');
-                                auxStrD=auxStrD.replace(re, "")
-                                aux1StrD = aux1StrD.replace(re, "")
+                                aux1StrD=aux1StrD.split('(').join("")
+                                auxStrD=auxStrD.split(')').join("")
+                                aux1StrD = aux1StrD.split(')').join("")
 
-                                let aux = (Number(auxStr) ? Number(auxStr) : 1)
-                                let aux1 = (Number(aux1Str) ? Number(aux1Str) : 0)
+                                let aux = (isNumber(auxStr) ? Number(auxStr) : 1)
+                                let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0)
                                 res = (aux1 % aux).toString()
-                                re = new RegExp('e+', 'g');
-                                res = res.replace(re, "e")
+                                res = res.split('e+').join("e")
                             } else {
                                 res = residuo(aux1Str, auxStr)
                             }
@@ -1501,24 +1293,21 @@ Evaluate=(str)=>{
                             }
 
                             res=cleanR(res)
-                            re = new RegExp('--', 'g');
-                            strDevelopment=strDevelopment.replace(re, "+")
+                            strDevelopment=strDevelopment.split('--').join("+")
 
                         }
 
-                        band = str2.includes(".") || toDecimalVal == 1
+                        band = str2.includes(".") || toDecimalVal === 1
 
                         if (band) {
                             StepsC += 1
                         }
 
                         str1=strToLang("Paso")+StepsC+": quad"
-                        re = new RegExp('-+', 'g');
-                        strDevelopment=strDevelopment.replace(re, "-")
+                        strDevelopment=strDevelopment.split('-+').join("-")
 
                         StepLatex(str1, strDevelopment, str2, str2, res, false, band)
-                        re = new RegExp('+', 'g');
-                        res=res.replace(re, "")
+                        res=res.split('+').join("")
                         str1="-> "
 
                         if (toDecimalVal===1) {
@@ -1539,8 +1328,7 @@ Evaluate=(str)=>{
 
 
                         }
-                        re = new RegExp('pi', 'g');
-                        str1=str1.replace(re, Math.PI.toString())
+                        str1=str1.split('pi').join(Math.PI.toString())
 
                         if (band) {
                             strltx+="<p style='text-align:center' >`"+str1+"`</p>"
@@ -1548,12 +1336,10 @@ Evaluate=(str)=>{
 
                     }
                     else if (isFrac(auxStr) && isFrac(aux1Str)) {
-                        re = new RegExp('(', 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
-                        re = new RegExp(')', 'g');
-                        aux1Str=aux1Str.replace(re, "")
-                        auxStr=auxStr.replace(re, "")
+                        aux1Str=aux1Str.split('(').join("")
+                        auxStr=auxStr.split('(').join("")
+                        aux1Str=aux1Str.split(')').join("")
+                        auxStr=auxStr.split(')').join("")
 
                     }
                     else{
@@ -1565,18 +1351,18 @@ Evaluate=(str)=>{
 
                     S.push( res )
 
-                    break
+                break
                 default:
                     S.push(STR.pop())
+                //break
                 }
             }
         }catch(e){
-            
+            console.log(e)
         }
         if(S[S.length-1]===undefined){
             S.push(strToLang("DigitEx"))
         }
-            const re = new RegExp('pi', 'g');
-            return S[S.length-1].replace(re, Math.PI.toString());
+            return S[S.length-1].split('pi').join(Math.PI.toString());
         
      }

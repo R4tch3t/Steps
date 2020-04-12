@@ -1,8 +1,33 @@
 
 import RNFetchBlob from 'react-native-fetch-blob';
+import RNFS from 'react-native-fs';
 label = 'CARGANDO...'
+copyFolder = (e, dirAssets, dirMathJax) => {
+  //let i = 1;
+  const nameDir=e.name
+  dirAssets = `${dirAssets}/${e.name}`;
+  RNFS.mkdir(`${dirMathJax}/${e.name}`).finally(() => {
+    RNFS.readDirAssets(dirAssets).then(result => {
+      result.forEach(e => {
+        const n = `${dirMathJax}/${nameDir}/${e.name}`;
+        //const c = i;
+        if (e.isDirectory()) {
+          copyFolder(e, dirAssets,`${dirMathJax}/${nameDir}`);
+        } else {
+          RNFS.copyFileAssets(e.path, n).then(() => {
+            //resolve
+          });
+        }
+        //i++;
+      });
+    });
+   // resolve(true);
+  });
+
+}
+
 export default () => new Promise((resolve, reject) => {
-  let RNFS = require('react-native-fs');                
+  //let RNFS = require('react-native-fs');                
   //let svgURI = Asset.fromModule(require('./jQuery/svg.js')).uri;
   //let svgFilterURI = Asset.fromModule(require('./jQuery/svg.filter.js')).uri;
   //let loadURI = Asset.fromModule(require('./Loading.html')).localUri;
@@ -11,7 +36,8 @@ export default () => new Promise((resolve, reject) => {
   const dirs = RNFetchBlob.fs.dirs
   let dirCss = `${dirs.SDCardApplicationDir}/files/css`
   let dirJQuery = `${dirs.SDCardApplicationDir}/files/jQuery`
-  console.log(`f: ${dirs.SDCardApplicationDir}`)
+  let cpRotateURI = RNFetchBlob.fs.asset('css/rotate.css');
+  console.log(`f: ${cpRotateURI}`);
 /*  console.log(dirs.DocumentDir)
   console.log(dirs.CacheDir)
   console.log(dirs.DCIMDir)
@@ -104,26 +130,28 @@ export default () => new Promise((resolve, reject) => {
   */
 dirCss = `${RNFS.ExternalDirectoryPath}/css`
 dirJQuery = `${RNFS.ExternalDirectoryPath}/jQuery`
+let dirMathJax = `${RNFS.ExternalDirectoryPath}/MathJax-master`;
 console.log(`f2: ${RNFS.ExternalDirectoryPath}`)
 
-RNFS.exists(dirCss).then(e=>{
+/*RNFS.exists(dirCss).then(e=>{
   RNFS.exists(dirJQuery).then(e1 => {
 
-    if(!e||!e1){
-        label = 'INSTALANDO ARCHIVOS...'
+    if(!e||!e1){*/
+      label = 'INSTALANDO ARCHIVOS...'
       
       RNFS.mkdir(dirCss).finally(() => {
         let i = 1
         RNFS.readDirAssets('css')
           .then(result => {
               //console.log('GOT RESULT', result);
-            console.log(result.length)
-            console.log(i)
+            
             result.forEach(e=>{
               const n = `${dirCss}/${e.name}`
               const c = i
+              console.log(e.isDirectory());
+              
               RNFS.copyFileAssets(e.path,n).then(()=>{
-                console.log(`c: ${c}`)
+                
                 if (c === result.length){
 
                   let i = 1
@@ -135,7 +163,36 @@ RNFS.exists(dirCss).then(e=>{
                           const c = i
                           RNFS.copyFileAssets(e.path, n).then(()=>{
                             if (c === result.length) {
-                              resolve(true)
+                              resolve(true);
+                              /*let i = 1
+                              RNFS.mkdir(dirMathJax).finally(() => {
+                                RNFS.readDirAssets('MathJax-master')
+                                  .then(result => {
+                                    console.log(result.length)
+                                    result.forEach(e => {
+                                      const n = `${dirMathJax}/${e.name}`
+                                      const c = i
+                                      console.log(n)
+                                      if(e.isDirectory()){
+                                        
+                                        copyFolder(e, 'MathJax-master', `${dirMathJax}`)
+
+                                      }else{
+
+                                        RNFS.copyFileAssets(e.path, n).then(()=>{
+                                          if (c === result.length) {
+                                            resolve(true)
+                                            //RNFS.
+                                          }
+                                        })
+
+                                      }
+
+                                      i++;
+                                    })
+                                  })
+                              })*/
+                              
                             }
                           })
                           i++;
@@ -173,12 +230,12 @@ RNFS.exists(dirCss).then(e=>{
           */
       })
 
-    }else{
+   /* }else{
       resolve(true)
     }
 
   })
-})
+})*/
 
 
 });

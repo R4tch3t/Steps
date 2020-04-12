@@ -8,6 +8,10 @@
 
 //export default class Lang {
     
+WrongExpresion = () => {
+    // Calculated.stringValue="Expresion mal excrita..."
+    return strToLang("WrongEx")
+}
 
   strToLang=(str)=>{
         let ToLang=str+" "

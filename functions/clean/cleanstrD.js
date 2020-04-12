@@ -110,7 +110,7 @@ cleanstrD = (s) => {
                     }else
                         if (uniChar === 41) {
                             OP.pop()
-                            if (Number(numStr)) {
+                            if (isNumber(numStr)) {
                                 if (numStr.includes(".")) {
                                     s+=numStr+","
                                     strDevelopment+=numStr
@@ -126,7 +126,7 @@ cleanstrD = (s) => {
                         }else if ((uniChar > 47 && uniChar<58 || uniChar===46)){
                             numStr+=char
                         }else if (uniChar === 43) {
-                            if (Number(numStr)) {
+                            if (isNumber(numStr)) {
                                 if (numStr.includes(".")) {
                                     s+=numStr+","
                                     strDevelopment+=numStr
@@ -145,7 +145,7 @@ cleanstrD = (s) => {
                             }
                         }
                         else if (uniChar === 45) {
-                            if (Number(numStr)) {
+                            if (isNumber(numStr)) {
                                 if (numStr.includes(".")) {
                                     s+=numStr+","
                                     strDevelopment+=numStr
@@ -182,7 +182,7 @@ cleanstrD = (s) => {
                             
                         }
                         else{
-                            if (Number(numStr)) {
+                            if (isNumber(numStr)) {
                                 if (numStr.includes(".")) {
                                     s+=numStr+","
                                     strDevelopment+=numStr

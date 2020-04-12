@@ -63,8 +63,7 @@ StepsFrac=(Str) => {
             }
             if (simbols.count === 4) {
                 if (simbols[0] === "-" && simbols[2] === "-") {
-                    //simbols.shift()
-                    //simbols = simbols.join('').removeAt(1).split('');
+                    simbols.shift()
                     simbols.splice(1,1)
                 }
             }
@@ -110,8 +109,7 @@ StepsFrac=(Str) => {
                     Steps+=dividestr(numbersP[2],mcd,128)+"))]"
                 }
             }else{
-                let re = new RegExp('=', 'g');
-                Steps = Steps.replace(re, '');
+                Steps = Steps.split('=').join('');
                 //Steps=Steps.replacingOccurrences(of: "=", with: "")    
             }
                

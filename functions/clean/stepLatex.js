@@ -40,29 +40,24 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
             if (straux === rstr) {
 
                 if (!isEqualAfter(strArr, l+j, j, k,rstr,OP))  {
-                    let re = new RegExp('inf', 'gi');
-                    rstr = rstr.replace(re, '(inf)');
-                    rstr2 = rstr2.replace(re, '(inf)');
-                    re = new RegExp('nan', 'gi');
-                    rstr = rstr.replace(re, '(nan)');
-                    rstr2 = rstr2.replace(re, '(nan)');
+                    rstr = rstr.split('inf').join('(inf)');
+                    rstr2 = rstr2.split('inf').join('(inf)');
+                    rstr = rstr.split('nan').join('(nan)');
+                    rstr2 = rstr2.split('nan').join('(nan)');
 
                     if (rstr.includes("c") || rstr2.includes("c")) {
-                        re = new RegExp('c', 'g');
-                        rstr = rstr.replace(re, 'C O S(')+')';
-                        rstr2 = rstr2.replace(re, 'C O S(')+')';
+                        rstr = rstr.split('c').join('C O S(') + ')';
+                        rstr2 = rstr2.split('c').join('C O S(') + ')';
                     }
 
                     if (rstr.includes("s") || rstr2.includes("s")) {
-                        re = new RegExp('s', 'g');
-                        rstr = rstr.replace(re, 'S E N(') + ')';
-                        rstr2 = rstr2.replace(re, 'S E N(') + ')';
+                        rstr = rstr.split('s').join('S E N(') + ')';
+                        rstr2 = rstr2.split('s').join('S E N(') + ')';
                     }
 
-                    if(rstr.contains("t") || rstr2.contains("t")){
-                        re = new RegExp('t', 'g');
-                        rstr = rstr.replace(re, 'T A N(') + ')';
-                        rstr2 = rstr2.replace(re, 'T A N(') + ')';
+                    if(rstr.includes("t") || rstr2.includes("t")){
+                        rstr = rstr.split('t').join('T A N(') + ')';
+                        rstr2 = rstr2.split('t').join('T A N(') + ')';
                     }
 
                     if (l>0) {
@@ -88,6 +83,8 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                                     //Intercambio rstr
                                     tofrac=replacestrs(tofrac)
+                                    console.log(`tofrac: ${tofrac}`)
+                                    console.log(`change: ${change}`)
                                     if (change) {
 
                                         if (toDecimalVal === 1) {
@@ -160,6 +157,8 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                                 strDevelopment+=res
                                 tofrac=replacestrs(tofrac)
+                                console.log(`tofrac: ${tofrac}`)
+                                console.log(`change: ${change}`)
                                 if (change) {
                                     if (toDecimalVal === 1) {
                                         if (band) {
@@ -222,6 +221,8 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                             strDevelopment+=res
                             i=l+j
                             tofrac=replacestrs(tofrac)
+                            console.log(`tofrac: ${tofrac}`)
+                            console.log(`change: ${change}`)
                             if (change) {
                                 if (toDecimalVal === 1) {
                                     if (band) {
@@ -294,6 +295,8 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                                 strDevelopment+=res
                                 i=l+j-1
                                 tofrac=replacestrs(tofrac)
+                                console.log(`tofrac: ${tofrac}`)
+                                console.log(`change: ${change}`)
                                 if (change) {
                                     if (toDecimalVal === 1) {
                                         if (band) {
@@ -359,7 +362,8 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                         strDevelopment+=res
                         tofrac=replacestrs(tofrac)
-
+                        console.log(`tofrac: ${tofrac}`)
+                        console.log(`change: ${change}`)
                         if (change) {
                             if (toDecimalVal === 1) {
                                 if (band) {
@@ -375,14 +379,19 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                         }else{
                             if (toDecimalVal === 1){
+                                console.log(`toDecimal: ${toDecimalVal}`)
                                 if (band) {
                                     strltx+=tofrac
                                     strltx+="color(red)("+rstr+")"
                                 }
                             }else{
+                                console.log(`toDecimal: ${toDecimalVal} band: ${band}`)
                                 if (band) {
+                                    
                                     strltx+=scanNumbers(tofrac,false)
+                                    console.log(strltx)
                                     strltx+="color(red)("+scanNumbers(rstr,false)+")"
+                                    
                                 }
                             }
                         }
@@ -408,26 +417,16 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                             strltx+="`</p>"
                         }
                     }
-                    let re = new RegExp('--', 'g');
-                    strDevelopment = strDevelopment.replace(re, '+');
-                    re = new RegExp('++', 'g');
-                    strDevelopment = strDevelopment.replace(re, '+');
-                    re = new RegExp('-+', 'g');
-                    strDevelopment = strDevelopment.replace(re, '-');
-                    re = new RegExp('+-', 'g');
-                    strDevelopment = strDevelopment.replace(re, '-');
-                    re = new RegExp('/+', 'g');
-                    strDevelopment = strDevelopment.replace(re, '/');
-                    re = new RegExp('*+', 'g');
-                    strDevelopment = strDevelopment.replace(re, '*');
-                    re = new RegExp('(+', 'g');
-                    strDevelopment = strDevelopment.replace(re, '(');
-                    re = new RegExp('c+', 'g');
-                    strDevelopment = strDevelopment.replace(re, 'c');
-                    re = new RegExp('s+', 'g');
-                    strDevelopment = strDevelopment.replace(re, 's');
-                    re = new RegExp('t+', 'g');
-                    strDevelopment = strDevelopment.replace(re, 't');
+                    strDevelopment = strDevelopment.split('--').join('+');
+                    strDevelopment = strDevelopment.split('++').join('+');
+                    strDevelopment = strDevelopment.split('-+').join('-');
+                    strDevelopment = strDevelopment.split('+-').join('-');
+                    strDevelopment = strDevelopment.split('/+').join('/');
+                    strDevelopment = strDevelopment.split('*+').join('*');
+                    strDevelopment = strDevelopment.split('(+').join('(');
+                    strDevelopment = strDevelopment.split('c+').join('c');
+                    strDevelopment = strDevelopment.split('s+').join('s');
+                    strDevelopment = strDevelopment.split('t+').join('t');
 
                     break;
                 }

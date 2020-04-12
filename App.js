@@ -35,17 +35,33 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import Steps from './components/steps.js'
 import Config from './components/config.js'
-//import {} from './functions/clean/clean'
+
+import {} from './functions/animation/animation'
+import {} from './functions/clean/clean'
+import {} from './functions/clean/cleanstrD'
+import {} from './functions/clean/stepLatex'
+import {} from './functions/clean/stepsFrac'
+import {} from './functions/evaluate/evaluate'
 import {} from './functions/evaluate/expresion'
+import {} from './functions/mathString/divideStr'
+import {} from './functions/mathString/evaluateFrac'
+import {} from './functions/mathString/forStr'
+import {} from './functions/mathString/mathString'
+import {} from './functions/mathString/minusStr'
+import {} from './functions/mathString/plusStr'
+import {} from './functions/process/preProcess'
+import {} from './functions/process/createHtml'
 import {} from './functions/lang'
+
 const {width, height} = Dimensions.get('window');
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+strOrigin=''
 strltx = ''
-strDevelopment = 'I love my dog! Dogs are great'
+strDevelopment = ''
 StepsC = 0
 toDecimalVal = 0
-MoreDVal = 0
+MoreDVal = 1
 DegRad = 0
 
 const App: () => React$Node = () => { 
@@ -55,8 +71,6 @@ const App: () => React$Node = () => {
   const installFiles = () => {
     install().then((band) => {
       setBandIns(band)
-      
-
     }).catch((error) => {
       setBandIns(false)
       console.log('Error  ' + error);

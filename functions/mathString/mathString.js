@@ -100,6 +100,7 @@ cleanRSTR= (str) => {
 }
     
 isNumber = (str) => {
+    str = `${str}`
     if (str.includes("e") || str.includes("oo")) {
         return true
     }
@@ -107,26 +108,29 @@ isNumber = (str) => {
 }
     
 isSimbol = (str) => {
-    return (str === "" || str.includes(" ") || str.includes("+") || str === "-" || str.includes("*") || str.includes("/") || str.includes("c") || str.includes("÷") || (str.includes("(") && str.length === 2 && str.includes(")")) || str.includes("quad"))
+    return (str === "" || str.includes(" ") || str.includes("+") || str === "-" 
+    || str.includes("*") || str.includes("/") || str.includes("c") || str.includes("÷") 
+    || (str.includes("(") && str.length === 2 && str.includes(")")) || str.includes("quad")
+    || str === null || str===undefined || isNaN(str))
 }
 
 lnStr = (number) => {
-    let number=Number(number) ? Number(number) : 0.0
+    number = isNumber(number) ? Number(number) : 0.0
     return Math.log(number).toString()
 }
 
 log10Str = (number) => {
-    let number=Number(number) ? Number(number) : 0.0
+    number = isNumber(number) ? Number(number) : 0.0
     return Math.log10(number).toString()
 }
 
 log2Str = (number) => {
-    let number=Number(number) ? Number(number) : 0.0
+    number = isNumber(number) ? Number(number) : 0.0
     return Math.log2(number).toString()
 }
 
 cosStr = (number,degrad) => {
-    let number = Number(number) ? Number(number) : 0.0
+    number = isNumber(number) ? Number(number) : 0.0
 
     if (degrad === 1) {
         number = (number / Math.PI) * 180
@@ -138,7 +142,7 @@ cosStr = (number,degrad) => {
 }
 
 senStr = (number, degrad) => {
-    let number = Number(number) ? Number(number) : 0.0
+    number = isNumber(number) ? Number(number) : 0.0
 
     if (degrad===1) {
         number = number / Math.PI * 180
@@ -150,7 +154,7 @@ senStr = (number, degrad) => {
 }
 
 tanStr = (number, degrad) => {
-    let number = Number(number) ? Number(number) : 0.0
+    number = isNumber(number) ? Number(number) : 0.0
 
     if (degrad===1) {
         number = number / Math.PI * 180
@@ -177,8 +181,7 @@ absstr = (str) => {
 moreDStr = (str) => {
     //var str=str
     if (str.includes("e")) {
-        let re = new RegExp('e','g');
-        str=str.replace(re, "")
+        str=str.split('e').join("")
         let zeros = ""
 
         while (str[str.length-1] !== "+" && str[str.length-1] !== "-") {
@@ -186,17 +189,16 @@ moreDStr = (str) => {
         }
 
         let arr = str.split(".")
-        re = new RegExp('.','g');
-        str=str.replace(r, "")
+        str=str.split('.').join("")
         if (str.pop() === "+") {
-            let c = (parseInt(zeros) ? parseInt(zeros) : 0)
+            let c = (isNumber(zeros) ? parseInt(zeros) : 0)
             c -= arr[1].length
             while (c > 0)  {
                 str+="0"
                 c-=1
             }
         } else {
-            let c = (parseInt(zeros) ? parseInt(zeros) : 0)
+            let c = (isNumber(zeros) ? parseInt(zeros) : 0)
             c--
             while (c > 0)  {
                 str="0"+str
@@ -221,8 +223,8 @@ ShaveStr = (str, digits) => {
         //  str=StackStr[0]+"."
         if (Stack1.length > digits) {
             
-            if ((parseInt(Stack1[digits]) ? parseInt(Stack1[digits]) : 0) > 4) {
-                if ((parseInt(Stack1[digits - 1]) ? parseInt(Stack1[digits - 1]) : 0) === 9) {
+            if ((isNumber(Stack1[digits]) ? parseInt(Stack1[digits]) : 0) > 4) {
+                if ((isNumber(Stack1[digits - 1]) ? parseInt(Stack1[digits - 1]) : 0) === 9) {
                 //Efecto domino inverso a la cadena
                     let i = digits-1
                     Stack1[i]="0"
@@ -278,17 +280,16 @@ addZeros = (N) => {
 }
     
 powStr = (numberA, numberB) => {
-    let a = Number(numberA) ? Number(numberA) : 0.0
-    let b = Number(numberB) ? Number(numberB) : 0.0
+    let a = isNumber(numberA) ? Number(numberA) : 0.0
+    let b = isNumber(numberB) ? Number(numberB) : 0.0
     let str = Math.pow(a,b)
-    let re = new RegExp('inf', 'g')
-    str=str.replace(re, "oo")
+    str=str.split('inf').join("oo")
     return str
 }
 
 sqrtStr = (numberA, numberB) => {
-    let a = Number(numberA) ? Number(numberA) : 0.0
-    let b = 1 / (Number(numberB) ? Number(numberB) : 2.0)
+    let a = isNumber(numberA) ? Number(numberA) : 0.0
+    let b = 1 / (isNumber(numberB) ? Number(numberB) : 2.0)
     return Math.pow(a,b).toString()       
 }
     
@@ -311,9 +312,8 @@ residuo = (numberA, numberB) => {
     if (divA==="1" || divB==="1") {
         return "1"
     }
-    let re = new RegExp('-','g')
-    divA=divA.replace(re, "")
-    divB=divB.replace(re, "")
+    divA=divA.split('-').join("")
+    divB=divB.split('-').join("")
     
     if (LessThan(divA, divB)) {
         return divA
@@ -334,9 +334,8 @@ residuo = (numberA, numberB) => {
     if (divB === "0") {
         return "inf"
     }
-    re = new RegExp('.','g')
-    divA=divA.replace(re, "")
-    divB=divB.replace(re, "")
+    divA=divA.split('.').join("")
+    divB=divB.split('.').join("")
     divA=cleanRSTR(divA)
     divB=cleanRSTR(divB)
 
@@ -398,15 +397,12 @@ BiggerThan = (numberA, numberB) => {
     if (numberB === "") {
         return true
     }
-    let re = new RegExp('inf','g')
-    numberA=numberA.replace(re, "0")
-    numberB = numberB.replace(re, "0")
-    re = new RegExp('nan','g')
-    numberA=numberA.replace(re, "0")
-    numberB = numberB.replace(re, "0")
-    re = new RegExp('NaN', 'g')
-    numberA = numberA.replace(re, "0")
-    numberB = numberB.replace(re, "0")
+    numberA=numberA.split('inf').join("0")
+    numberB = numberB.split('inf').join("0")
+    numberA=numberA.split('nan').join("0")
+    numberB = numberB.split('nan').join("0")
+    numberA = numberA.split('NaN').join("0")
+    numberB = numberB.split('NaN').join("0")
 
     let bandminus = numberA.includes("-") && numberB.includes("-")
     if (numberA.includes("-") && !numberB.includes("-")) {
@@ -417,9 +413,8 @@ BiggerThan = (numberA, numberB) => {
         return true
     }
     
-    re = new RegExp('-', 'g')
-    numberA=numberA.replace(re, "")
-    numberB=numberB.replace(re, "")
+    numberA=numberA.split('-').join("")
+    numberB=numberB.split('-').join("")
     
     if (numberA === numberB) {
         return false
@@ -491,8 +486,8 @@ BiggerThan = (numberA, numberB) => {
         let n1 = StackA[i]
         if (0 < StackB.length) {
         if (n1 !== ".") {
-            let a = parseInt(n1) ? parseInt(n1) : 0
-            let b = parseInt(StackB[0]) ? parseInt(StackB[0]) : 0
+            let a = isNumber(n1) ? parseInt(n1) : 0
+            let b = isNumber(StackB[0]) ? parseInt(StackB[0]) : 0
             
             if  (a > b) {
             
@@ -505,577 +500,56 @@ BiggerThan = (numberA, numberB) => {
             }
             
         }
-            StackB.pop()
+            StackB.shift()
         }
     }
     
     return false
 }
-
-    func dividestr(_ numberA: String,_ numberB: String,_ LimitDigits: Int)->String{
-        //declare and mov method vars to local vars
-        var divA=cleanRSTR(numberA)
-        var divB=cleanRSTR(numberB) //a/b
-        var bandminus = false
-        var countDot = 0
-        var Result=""
-        var bandDot=false
-
-        if divB == "1"{
-            return numberA
-        }
-
-        bandminus=(divA.contains("-") && !divB.contains("-"))||(!divA.contains("-") && divB.contains("-"))
-
-        if divA == "0" && divB == "0" {
-            return "(NaN) quad Not quad a quad Number"
-        }
-
-        if divA == "0" {
-            return "0"
-        }
-
-        if divB == "0" {
-            return "oo"
-        }
-
-        if divA.contains("."){
-            let partDecimal = divA.components(separatedBy: ".")[1]
-            countDot = -partDecimal.count
-            bandDot=true
-        }
-
-        if divB.contains("."){
-            countDot+=divB.components(separatedBy: ".")[1].count
-            bandDot=true
-        }
-
-        divA=divA.replacingOccurrences(of: "-", with: "")
-        divB=divB.replacingOccurrences(of: "-", with: "")
-        divA=divA.replacingOccurrences(of: ".", with: "")
-        divB=divB.replacingOccurrences(of: ".", with: "")
-        divA=cleanRSTR(divA)
-        divB=cleanRSTR(divB)
-
-        var StackA=Array(divA)
-        var residuos=""
-        var LimitDigits=LimitDigits
-        var mult="0"
-
-
-        //div process
-        if(StackA.count>0){
-            //a/b, divA empty, while b>a take first element to the array and put into divA
-            divA=""
-            if(BiggerThan(divB, divA)){
-                divA+=StackA.removeFirst().description
-                countDot+=1
-            }
-            while(BiggerThan(divB, divA) && !StackA.isEmpty){
-                divA+=StackA.removeFirst().description
-            }
-            //if stack count == 0, complement with Zeros to div and result, countDot add 1
-            if(StackA.isEmpty){
-                if(BiggerThan(divB, divA)){
-                    bandDot=true
-                while(BiggerThan(divB, divA)){
-                    divA+="0"
-                    countDot-=1
-                }
-              }
-            }
-        }
-
-        //a/b, subtract a to b, a-b, who many a contains b redundant
-        while(residuos != "0" && LimitDigits>0){
-
-            while(BiggerThan(divA, divB)||divA==divB){
-                divA=minusstr(divA,divB)
-                mult=plusstr(mult,"1")
-            }
-
-            Result+=mult
-            if(StackA.count>0){
-                if(BiggerThan(divB, divA)){
-                    divA+=StackA.removeFirst().description
-                    countDot+=1
-                }
-                while(BiggerThan(divB, divA) && !StackA.isEmpty){
-                    divA+=StackA.removeFirst().description
-                    Result+="0"
-                    countDot+=1
-                }
-                divA=cleanRSTR(divA)
-                if BiggerThan(divB, divA) && StackA.isEmpty {
-                    if divA == "0"{
-                        Result+="0"
-                    } else {
-                        bandDot=true
-                        while(BiggerThan(divB, divA)){
-                            divA+="0"
-                            Result+="0"
-                        }
-                    }
-                }
-          }
-
-            mult="0"
-            LimitDigits-=1
-            divA=cleanRSTR(divA)
-            residuos=divA
-
-            if(StackA.count==0){
-                if(divA != "0" && BiggerThan(divB, divA)){
-                    divA+="0"
-                    bandDot=true
-                    while(BiggerThan(divB, divA)){
-                        divA+="0"
-                        Result+="0"
-                    }
-               }
-            }
-        }
-
-        //appending dot on the correct position
-        if(bandDot){
-            if(countDot>0){
-                StackA=Array(Result)
-                if(StackA.count>countDot){
-                    StackA.insert(".", at: countDot)
-                }else{
-                    countDot-=1
-                    while(countDot>0){
-                        StackA.append("0")
-                        countDot-=1
-                    }
-                }
-
-                Result=StackA+""
-            }else{
-                StackA=Array(Result)
-                countDot-=1
-                while(countDot<0){
-                    StackA.insert("0", at: 0)
-                    countDot+=1
-                }
-                StackA.insert(".", at: 1)
-                Result=StackA+""
-            }
-        }
-
-        if bandminus {
-            Result="-"+Result
-        }
-
-        return cleanRSTR(Result)
-    }
-
     
-    func forstr(_ numberA: String,_ numberB: String)->String{
-        var numberA=numberA
-        var numberB=numberB
-        var bandminus = false
-        let banddecimal = numberA.contains(".") || numberB.contains(".")
-        var countDot = 0
-        var Result=""
-        var carry=0
-        
-        if numberA.contains("-") && !numberB.contains("-"){
-            bandminus=true
-        }
-        
-        if numberB.contains("-") && !numberA.contains("-"){
-            bandminus=true
-        }
-        
-        if numberA.contains("."){
-            countDot+=numberA.components(separatedBy: ".")[1].count
-        }
-        
-        if numberB.contains("."){
-           countDot+=numberB.components(separatedBy: ".")[1].count
-        }
-        
-        numberA=numberA.replacingOccurrences(of: "-", with: "")
-        numberB=numberB.replacingOccurrences(of: "-", with: "")
+DoubleStr = (str) => {
+    let arr=str.split('')
+    let bandminus = false
 
-        if numberA == "oo" || numberB == "oo" {
-            return "oo"
-        }
-
-        if LessThan(numberA, numberB){
-            let aux=numberA
-            numberA=numberB
-            numberB=aux
-        }
-        
-        numberA=numberA.replacingOccurrences(of: ".", with: "")
-        numberB=numberB.replacingOccurrences(of: ".", with: "")
-       
-        let StackA=Array(numberA.reversed())
-        let StackB=Array(numberB.reversed())
-
-        
-       var StackPlus=Array<String>()
-       var countA=0
-       var countB=0
-       
-        for n1 in StackB {
-         StackPlus.append("")
-            for n2 in StackA{
-                let nI1 = (Int(String(n1)) ?? 0)
-                let nI2 = (Int(String(n2)) ?? 0)
-                let x = String(nI1*nI2+carry)
-                
-                if countA < (StackA.count-1) && x.count > 1{
-            
-                carry=Int(String(Array(x)[0]))!
-                    
-                StackPlus[StackPlus.count-1]=String(Array(x)[1])+StackPlus[StackPlus.count-1]
-                    
-                }else{
-                    StackPlus[StackPlus.count-1]=x+StackPlus[StackPlus.count-1]
-                    carry=0
-                }
-                countA+=1
-            }
-            
-            if StackB.count > 1{
-
-                if countB == 0{
-                    var auxStack = Array(StackPlus.removeFirst())
-                    Result=String(auxStack.removeLast())+Result
-                    StackPlus.append(String(auxStack))
-                }else{
-                    
-                    var auxStack = Array(cleanRSTR(plusstr(StackPlus.removeFirst(), StackPlus.removeFirst())))
-                    
-                    if countB < (StackB.count-1){
-                    Result=String(auxStack.removeLast())+Result
-                    }
-                    
-                    StackPlus.append(String(auxStack))
-                }
-            }
-
-            countA=0
-            countB+=1
-        }
-
-        if StackPlus.count > 0 {
-        Result=String(StackPlus.first!)+Result
-        }else{
-            Result="00"
-        }
-        
-        if banddecimal {
-            var arr=Array(Result)
-            countDot=arr.count-countDot
-            if countDot < 0{
-                countDot *= -1
-                while countDot > 0 {
-                    arr.insert("0", at: 0)
-                    countDot -= 1
-                }
-                arr.insert(".", at: 0)
-            }else{
-                arr.insert(".", at: countDot)
-            }
-            Result=String(arr)
-        }
-        
-      
-        if bandminus{
-            Result="-"+Result
-        }
-        return cleanRSTR(Result)
+    if (str === "." || str === "") {
+        return "0"
     }
+    if (arr[0] === "-") {
+        arr.shift()
+        bandminus=true
+    }
+    if (arr[0] === ".") {
+        //arr.insert("0", at: 0)
+        arr.splice(0, 0, "0")
+    }
+
+    if (arr[arr.length-1] === ".") {
+        arr.pop()
+    }
+    if (bandminus) {
+        //arr.insert("-", at: 0)
+        arr.splice(0, 0, "-")
+    }
+    /*arr.withUnsafeBufferPointer { ptr in
+        return String(cString: ptr.baseAddress!)
+    }*/
+    return arr.join('')
+}
     
-    func DoubleStr(_ str: String)->String{
-        var arr=Array(str)
-        var bandminus = false
+lengthCount = (str) => {
+    let count = 0
+    let arr = str.split('')
 
-        if str == "." || str == ""{
-            return "0"
-        }
-        if arr.first! == "-"{
-            arr.removeFirst()
-            bandminus=true
-        }
-        if arr.first! == "."{
-            arr.insert("0", at: 0)
-        }
+    if (arr.length>0) {
 
-        if arr.last! == "."{
-            arr.removeLast()
-        }
-        if bandminus{
-            arr.insert("-", at: 0)
-        }
-        /*arr.withUnsafeBufferPointer { ptr in
-            return String(cString: ptr.baseAddress!)
-        }*/
-        return String(arr)
+    while (arr[0] !== ".") {
+        arr.shift()
+        count+=1
     }
+        
+    }
+    return count
+}
     
-    func lengthCount(_ str: String)->Int{
-        var count = 0
-        var arr: Array! = Array(str)
-
-        if arr != nil {
-
-        while arr.first! != "." {
-            arr.removeFirst()
-            count+=1
-        }
-            
-        }
-        return count
-    }
     
-    func minusstr(_ numberA: String,_ numberB: String)->String{
-        var numberA=numberA
-        var numberB=numberB
-        var bandminus = false
-        var Result=""
-        var count=0
-        var carry=0
-        
-        if numberA == numberB {
-            return "0"
-        }
-        
-        if numberA.contains("-")&&numberB.contains("-"){
-            return plusstr(numberB.replacingOccurrences(of: "-", with: ""), numberA)
-        }
-        
-        if numberA.contains("-"){
-            return "-"+plusstr(numberA.replacingOccurrences(of: "-", with: ""), numberB)
-        }
-        
-        if numberB.contains("-"){
-            return plusstr(numberA, numberB.replacingOccurrences(of: "-", with: ""))
-        }
-        
-        if LessThan(numberA, numberB){
-            bandminus=true
-        }
-        
-        if LessThan(numberB, numberA){
-            let aux=numberA
-            numberA=numberB
-            numberB=aux
-        }
-
-        if numberA == "oo" || numberB == "oo" {
-            return "oo"
-        }
-        
-        if !numberA.contains("."){
-            numberA+=".0"
-        }
-        
-        if !numberB.contains("."){
-            numberB+=".0"
-        }
-        var countA=numberA.components(separatedBy: ".")[1].count
-        var countB=numberB.components(separatedBy: ".")[1].count
-        var dif = 0
-        var i=0
-        
-        if countA < countB{
-            dif = countB-countA
-            while i<dif {
-                numberA+="0"
-                i+=1
-            }
-        }else{
-            dif = countA-countB
-            while i<dif {
-                numberB+="0"
-                i+=1
-            }
-        }
-
-        countA=numberA.components(separatedBy: ".")[0].count
-        countB=numberB.components(separatedBy: ".")[0].count
-        dif = 0
-        i=0
-        
-        if countA < countB{
-            dif = countB-countA
-            while i<dif {
-                numberA="0"+numberA
-                i+=1
-            }
-        }else{
-            dif = countA-countB
-            while i<dif {
-                numberB="0"+numberB
-                i+=1
-            }
-        }
-        let countDot=lengthCount(numberA)
-        
-        numberA=numberA.replacingOccurrences(of: ".", with: "")
-        numberB=numberB.replacingOccurrences(of: ".", with: "")
-        var StackA=Array(numberA)
-        var StackB=Array(numberB)
-        StackB=StackB.reversed()
-        StackA=StackA.reversed()
-        
-        
-        while count < StackA.count {
-           if 0 < StackB.count /*&& String(StackA[count]) != "." && String(StackB.first!) != "."*/ {
-            let a = Int(String(StackA[count])) ?? 0
-            var b = Int(String(StackB.removeFirst())) ?? 0
-            b+=carry
-            if b < a{
-                b+=10
-                let rest = b-a
-                carry = -1
-                Result=String(rest)+Result
-            }else{
-                let rest = b-a
-                Result=String(rest)+Result
-                carry=0
-            }
-                
-            }else{
-                Result=String(Int(String(StackB.first!))!+carry)+Result
-                carry=0
-            }
-
-            count+=1
-        }
-        
-        while !StackB.isEmpty {
-            Result=String(StackB.removeFirst())+Result
-        }
-        
-        var arr = Array(Result)
-        arr.insert(".", at: countDot)
-
-
-        Result = String(arr)
-        
-        if bandminus{
-            Result="-"+Result
-        }
-
-        return cleanRSTR(Result)
-    }
-    
-    func plusstr(_ numberA: String,_ numberB: String)->String{
-        var numberA=numberA
-        var numberB=numberB
-        if numberA.contains("-") && !numberB.contains("-"){
-            return minusstr(numberB, numberA.replacingOccurrences(of: "-", with: ""))
-        }
-        if numberB.contains("-") && !numberA.contains("-"){
-            return minusstr(numberA, numberB.replacingOccurrences(of: "-", with: ""))
-        }
-        let bandminus = numberB.contains("-") && numberA.contains("-")
-        
-        numberA=numberA.replacingOccurrences(of: "-", with: "")
-        numberB=numberB.replacingOccurrences(of: "-", with: "")
-
-        if numberA == "oo" || numberB == "oo" {
-            return "oo"
-        }
-
-        if !numberA.contains("."){
-            numberA+=".0"
-        }
-        
-        if !numberB.contains("."){
-            numberB+=".0"
-        }
-        
-        var countA=numberA.components(separatedBy: ".")[1].count
-        var countB=numberB.components(separatedBy: ".")[1].count
-        var dif = 0
-        var i=0
-        
-        if countA < countB{
-            dif = countB-countA
-            while i<dif {
-                numberA+="0"
-                i+=1
-            }
-        }else{
-            dif = countA-countB
-            while i<dif {
-                numberB+="0"
-                i+=1
-            }
-        }
-        
-        countA=numberA.components(separatedBy: ".")[0].count
-        countB=numberB.components(separatedBy: ".")[0].count
-        dif = 0
-        i=0
-        
-        if countA < countB{
-            dif = countB-countA
-            while i<dif {
-                numberA="0"+numberA
-                i+=1
-            }
-        }else{
-            dif = countA-countB
-            while i<dif {
-                numberB="0"+numberB
-                i+=1
-            }
-        }
-        var countDot=lengthCount(numberA)
-        
-        numberA=numberA.replacingOccurrences(of: ".", with: "")
-        numberB=numberB.replacingOccurrences(of: ".", with: "")
-        
-        var StackA=Array(numberA.reversed())
-        var StackB=Array(numberB.reversed())
-        var Result=""
-        var count=0
-        var carry=0
-
-        while count < StackA.count {
-            if 0 < StackB.count {
-
-                let a = Int(StackA[count].description) ?? 0
-                let b = (Int(StackB.removeFirst().description) ?? 0)+carry
-
-                var sum = a+b
-                if sum>9 {
-                    sum-=10
-                    carry = 1
-                    Result=String(sum)+Result
-                    StackA.append("0")
-                    StackB.append("0")
-                    countDot+=1
-         
-                }else{
-                    Result=String(sum)+Result
-                    carry=0
-                }
-                
-            }else{
-                Result=String(Int(StackB.first!.description)!+carry)+Result
-                    carry=0
-            }
-            
-            count+=1
-        }
-        
-        var arr = Array(Result.map { String($0) })
-        arr.insert(".", at: countDot) 
-        Result = arr.joined()
-
-        if bandminus {
-            Result="-"+Result
-        }
-        return cleanRSTR(Result)
-        
-    }
 //}

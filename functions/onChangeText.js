@@ -1,7 +1,8 @@
 
 export default (e,setHtml) => {
-    isEqualAfter2('good')
+    //isEqualAfter2('good')
+    Preprocess(e,setHtml)
    // nDigits()
    //console.log(`${strDevelopment[0]} ${strDevelopment[strDevelopment.length-1]}`)
-    setHtml(`Result: ${e} ${strDevelopment}`)
+    //setHtml(strltx)
 }

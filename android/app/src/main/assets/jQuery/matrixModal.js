@@ -1,19 +1,24 @@
 
 function closeCard(c){
 (function ($) {
- $divCard[c].animate({opacity: 0}, "slow", function () {
-                  //$divCard[c].remove();
-                  //$(this).css("opacity","0");
-                     removeElement(c);
-                  resizeW();
-                //  $mouseUpB=false;
-                  $overModal[c]=false;
-});
+try{
+    $divCard[c].animate({opacity: 0}, "slow", function () {
+        //$divCard[c].remove();
+        //$(this).css("opacity","0");
+        removeElement(c);
+        resizeW();
+        //  $mouseUpB=false;
+        $overModal[c]=false;
+    });
+}catch(e){
+    console.log(e)
+}
 })(jQuery);
 }
 
 function showModalCard(c){
     (function ($) {
+        try{
             $divCard[c].animate({opacity: 1}, "fast", function () {
                       /*if($divCardBody.html()===""){
                              $(this).css("opacity","0");
@@ -25,17 +30,20 @@ function showModalCard(c){
                              }
                       }else{*/
                       fadeInCard(c);
+                      $divCard[c].mousemove()
                       $(this).css("opacity","1");
                       resizeB();
                          //    }
             });
-
-
+        }catch(e){
+            console.log(e)
+        }
      })(jQuery);
 }
 
 function leaveMouse(){
 (function ($) {
+    try{
     $("div").on("mouseenter mouseup", function(e){
                 if($(this).attr("id")!=="divCard"&&$(this).attr("id")!=="cardBody"
                            &&$(this).attr("id")!=="divTop"){
@@ -50,43 +58,50 @@ function leaveMouse(){
                                 }
                         }
                         });
+    }catch(e){
+        console.log(e)
+    }                              
   })(jQuery);
 }
 
 function overMouse(c){
-    (function ($) {
-    $("span").on("mouseover", function(e){
-        //var offsetTop = $(this).offset().top+($(e).width()*1.5);
-       // var offsetLeft = $(this).offset().left+$(e).width();
-        //if(/*!$bandModal&&*/!$overModal[c]){
+(function ($) {
+try{    
+$("span").on("mouseover", function(e){
+    //var offsetTop = $(this).offset().top+($(e).width()*1.5);
+    // var offsetLeft = $(this).offset().left+$(e).width();
+    //if(/*!$bandModal&&*/!$overModal[c]){
 
-            evalMatrix(this);
-        //}
+        evalMatrix(this);
+    //}
 
-      });
+    });
 
-     $("span").on("mouseup", function(e){
-        //if(!$mouseUpB[c]){
-          //  $mouseUpB[c]=true;
-            $("div").off("mouseup mouseenter");
-        //    $("span").off("mouseup");
-            var espan = this;
-         // $arrowUp.animate({opacity: 0}, "fast", function () {
-              // $(this).css("opacity","0");
-            //$divCard.animate({opacity: 0}, "fast", function () {
-              //  $divCardBody.html("");
-             //   $(this).css("opacity","0");
-                evalMatrix(espan);
-           // });
-            //});
-        //}
-        });
-
-     })(jQuery);
+    $("span").on("mouseup", function(e){
+    //if(!$mouseUpB[c]){
+        //  $mouseUpB[c]=true;
+        $("div").off("mouseup mouseenter");
+    //    $("span").off("mouseup");
+        var espan = this;
+        // $arrowUp.animate({opacity: 0}, "fast", function () {
+            // $(this).css("opacity","0");
+        //$divCard.animate({opacity: 0}, "fast", function () {
+            //  $divCardBody.html("");
+            //   $(this).css("opacity","0");
+            evalMatrix(espan);
+        // });
+        //});
+    //}
+    });
+}catch(e){
+    console.log(e)
+}
+})(jQuery);
 }
 
 function fadeInCard(c){
 (function ($) {
+try{
  //if(!$banDivTop){
     //$banDivTop=true;
     closeFCard(c);
@@ -102,12 +117,17 @@ function fadeInCard(c){
             timeout(c);
         }
     });
+    //$divCard[c].mousemove()
  //}
+}catch(e){
+    console.log(e)
+}
 })(jQuery);
 }
 
 function timeout(c){
 (function ($) {
+ try{   
  if($bandTimeOut[c]){
     $bandTimeOut[c]=false;
     setTimeout(function(){
@@ -125,11 +145,15 @@ function timeout(c){
             }
     }, 1500);
  }
+ }catch(e){
+     console.log(e)
+ }
 })(jQuery);
 }
 
 function closeFCard(c){
 (function ($) {
+    try{
   $bClose[c].on("mousemove",function(){
     $bCloseCard2[c]=false;
   });
@@ -143,6 +167,9 @@ $bClose[c].on("mouseup",function(){
     closeCard(c);
     $bClose[c].off("mouseup");
 });
+}catch(e){
+    console.log(e)
+}
 })(jQuery);
 }
 
@@ -199,6 +226,19 @@ function removeElement(c){
 
 
 }
+function resetModals(){
+    $divCard = [];
+    $divCardBody = [];
+    $divTop = [];
+    $bClose = [];
+    $pClose = [];
+    $banDivTop = [];
+    $bandTimeOut = [];
+    $bCloseCard = [];
+    $bCloseCard2 = [];
+    $mouseUpB = [], $overModal = [];
+    setModalArr();
+}
 //reading js...
     (function ($) {
      $(document).ready(function() {
@@ -213,17 +253,8 @@ function removeElement(c){
                        return -1 !== String.prototype.indexOf.call(this, str, startIndex);
                 };
         }
-        $divCard=[];
-        $divCardBody=[];
-        $divTop=[];
-        $bClose=[];
-        $pClose=[];
-        $banDivTop = [];
-        $bandTimeOut=[];
-        $bCloseCard=[];
-        $bCloseCard2=[]; $mouseUpB=[], $overModal=[];
-        setModalArr();
-
+        
+        resetModals()
 /*$arrowUp = $("<div>").css("position","absolute").css("width","0").css("height","0").css("border-left","14px solid transparent").css("border-right","14px solid transparent").css("border-bottom","14px solid green")
         .css("opacity","0").attr("id","arrowUp");*/
 

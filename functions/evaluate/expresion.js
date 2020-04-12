@@ -1,16 +1,16 @@
 
 isEqualAfter2 = (str) => {
-    let zeros = '5.9987'
-    zeros = zeros.split('')
-    let s2 = []
+    let re = new RegExp("\\)\\(", 'g')
+    //re = new RegExp("*", 'g')
+    console.log(re)
+    let zeros = '(2+3)(3+4)7-4)'
+    console.log(zeros.split(')('))
+    zeros = zeros.split(')(').join(')*(')
     /*zeros.forEach((n1,i)=>{
         console.log(n1)
     })*/
-    for (i in zeros) {
-        let n1 = zeros[i]
-        console.log(n1)
-    }
-      //  console.log(auxStr)
+    
+      console.log(zeros)
     //}
 }
 isEqualAfter = (strArr, i, j, k, rstr, List) => {

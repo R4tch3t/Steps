@@ -1,10 +1,11 @@
 function evalMatrix(e){
 jQuery.noConflict();
  (function ($) {
+ try{    
   $sign = "";
   $a = "", labelPrev=$(e).prev();
   $b = "", labelNext=$(e).next();
-
+  
    if($(labelPrev).attr("class") === "mn" && $(labelNext).attr("class") === "mn") {
         $sign = $(e).html();
         $a = $(e).prev().html();
@@ -19,6 +20,7 @@ jQuery.noConflict();
             $sign = "/";
             $a = $(labelPrev).html();
             $b = $(labelNext).html();
+            
             $(e).css("cursor","pointer");
             evaluateProcess(e);
         }else if($(e).attr("class")==="mo") //sign +-*
@@ -92,7 +94,7 @@ jQuery.noConflict();
 
             labelPrev=$(e).prev().prev().children().children().children().next().next();
             labelNext=$(e).next().next().children().children().children();
-            if($(e).next().attr("class")==="mo"){
+            if($(e).next().attr("class")==="mo"&&$(e).next().html()!=='='){
                 if($(e).next().children().html()==="]"){
                       $sign = $(e).prev().html();
                       $a = $(e).prev().prev().html();
@@ -165,7 +167,7 @@ jQuery.noConflict();
                     }
                 }
             }else
-            {
+            { //divide
                 labelPrev=$(e).parent().prev().children();
                 if($(labelPrev).attr("class")==="mn"){
                     $sign="/";
@@ -185,27 +187,50 @@ jQuery.noConflict();
                         e=$(e).parent().next().next();
                         evaluateProcess(e);
                     }else{
-                        labelNext=$(e).next().children().children().children()
-                        .next().children().children().children();
-                        $a=$(e).html();
-                        if($(labelNext).attr("class")==="mn"){
-                            $(e).css("cursor","pointer");
-                            e=$(e).next().children().children().children();
-                            $sign=$(e).html();
-                            $b=$(labelNext).html();
+                        //(a)/(b)
+                        labelPrev = $(e).parent().parent().prev().children().children();
+                        if ($(labelPrev).attr("class") === "mn") {
+                            $sign = "/";
+                            $a = $(labelPrev).html();
+                            $b = $(e).html();
+                            $(e).css("cursor", "pointer");
+                            e = $(e).parent().parent().next();
                             evaluateProcess(e);
-                        }else{
-                            $(e).css("cursor","pointer");
-                            e=$(e).next().children().children().children();
-                            $sign=$(e).html();
-                            if($(e).next().attr("class")==="mn"){
-                                $b=$(e).next().html();
+                        } else {
+                            
+                            labelNext = $(e).parent().parent().next().children().children();
+
+                            if ($(labelNext).attr("class") === "mn") {
+                                $sign = "/";
+                                $a = $(e).html();
+                                $b = $(labelNext).html();
+                                $(e).css("cursor", "pointer");
+                                e = $(e).parent().parent().next().next();
                                 evaluateProcess(e);
-                            }
+                            } else {
+
+                                labelNext=$(e).next().children().children().children()
+                                .next().children().children().children();
+                                $a=$(e).html();
+                                if($(labelNext).attr("class")==="mn"){
+                                    $(e).css("cursor","pointer");
+                                    e=$(e).next().children().children().children();
+                                    $sign=$(e).html();
+                                    $b=$(labelNext).html();
+                                    evaluateProcess(e);
+                                }else{
+                                    $(e).css("cursor","pointer");
+                                    e=$(e).next().children().children().children();
+                                    $sign=$(e).html();
+                                    if($(e).next().attr("class")==="mn"){
+                                        $b=$(e).next().html();
+                                        evaluateProcess(e);
+                                    }
+                                }
+
                         }
-
                     }
-
+                }
 
                 }
 
@@ -214,13 +239,16 @@ jQuery.noConflict();
         } //number
 
   }
+}catch(e){
+    console.log(e)
+}
   })(jQuery);
 }
 
 function evaluateProcess(e){
 jQuery.noConflict();
 (function ($) {
-
+try{
     var arrA = null;
     var arrB = null;
     var carryArr = [];
@@ -900,7 +928,10 @@ if(stackCarry.contains("1")||stackCarry.contains("2")||stackCarry.contains("3")|
         showCardDiv($divCard.length-1);
         setModalArr();
     }
-
+}catch(e){
+    resetModals()
+    console.log(e)
+}
  })(jQuery);
 }
 
