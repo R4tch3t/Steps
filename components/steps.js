@@ -23,6 +23,7 @@ const {
 import loading from '../functions/loading.js'
 export default () => {
     const [html, setHtml] = React.useState('DIGITA UNA EXPRESIÓN...');
+    const [hWeb, setHWeb] = React.useState(100);
     const evaluating = text => {
         new Promise((resolve, reject) => {
             setHtml(loading())
@@ -35,9 +36,18 @@ export default () => {
 
         })
     };
+    const onNavigationStateChange = (navState) => {
+      /*this.setState({
+        height: navState.title
+      });*/
+      
+      if(Number(navState.title)){
+        console.log(navState.title)
+        setHWeb(Number(navState.title))
+      }
+    }
     return(
      <>
-     
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
@@ -65,22 +75,22 @@ export default () => {
             </View>
             <WebView
               //injectedJavaScript={'true'}
-              domStorageEnabled={true}
+              //domStorageEnabled={true}
               allowFileAccess={true}
               allowFileAccessFromFileURLs={true}
               allowUniversalAccessFromFileURLs={true}
               // originWhitelist={['*']}
+              scalesPageToFit={true}
+            
+              /*onNavigationStateChange = {
+                onNavigationStateChange.bind(this)
+              }*/
               source={{html: html}}
               //source={{html: require('./html/Loading.html')}}
               //source={{uri: loading()}} 
               //automaticallyAdjustContentInsets={true}
               //scrollEnabled={true}
-              style={{
-                flex: 1,
-                display: 'flex',
-                width: width,
-                height: height,
-              }}
+              style={styles.webView}
             />
           </View>
         </ScrollView>
@@ -100,14 +110,13 @@ const styles = StyleSheet.create({
           backgroundColor: Colors.white,
       },
       sectionContainer: {
-          marginTop: 32,
+          marginTop: 10,
           paddingHorizontal: 24,
       },
-      sectionTitle: {
-          textAlign: 'center',
-          fontSize: 24,
-          fontWeight: '600',
-          color: Colors.black,
+      webView: {
+          width: width,
+          height: height - 140,
+          marginTop: 10
       },
       sectionDescription: {
           marginTop: 8,

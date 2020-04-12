@@ -27,7 +27,9 @@ createHtmlatex = (setHtml) => {
         let matrixModalPath=Bundle.main.path(forResource: "matrixModal", ofType: "js", inDirectory: "jQuery")!*/
         
 
-        var head="<!DOCTYPE html><html><head><title>Pasos</title><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+        var head="<!DOCTYPE html><html><head><meta charset='UTF-8'>"
+        head+="<title>Steps</title>"
+        head+="<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
         head+="<link href='"+bootstrapPath+"' rel='stylesheet' />"
         //head+="<script src='"+mathJaxPath+"?config=AM_HTMLorMML'></script>"
         //head+="<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script>"

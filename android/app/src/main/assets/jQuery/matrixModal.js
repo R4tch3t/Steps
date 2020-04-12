@@ -67,15 +67,15 @@ function leaveMouse(){
 function overMouse(c){
 (function ($) {
 try{    
-$("span").on("mouseover", function(e){
+/*$("span").on("mouseover", function(e){
     //var offsetTop = $(this).offset().top+($(e).width()*1.5);
     // var offsetLeft = $(this).offset().left+$(e).width();
-    //if(/*!$bandModal&&*/!$overModal[c]){
+    //if(/*!$bandModal&&!$overModal[c]){
 
         evalMatrix(this);
     //}
 
-    });
+    });*/
 
     $("span").on("mouseup", function(e){
     //if(!$mouseUpB[c]){
