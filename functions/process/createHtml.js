@@ -49,7 +49,7 @@ createHtmlatex = (setHtml) => {
         var body="<body style='opacity: 0' >"+printBackgroundSVG()
         body+=strltx+"</body></html>"
         
-        console.log(head+body);
+        //console.log(head+body);
         setHtml(head+body)
 
        // print(pathHtml)

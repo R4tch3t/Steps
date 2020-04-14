@@ -295,9 +295,10 @@
             }
             
             if (((uniChar > 36 && uniChar<46) || uniChar===47 || uniChar===94 || uniChar===183 || uniChar===8730 || uniChar===8901 ||  (uniChar>94 && uniChar<123)) && uniChar !== 44) {//Si es simbolo
-
+                //a,+,-b
                 if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar===46 || nextUnichar===120703) && ((previusUnichar > 47 && previusUnichar < 58) || previusUnichar === 41 || previusUnichar===46 || previusUnichar===120703))  { //Si a - b= a + -b                   
-                    s+=",+,"+char
+                   // s+=",+,"+char
+                   s+=","+char+","
                 }
                 else if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58 || nextUnichar===46) && !((previusUnichar > 47 && previusUnichar < 58 || previusUnichar === 41 ) || previusUnichar===46))) {//Si a -[.-+*()..]b
                     s+=","+char
@@ -346,12 +347,13 @@
                     
                     aux=Evaluate(aux)
                     strDevelopment=strDevelopment.split("("+aux+")").join(aux)
-
+                    
                     
                     if (isFrac(aux) || toDecimalVal==1) {
-                        
-                        if (aux.includes("-")) {
+                        console.log(`auxDepurarR: ${aux}`)
+                        if (!aux.includes("-")) {
                             s+="-"+aux
+                            
                         }
                         else{
                             s += aux.split('-').join("")
@@ -378,9 +380,13 @@
         strDevelopment=strDevelopment.split("/--").join("/")
 
         s="(,"+s+",)"
+        console.log(`depurarR ${s}`)
         s=s.split(",,").join(",")
         s=s.split("-+").join("-")
-        
+        s=s.split(",--").join(",")
+        s=s.split("(--").join("(")
+        console.log(`depurarR2 ${s}`)
+        //s="("+s+")"
         STR=s.split(",")
         return STR.reverse()
     }
@@ -397,12 +403,18 @@
   
         strDevelopment=""
         s=cleanstrD(s)
-        
         s="(,"+s+",)"
-        s = str.split(',,').join(',');
-        s = str.split('-+').join('-');
+        //s = str.split(',,').join(',');
+        s=s.replace(/,,/g,',')
         
-        STR=s.split("")
+        //s = str.split('-+').join('-');
+        s=s.replace(/\-\+/g,'-')
+        console.log(`depurarI s: ${s}`)
+        //
+        
+        STR=s.split(",")
+        console.log(`depurarI: ${STR}`)
+        
         return STR.reverse()
     }
     

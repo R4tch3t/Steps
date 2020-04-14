@@ -14,9 +14,12 @@ Evaluate=(str)=>{
             
             //Data clean
             if (BSC){
+                console.log('BSC')
                 STR=DepurarI(str)
+                console.log(`depurarIR: ${STR}`)
             }
             else{
+                console.log(`depurarstr: ${str}`)
                 STR=DepurarR(str)
             }
             
@@ -50,7 +53,8 @@ Evaluate=(str)=>{
                         S.push(STR.pop())
                 } 
             }
-            
+            console.log(`STR: ${STR}`)
+            console.log(`S: ${S}`)
             //STR.removeAll()
             STR.splice(0)
             while (S.length>0) {
@@ -66,7 +70,8 @@ Evaluate=(str)=>{
                     let auxStr = S[S.length-1] === undefined ? "+": S.pop()
                     let aux1Str = S[S.length-1] === undefined ? "+": S.pop()
                     let aux2Str=""
-                    
+                    console.log(`PlusauxStr: ${auxStr}`)
+                    console.log(`Plusaux1Str: ${aux1Str}`)
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         strDevelopment = strDevelopment.split("("+aux1Str+")").join(aux1Str)
                         strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
@@ -94,9 +99,9 @@ Evaluate=(str)=>{
                             res = (round((aux + aux1)*nD)/nD).toString()
                             res = res.split("e+").join('e')
                         }else{
-                            console.log(`${auxStr} + ${aux1Str}`)
+                           // console.log(`${auxStr} + ${aux1Str}`)
                             res = plusstr(auxStr, aux1Str)
-                            console.log(`res ${res}`)
+                           // console.log(`res ${res}`)
                         }
                         
                         res=cleanR(res)
@@ -127,11 +132,11 @@ Evaluate=(str)=>{
                         
                         str2 = str2.split("++").join()
                         str3 = str3.split("++").join('+')
-                        console.log(`str1: ${str1} strDevelopment: ${strDevelopment} `)
-                        console.log(`str2: ${str2} str3: ${str3} res: ${res}`)
-                        console.log(`strltx: ${strltx}`)
+                        //console.log(`str1: ${str1} strDevelopment: ${strDevelopment} `)
+                        //console.log(`str2: ${str2} str3: ${str3} res: ${res}`)
+                        //console.log(`strltx: ${strltx}`)
                         StepLatex(str1, strDevelopment, str2, str3, res, change, true)
-                        console.log(`strltx: ${strltx}`)
+                        //console.log(`strltx: ${strltx}`)
                         str1="-> "
                         if (change) {
                             if (toDecimalVal===1) {
@@ -217,12 +222,13 @@ Evaluate=(str)=>{
                     STR.pop()
                     
                     auxStr = S[S.length-1] === undefined ? "-": S.pop()
-                    aux1Str=S[s.length-1] === undefined ? "-": S.pop()
+                    aux1Str=S[S.length-1] === undefined ? "-": S.pop()
                     auxStr=auxStr.split("(").join("");
                     aux1Str=aux1Str.split("(").join("");
                     auxStr=auxStr.split(")").join("");
                     aux1Str=aux1Str.split(")").join("");
-
+                    console.log(`minusauxStr ${auxStr}`)
+                    console.log(`minusaux1Str ${aux1Str}`)
                     aux1Str=aux1Str.split("+").join("");
                     //aux1Str=aux1Str.replacingOccurrences(of: "+", with: "")
                     str2=aux1Str+"-"+auxStr
@@ -311,6 +317,8 @@ Evaluate=(str)=>{
                     aux1Str=aux1Str.split("(").join("")
                     auxStr=auxStr.split(")").join("")
                     aux1Str=aux1Str.split(")").join("")
+                    console.log(`mul* ${auxStr}`)
+                    console.log(`mul* ${aux1Str}`)
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         StepsC += 1
                         str2=aux1Str+"*"+auxStr
@@ -394,7 +402,8 @@ Evaluate=(str)=>{
 
                     strltx+="</div>"
                     strltx+="</div>"
-                    
+                    console.log(res)
+                    console.log(`nexts: ${STR}`)
                     S.push( res )
                     
                     break
@@ -1006,6 +1015,8 @@ Evaluate=(str)=>{
                     aux1Str = aux1Str.split("(").join("")
                     auxStr = auxStr.split(")").join("")
                     aux1Str = aux1Str.split(")").join("")
+                    console.log(`mulDot ${auxStr}`)
+                    console.log(`mulDpt ${aux1Str}`)
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         StepsC += 1
                         str2=aux1Str+''+STR[STR.length-1]+''+auxStr
@@ -1104,7 +1115,8 @@ Evaluate=(str)=>{
                     let band = true
                     auxStr=auxStr.split("+").join("")
                     aux1Str=aux1Str.split("+").join("")
-
+                    console.log(`div ${auxStr}`)
+                    console.log(`div ${aux1Str}`)
                     if (isNumber(auxStr) && isNumber(aux1Str)){
 
                         str2=aux1Str+"/"+auxStr
@@ -1209,8 +1221,9 @@ Evaluate=(str)=>{
                         auxStr=auxStr.split('(').join("")
                         aux1Str=aux1Str.split(')').join("")
                         auxStr=auxStr.split(')').join("")
-
+                        
                         str2=aux1Str+"/"+auxStr
+                        console.log('isfracDiv '+str2)
                         StepsC += 1
                         strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
                         strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
@@ -1237,7 +1250,8 @@ Evaluate=(str)=>{
 
                     strltx+="</div>"
                     strltx+="</div>"
-
+                    console.log(`res div: ${res}`)
+                    console.log(`nexts div: ${STR}` )
                     S.push( res )
 
                     break

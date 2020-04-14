@@ -16,6 +16,7 @@ import {
   Text,
   StatusBar,
   TextInput,
+  Button,
   Dimensions,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -77,12 +78,31 @@ const App: () => React$Node = () => {
     });
   };
 
-  const stackSteps = () => {
+  const effectSteps = ({navigation}) => {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => ( 
+        <Button onPress = {
+            () => console.log('clickR')
+          }
+          title = "Update count" />
+        ),
+      });
+    }, [navigation, setCount]);
+  }
+
+  const stackSteps = ({navigation}) => {
     return (
       <Stack.Navigator>
         <Stack.Screen name="Steps" component={Steps}
           options={{
             title: 'Steps',
+            headerLeft: () => ( 
+              <Button onPress = {
+                () => navigation.toggleDrawer()
+              }
+              title = "Open draw" />
+            ),
             headerStyle: {
               backgroundColor: '#f4511e',
             },

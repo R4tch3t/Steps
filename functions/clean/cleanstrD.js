@@ -212,6 +212,6 @@ cleanstrD = (s) => {
         previusUnichar=uniChar
         
     }
-
+    console.log(`cleanstrD: ${s}`)
     return s
 }

@@ -22,7 +22,7 @@ const {
 } = Dimensions.get('window');
 import loading from '../functions/loading.js'
 export default () => {
-    const [html, setHtml] = React.useState('DIGITA UNA EXPRESIÓN...');
+    const [html, setHtml] = React.useState('');
     const [hWeb, setHWeb] = React.useState(100);
     const evaluating = text => {
         new Promise((resolve, reject) => {
@@ -46,13 +46,15 @@ export default () => {
         setHWeb(Number(navState.title))
       }
     }
+    //onChangeText(html, setHtml)
     return(
      <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={styles.scrollView}
+          onLayout={()=>{onChangeText('', setHtml)}}>
           {/*<Header />*/}
           
           <View style={styles.body}>
@@ -64,7 +66,7 @@ export default () => {
                   evaluating(text)
 
                   }}
-                placeholder={'Digita una expresion'}
+                placeholder={'Type an expression'}
                 //defaultValue={'Digita una expresion'}
               />
 
