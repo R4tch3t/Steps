@@ -34,6 +34,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
+import headerLeft from './components/headerLeft'
 import Steps from './components/steps.js'
 import Config from './components/config.js'
 
@@ -78,7 +79,7 @@ const App: () => React$Node = () => {
     });
   };
 
-  const effectSteps = ({navigation}) => {
+  /*const effectSteps = ({navigation}) => {
     React.useLayoutEffect(() => {
       navigation.setOptions({
         headerRight: () => ( 
@@ -89,7 +90,7 @@ const App: () => React$Node = () => {
         ),
       });
     }, [navigation, setCount]);
-  }
+  } */
 
   const stackSteps = ({navigation}) => {
     return (
@@ -97,12 +98,7 @@ const App: () => React$Node = () => {
         <Stack.Screen name="Steps" component={Steps}
           options={{
             title: 'Steps',
-            headerLeft: () => ( 
-              <Button onPress = {
-                () => navigation.toggleDrawer()
-              }
-              title = "Open draw" />
-            ),
+            headerLeft: ()=>headerLeft(navigation),
             headerStyle: {
               backgroundColor: '#f4511e',
             },
@@ -117,12 +113,13 @@ const App: () => React$Node = () => {
     );
   }
 
-  const stackConfig = () => {
+  const stackConfig = ({navigation}) => {
     return (
       <Stack.Navigator>
         <Stack.Screen name="Config" component={Config}
           options={{
             title: 'Config',
+            headerLeft: ()=>headerLeft(navigation),
             headerStyle: {
               backgroundColor: '#f4511e',
             },
