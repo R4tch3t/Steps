@@ -70,7 +70,7 @@ nDigits=(n1, n2) => {
             c = a
         }
     }
-    let divisor = Math.pow(10.0, Double(c))
+    let divisor = Math.pow(10.0, Number(c))
     return divisor
 }
 
@@ -85,7 +85,7 @@ place=(n1,n2) => {
         c += n2.split(".")[1].length
     }
 
-    let divisor = Math.pow(10.0, Double(c))
+    let divisor = Math.pow(10.0, Number(c))
     return divisor
 }
 

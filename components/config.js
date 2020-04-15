@@ -4,18 +4,24 @@ import {
     StyleSheet,
     ScrollView,
     View,
-    Text,
     StatusBar
 } from 'react-native';
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { CheckBox } from 'react-native-elements'
+import {
+  CheckBox,
+  Divider,
+  Text
+} from 'react-native-elements'
 BBS = true
 BSC = false
 export default () => {
     const [bbs, setBbs] = React.useState(true);
     const [bsc, setBsc] = React.useState(false);
+    const [tDval, setTDval] = React.useState(true)
+    const [mDval, setMDval] = React.useState(false)
+    const [toRad, setToRad] = React.useState(false)
     return (
       <>
         <StatusBar barStyle="dark-content" />
@@ -27,9 +33,9 @@ export default () => {
 
             <View style={styles.body}>
               <View style={styles.sectionContainer}>
-                
+                <Text style={styles.sectionText1} h4>Preprocess</Text>
                 <CheckBox
-                  title="Braket Solved"
+                  title="Braket solved"
                   checkedIcon="dot-circle-o"
                   uncheckedIcon="circle-o"
                   checked={bbs}
@@ -42,7 +48,7 @@ export default () => {
                 />
 
                 <CheckBox
-                  title="Sign Changed"
+                  title="Sign changed"
                   checkedIcon="dot-circle-o"
                   uncheckedIcon="circle-o"
                   checked={bsc}
@@ -51,6 +57,32 @@ export default () => {
                     setBbs(bsc);
                     setBsc(!bsc);
                     BSC = !BSC
+                  }}
+                />
+                <Divider style={{ backgroundColor: 'blue' }} />
+                <Text style={styles.sectionText1} h4>Preferences</Text>
+                <CheckBox
+                  title="To decimal"
+                  checked={tDval}
+                  onPress={() => {
+                    toDecimalVal = toDecimalVal === 0 ? 1 : 0
+                    setTDval(!tDval)
+                  }}
+                />
+                <CheckBox
+                  title="More digits"
+                  checked={mDval}
+                  onPress={() => {
+                    MoreDVal = MoreDVal === 0 ? 1:0
+                    setMDval(!mDval)
+                  }}
+                />
+                <CheckBox
+                  title="Radians"
+                  checked={toRad}
+                  onPress={() => {
+                    DegRad = DegRad === 0 ? 1 : 0
+                    setToRad(!toRad)
                   }}
                 />
 
@@ -75,8 +107,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
     },
     sectionContainer: {
-        marginTop: 32,
+        marginTop: 10,
         paddingHorizontal: 24,
+    },
+    sectionText1: {
+      textAlign: 'center'
     },
     sectionTitle: {
         textAlign: 'center',

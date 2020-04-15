@@ -96,7 +96,7 @@ Evaluate=(str)=>{
                             let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = nDigits(auxStr, aux1Str)
 
-                            res = (round((aux + aux1)*nD)/nD).toString()
+                            res = (Math.round((aux + aux1)*nD)/nD).toString()
                             res = res.split("e+").join('e')
                         }else{
                            // console.log(`${auxStr} + ${aux1Str}`)
@@ -246,7 +246,7 @@ Evaluate=(str)=>{
                             let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = nDigits(auxStr, aux1Str)
 
-                            res = (round((aux - aux1)*nD)/nD).toString()
+                            res = (Math.round((aux - aux1) * nD) / nD).toString()
                             res = res.split('+').join("")
                         }else{
                             res = minusstr(aux1Str, auxStr)
@@ -334,7 +334,7 @@ Evaluate=(str)=>{
                             let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
                             let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = place(auxStr, aux1Str)
-                            res = (round(aux * aux1 * nD) / nD).toString()
+                            res = (Math.round(aux * aux1 * nD) / nD).toString()
                             res = res.split("+").join("")
 
                         }else{
@@ -1033,7 +1033,7 @@ Evaluate=(str)=>{
                             let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = place(auxStr, aux1Str)
 
-                            res = (round((aux * aux1)*nD)/nD).toString()
+                            res = (Math.round((aux * aux1) * nD) / nD).toString()
                             res = res.split("+").join("")
 
                         }else{
@@ -1151,8 +1151,8 @@ Evaluate=(str)=>{
 
                                 res = (aux1 / aux).toString()
                                 if (res.length > 16) {
-                                    let nD = pow(10.0, 14.0)
-                                    res = (round((aux1 / aux)*nD)/nD).toString()
+                                    let nD = Math.pow(10.0, 14.0)
+                                    res = (Math.round((aux1 / aux) * nD) / nD).toString()
                                 }
                                 res = res.split('e+').join("e")
                             } else {

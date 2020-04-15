@@ -62,8 +62,8 @@ strOrigin=''
 strltx = ''
 strDevelopment = ''
 StepsC = 0
-toDecimalVal = 0
-MoreDVal = 1
+toDecimalVal = 1
+MoreDVal = 0
 DegRad = 0
 
 const App: () => React$Node = () => { 
