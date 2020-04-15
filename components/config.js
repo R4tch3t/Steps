@@ -33,9 +33,9 @@ export default () => {
 
             <View style={styles.body}>
               <View style={styles.sectionContainer}>
-                <Text style={styles.sectionText1} h4>Preprocess</Text>
+                <Text style={styles.sectionText1} h4>{strToLang('configText00')}</Text>
                 <CheckBox
-                  title="Braket solved"
+                  title={strToLang('configCheck00')}
                   checkedIcon="dot-circle-o"
                   uncheckedIcon="circle-o"
                   checked={bbs}
@@ -48,7 +48,7 @@ export default () => {
                 />
 
                 <CheckBox
-                  title="Sign changed"
+                  title={strToLang('configCheck01')}
                   checkedIcon="dot-circle-o"
                   uncheckedIcon="circle-o"
                   checked={bsc}
@@ -60,9 +60,9 @@ export default () => {
                   }}
                 />
                 <Divider style={{ backgroundColor: 'blue' }} />
-                <Text style={styles.sectionText1} h4>Preferences</Text>
+                <Text style={styles.sectionText1} h4>{strToLang("configText01")}</Text>
                 <CheckBox
-                  title="To decimal"
+                  title={strToLang('configCheck02')}
                   checked={tDval}
                   onPress={() => {
                     toDecimalVal = toDecimalVal === 0 ? 1 : 0
@@ -70,7 +70,7 @@ export default () => {
                   }}
                 />
                 <CheckBox
-                  title="More digits"
+                  title={strToLang('configCheck03')}
                   checked={mDval}
                   onPress={() => {
                     MoreDVal = MoreDVal === 0 ? 1:0
@@ -78,7 +78,7 @@ export default () => {
                   }}
                 />
                 <CheckBox
-                  title="Radians"
+                  title={strToLang('configCheck04')}
                   checked={toRad}
                   onPress={() => {
                     DegRad = DegRad === 0 ? 1 : 0

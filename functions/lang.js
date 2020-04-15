@@ -13,48 +13,114 @@ WrongExpresion = () => {
     return strToLang("WrongEx")
 }
 
-  strToLang=(str)=>{
+    strToLang=(str)=>{
         let ToLang=str+" "
-
+        const langCode = locaLang[0].languageCode
         
-       // if (UserDefaults.standard.object(forKey: "AppleLanguages") as! NSArray)[0] as! String=="en" {
+        if (langCode === "en") {
             
             switch (str) {
-            case "Step":
-            case "Paso" :
-                ToLang="Step quad"
-                break;
-            case "WrongEx":
-                ToLang="Bad quad Wri t t en."
-                break;
-            case "DigitEx":
-                ToLang="Write quad an quad e x pression."
-                break;
-            default:
-                break; //ToLang=(V?.EqualTo.stringValue)!
+                case "Step":
+                case "Paso":
+                    ToLang="Step quad"
+                    break;
+                case "WrongEx":
+                    ToLang="Bad quad Wri t t en."
+                    break;
+                case "DigitEx":
+                    ToLang="Write quad an quad e x pression."
+                    break;
+                case "err00":
+                    ToLang="ERROR TO INSTALL FILES..."
+                    break;
+                case "evalLang":
+                    ToLang="EVALUATING"
+                    break
+                case "typeAnPH":
+                    ToLang="Type an expression"
+                    break
+                case "configLabel":
+                    ToLang="Settings"
+                    break
+                case "configText00":
+                    ToLang="Preprocess"
+                    break
+                case "configCheck00":
+                    ToLang="Braket solved"
+                    break
+                case "configCheck01":
+                    ToLang="Sign changed"
+                    break
+                case "configText01":
+                    ToLang="Preferences"
+                    break
+                case "configCheck02":
+                    ToLang="To decimals"
+                    break
+                case "configCheck03":
+                    ToLang="More digits"
+                    break
+                case "configCheck04":
+                    ToLang="Radians"
+                    break                      
+                default:
+                    break; //ToLang=(V?.EqualTo.stringValue)!
             }
             
-       // }
-        /*else
+        }
+        else if (langCode === "es") 
         {
             
-            switch str {
-                
-            case "Step","Paso":
-                ToLang="Paso quad"
-                break;
-            case "WrongEx":
-                ToLang="E x presión quad mal quad escrita."
-                break;
-            case "DigitEx":
-                ToLang="Digita quad una quad e x presión."
-                break;
-            default:
-                break;
-              //  ToLang=(V?.EqualTo.stringValue)!
+            switch (str) {
+                case "Step":
+                case "Paso":
+                    ToLang="Paso quad"
+                    break;
+                case "WrongEx":
+                    ToLang="E x presión quad mal quad escrita."
+                    break;
+                case "DigitEx":
+                    ToLang="Digita quad una quad e x presión."
+                    break;
+                case "err00":
+                    ToLang="ERROR AL INSTALAR ARCHIVOS..."
+                    break;    
+                case "evalLang":
+                    ToLang="EVALUANDO"
+                    break
+                case "typeAnPH":
+                    ToLang="Escribe una expresión"
+                    break
+                case "configLabel":
+                    ToLang="Configuración"
+                    break
+                case "configText00":
+                    ToLang="Preproceso"
+                    break
+                case "configCheck00":
+                    ToLang="Resolver paréntesis"
+                    break
+                case "configCheck01":
+                    ToLang="Cambio de signo"
+                    break
+                case "configText01":
+                    ToLang="Preferencias"
+                    break
+                case "configCheck02":
+                    ToLang="A decimales"
+                    break
+                case "configCheck03":
+                    ToLang="Más dígitos"
+                    break
+                case "configCheck04":
+                    ToLang="Radianes"
+                    break                                   
+                default:
+                    break;
+                //  ToLang=(V?.EqualTo.stringValue)!
             }
             
-        }*/
+        }
         
         return ToLang+" ";
     }

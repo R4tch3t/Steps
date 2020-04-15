@@ -1,7 +1,6 @@
 
 import RNFetchBlob from 'react-native-fetch-blob';
 import RNFS from 'react-native-fs';
-label = 'CARGANDO...'
 
 export default () => new Promise((resolve, reject) => {
   //let RNFS = require('react-native-fs');                
@@ -9,12 +8,10 @@ export default () => new Promise((resolve, reject) => {
   //let svgFilterURI = Asset.fromModule(require('./jQuery/svg.filter.js')).uri;
   //let loadURI = Asset.fromModule(require('./Loading.html')).localUri;
   // get a list of files and directories in the main bundle
-  const langLoad = 'EVALUATING'
   const dirs = RNFetchBlob.fs.dirs
   let dirCss = `${dirs.SDCardApplicationDir}/files/css`
   let dirJQuery = `${dirs.SDCardApplicationDir}/files/jQuery`
-  let cpRotateURI = RNFetchBlob.fs.asset('css/rotate.css');
-  console.log(`f: ${cpRotateURI}`);
+  //let cpRotateURI = RNFetchBlob.fs.asset('css/rotate.css');
 /*  console.log(dirs.DocumentDir)
   console.log(dirs.CacheDir)
   console.log(dirs.DCIMDir)
@@ -107,14 +104,12 @@ export default () => new Promise((resolve, reject) => {
   */
 dirCss = `${RNFS.ExternalDirectoryPath}/css`
 dirJQuery = `${RNFS.ExternalDirectoryPath}/jQuery`
-let dirMathJax = `${RNFS.ExternalDirectoryPath}/MathJax-master`;
-console.log(`f2: ${RNFS.ExternalDirectoryPath}`)
+//let dirMathJax = `${RNFS.ExternalDirectoryPath}/MathJax-master`;
 
 /*RNFS.exists(dirCss).then(e=>{
   RNFS.exists(dirJQuery).then(e1 => {
 
     if(!e||!e1){*/
-      label = 'INSTALANDO ARCHIVOS...'
       
       RNFS.mkdir(dirCss).finally(() => {
         let i = 0

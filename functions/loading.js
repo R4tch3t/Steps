@@ -1,7 +1,7 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 export default () => {
 let RNFS = require('react-native-fs');
-const langLoad = 'EVALUATING'
+const langLoad = strToLang('evalLang')
 dirCss = `${RNFS.ExternalDirectoryPath}/css`
 dirJQuery = `${RNFS.ExternalDirectoryPath}/jQuery`
 let rotateURI = `file://${dirCss}/rotate.css`

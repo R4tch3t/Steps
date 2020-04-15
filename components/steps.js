@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import React from 'react';
 import {
     SafeAreaView,
@@ -21,6 +22,7 @@ const {
     height
 } = Dimensions.get('window');
 import loading from '../functions/loading.js'
+
 export default () => {
     const [html, setHtml] = React.useState('');
     const [hWeb, setHWeb] = React.useState(100);
@@ -54,7 +56,8 @@ export default () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
-          onLayout={()=>{onChangeText('', setHtml)}}>
+          
+          onLayout={()=>{if(html===""){onChangeText('', setHtml)}}}>
           {/*<Header />*/}
           
           <View style={styles.body}>
@@ -65,8 +68,8 @@ export default () => {
                   
                   evaluating(text)
 
-                  }}
-                placeholder={'Type an expression'}
+                }}
+                placeholder={strToLang('typeAnPH')}
                 //defaultValue={'Digita una expresion'}
               />
 

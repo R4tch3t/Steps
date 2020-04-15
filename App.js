@@ -18,17 +18,10 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import { WebView } from 'react-native-webview';
-import onChangeText from './functions/onChangeText.js'
 //import loading from './html/Loading.html'
-import install, {label} from './functions/install.js'
-import loading from './functions/loading.js'
+import install from './functions/install.js'
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -55,9 +48,9 @@ import {} from './functions/process/preProcess'
 import {} from './functions/process/createHtml'
 import {} from './functions/lang'
 
-const {width, height} = Dimensions.get('window');
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+locaLang = RNLocalize.getLocales()
 strOrigin=''
 strltx = ''
 strDevelopment = ''
@@ -69,7 +62,7 @@ DegRad = 0
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
-  console.log(RNLocalize.getLocales());
+  console.log(locaLang)
   const installFiles = () => {
     install().then((band) => {
       setBandIns(band)
@@ -116,9 +109,9 @@ const App: () => React$Node = () => {
   const stackConfig = ({navigation}) => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Config" component={Config}
+        <Stack.Screen name={strToLang('configLabel')} component={Config}
           options={{
-            title: 'Config',
+            title: strToLang('configLabel'),
             headerLeft: ()=>headerLeft(navigation),
             headerStyle: {
               backgroundColor: '#f4511e',
@@ -154,7 +147,7 @@ const App: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body} > 
-            <Text style={[styles.sectionTitle, {color: 'red'}]}>ERROR AL INSTALAR ARCHIVOS...</Text> 
+            <Text style={[styles.sectionTitle, {color: 'red'}]}>{strToLang('err00')}</Text> 
           </View>
         </ScrollView>
     </SafeAreaView>
@@ -167,7 +160,7 @@ const App: () => React$Node = () => {
           <Drawer.Screen name="Steps" 
           component={stackSteps}
          />
-         <Drawer.Screen name="Config" 
+         <Drawer.Screen name={strToLang('configLabel')} 
           component={stackConfig}
          />
         </Drawer.Navigator>

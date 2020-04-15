@@ -246,13 +246,17 @@ Evaluate=(str)=>{
                             let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
                             let nD = nDigits(auxStr, aux1Str)
 
-                            res = (Math.round((aux - aux1) * nD) / nD).toString()
+                            res = (Math.round((aux1 - aux) * nD) / nD).toString()
                             res = res.split('+').join("")
                         }else{
                             res = minusstr(aux1Str, auxStr)
                         }
                         
+                        /*if (BiggerThan(auxStr, aux1Str)) {
+                            res = '-' + res
+                        }*/
                         res=cleanR(res)
+
                         str2=str2.split("--").join("+")
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
                         
@@ -268,10 +272,10 @@ Evaluate=(str)=>{
                         
                         str1="-> "
                         if (toDecimalVal===1){
-                            str2="( "+str2+" )"
+                            str2="[ "+str2+" ]"
                             str1=str1+str2+" = "+res
                         }else{
-                            str2="( "+scanNumbers(str2,false)+" )"
+                            str2="[ "+scanNumbers(str2,false)+" ]"
                             str1=str1+str2+" = "+tofrac(DoubleStr(res))
                         }
                         str1=str1.split("pi").join(Math.PI.toString())
