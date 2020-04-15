@@ -2,29 +2,6 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 import RNFS from 'react-native-fs';
 label = 'CARGANDO...'
-copyFolder = (e, dirAssets, dirMathJax) => {
-  //let i = 1;
-  const nameDir=e.name
-  dirAssets = `${dirAssets}/${e.name}`;
-  RNFS.mkdir(`${dirMathJax}/${e.name}`).finally(() => {
-    RNFS.readDirAssets(dirAssets).then(result => {
-      result.forEach(e => {
-        const n = `${dirMathJax}/${nameDir}/${e.name}`;
-        //const c = i;
-        if (e.isDirectory()) {
-          copyFolder(e, dirAssets,`${dirMathJax}/${nameDir}`);
-        } else {
-          RNFS.copyFileAssets(e.path, n).then(() => {
-            //resolve
-          });
-        }
-        //i++;
-      });
-    });
-   // resolve(true);
-  });
-
-}
 
 export default () => new Promise((resolve, reject) => {
   //let RNFS = require('react-native-fs');                
@@ -140,70 +117,85 @@ console.log(`f2: ${RNFS.ExternalDirectoryPath}`)
       label = 'INSTALANDO ARCHIVOS...'
       
       RNFS.mkdir(dirCss).finally(() => {
-        let i = 1
+        let i = 0
+        let bandCopy = false
         RNFS.readDirAssets('css')
-          .then(result => {
+          .then(async (r) => {
               //console.log('GOT RESULT', result);
-            
-            result.forEach(e=>{
-              const n = `${dirCss}/${e.name}`
-              const c = i
-              console.log(e.isDirectory());
+            while(i<r.length) {
+              await sleep(50)
+             // sleep(5000).then(() => {
+               // console.log(`bandCopy1.5: ${bandCopy}`)
+              if(!bandCopy){
+              bandCopy=true
+              const n = `${dirCss}/${r[i].name}`
+              const c = i+1
               
-              RNFS.copyFileAssets(e.path,n).then(()=>{
-                
-                if (c === result.length){
+              RNFS.copyFileAssets(r[i].path, n).then(() => {
+                bandCopy=false
+                if (c === r.length){
 
-                  let i = 1
+                  let i = 0
+                  let bandCopy = false
                   RNFS.mkdir(dirJQuery).finally(() => {
                     RNFS.readDirAssets('jQuery')
-                      .then(result => {
-                        result.forEach(e => {
-                          const n = `${dirJQuery}/${e.name}`
-                          const c = i
-                          RNFS.copyFileAssets(e.path, n).then(()=>{
-                            if (c === result.length) {
-                              resolve(true);
-                              /*let i = 1
-                              RNFS.mkdir(dirMathJax).finally(() => {
-                                RNFS.readDirAssets('MathJax-master')
-                                  .then(result => {
-                                    console.log(result.length)
-                                    result.forEach(e => {
-                                      const n = `${dirMathJax}/${e.name}`
-                                      const c = i
-                                      console.log(n)
-                                      if(e.isDirectory()){
-                                        
-                                        copyFolder(e, 'MathJax-master', `${dirMathJax}`)
+                      .then(async (r) => {
 
-                                      }else{
+                        while(i<r.length) {
+                          await sleep(50)
+                          if(!bandCopy){
+                            bandCopy=true
+                            const n = `${dirJQuery}/${r[i].name}`
+                            const c = i+1
+                            RNFS.copyFileAssets(r[i].path, n).then(() => {
+                              bandCopy=false
+                              if (c === r.length) {
+                                resolve(true);
+                                /*let i = 1
+                                RNFS.mkdir(dirMathJax).finally(() => {
+                                  RNFS.readDirAssets('MathJax-master')
+                                    .then(result => {
+                                      console.log(result.length)
+                                      result.forEach(e => {
+                                        const n = `${dirMathJax}/${e.name}`
+                                        const c = i
+                                        console.log(n)
+                                        if(e.isDirectory()){
+                                          
+                                          copyFolder(e, 'MathJax-master', `${dirMathJax}`)
 
-                                        RNFS.copyFileAssets(e.path, n).then(()=>{
-                                          if (c === result.length) {
-                                            resolve(true)
-                                            //RNFS.
-                                          }
-                                        })
+                                        }else{
 
-                                      }
+                                          RNFS.copyFileAssets(e.path, n).then(()=>{
+                                            if (c === result.length) {
+                                              resolve(true)
+                                              //RNFS.
+                                            }
+                                          })
 
-                                      i++;
+                                        }
+
+                                        i++;
+                                      })
                                     })
-                                  })
-                              })*/
-                              
-                            }
-                          })
-                          i++;
-                        })
+                                })*/
+                                
+                              }
+                            })
+                            i++;
+                          }
+                        }
+
                       })
                   })
 
                 }
               })
               i++
-            })
+            }
+           // })
+
+            }
             // stat the first file
             /*return Promise.all([
               RNFS.stat(result[0].path),
@@ -239,3 +231,31 @@ console.log(`f2: ${RNFS.ExternalDirectoryPath}`)
 
 
 });
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+copyFolder = (e, dirAssets, dirMathJax) => {
+  //let i = 1;
+  const nameDir = e.name
+  dirAssets = `${dirAssets}/${e.name}`;
+  RNFS.mkdir(`${dirMathJax}/${e.name}`).finally(() => {
+    RNFS.readDirAssets(dirAssets).then(result => {
+      result.forEach(e => {
+        const n = `${dirMathJax}/${nameDir}/${e.name}`;
+        //const c = i;
+        if (e.isDirectory()) {
+          copyFolder(e, dirAssets, `${dirMathJax}/${nameDir}`);
+        } else {
+          RNFS.copyFileAssets(e.path, n).then(() => {
+            //resolve
+          });
+        }
+        //i++;
+      });
+    });
+    // resolve(true);
+  });
+
+}

@@ -15,8 +15,7 @@ import {
   View,
   Text,
   StatusBar,
-  TextInput,
-  Button,
+  ActivityIndicator,
   Dimensions,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -37,6 +36,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import headerLeft from './components/headerLeft'
 import Steps from './components/steps.js'
 import Config from './components/config.js'
+import * as RNLocalize from 'react-native-localize';
 
 import {} from './functions/animation/animation'
 import {} from './functions/clean/clean'
@@ -69,7 +69,7 @@ DegRad = 0
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
-
+  console.log(RNLocalize.getLocales());
   const installFiles = () => {
     install().then((band) => {
       setBandIns(band)
@@ -140,16 +140,9 @@ const App: () => React$Node = () => {
     }
   return (
     <>
-    <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View style={styles.body} > 
-            <Text style={[styles.sectionTitle,{color: 'green'}]}>{label}</Text> 
-          </View>
-        </ScrollView>
-    </SafeAreaView>
+      <View style={styles.body} > 
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
     </>)
   }
   if (bandIns === false) {
@@ -193,6 +186,10 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   sectionContainer: {
     marginTop: 32,
