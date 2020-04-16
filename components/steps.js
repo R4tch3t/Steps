@@ -65,11 +65,11 @@ export default () => {
               <TextInput
                 style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                 onChangeText={text => {
-                  
                   evaluating(text)
-
                 }}
                 placeholder={strToLang('typeAnPH')}
+                //keyboardType="phone-pad"
+                //selectTextOnFocus={true}
                 //defaultValue={'Digita una expresion'}
               />
 

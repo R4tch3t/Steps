@@ -29,6 +29,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import headerLeft from './components/headerLeft'
 import Steps from './components/steps.js'
 import Config from './components/config.js'
+import CamScan from './components/camScan.js'
 import * as RNLocalize from 'react-native-localize';
 
 import {} from './functions/animation/animation'
@@ -47,6 +48,11 @@ import {} from './functions/mathString/plusStr'
 import {} from './functions/process/preProcess'
 import {} from './functions/process/createHtml'
 import {} from './functions/lang'
+
+import {enableScreens} from 'react-native-screens';
+
+// Uncomment next line to see it working
+enableScreens();
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -127,6 +133,16 @@ const App: () => React$Node = () => {
     );
   }
 
+  const stackCamScan = () => {
+    return (
+      <Stack.Navigator mode="modal">
+        <Stack.Screen name="CamScan" component={CamScan}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    );
+  }
+
   if (bandIns === null) {
     if (html === null){
       installFiles();
@@ -162,6 +178,9 @@ const App: () => React$Node = () => {
          />
          <Drawer.Screen name={strToLang('configLabel')} 
           component={stackConfig}
+         />
+         <Drawer.Screen name="CamScan" 
+          component={stackCamScan}
          />
         </Drawer.Navigator>
       </NavigationContainer>

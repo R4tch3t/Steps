@@ -47,6 +47,12 @@ jQuery.noConflict();
                 $a=$(labelPrev).html();
                 $b=$(e).next().html();
                 $(e).css("cursor","pointer");
+                if ($(e).prev().children().children().children().next().html() === '−' && $sign === '+') {
+                    $sign = '−'
+                }else if ($(e).prev().children().children().children().next().html() === '−' && $sign === '−') {
+                    $sign = '+'
+                } 
+                //herechange
                 evaluateProcess(e);
             }else if($(labelNext).attr("class")==="mn")
             {
@@ -107,7 +113,8 @@ jQuery.noConflict();
             labelPrev=$(e).prev().prev().children().children().children().next().next();
             labelNext=$(e).next().next().children().children().children();
             console.log($(e).next().html())
-            if($(e).next().attr("class")==="mo"&&$(e).next().html()!=='='&&$(e).next().html()!==')'){
+            console.log(`lbelNext4: ${$(labelNext).attr("class")}`)
+            if($(e).next().attr("class")==="mo"&&$(e).next().html()!=='='&&$(e).next().html()!==')'&&$(e).next().html()!==']'){
                 if($(e).next().children().html()==="]"){
                       $sign = $(e).prev().html();
                       if($(e).prev().prev().attr('class')==='mfrac'){
@@ -166,6 +173,11 @@ jQuery.noConflict();
                 $a=$(labelPrev).html();
                 $b=$(e).html();
                 $(e).css("cursor","pointer");
+                if ($(e).prev().prev().children().children().children().next().html() === '−' && $sign === '−') {
+                    $sign = "+"
+                } else if ($(e).prev().prev().children().children().children().next().html() === '−' && $sign === '+') {
+                    $sign = "−"
+                }
                 e=$(e).prev();
                 evaluateProcess(e);
             }else if($(e).prev().attr("class")==="mo")
@@ -183,7 +195,7 @@ jQuery.noConflict();
                 }else{
                     $sign = $(e).prev().html();
                     labelPrev = $(e).prev().prev().attr("class") === "mn" ? $(e).prev().prev() : $(e).prev().prev().children().children().children().last();
-                    console.log(`lPrev: ${$(labelPrev).children().children().children().last().attr("class")}`)
+                    console.log(`lPrev6: ${$(labelPrev).children().children().children().last().attr("class")}`)
                     if($(labelPrev).attr("class")==="mn"){
                         console.log('sign: '+$sign)
                         $a=$(labelPrev).html();
@@ -233,7 +245,7 @@ jQuery.noConflict();
                         } else {
                             
                             labelNext = $(e).parent().parent().next().children().children();
-
+                            console.log(`lbelNext7: ${$(labelNext).attr("class")}`)
                             if ($(labelNext).attr("class") === "mn") {
                                 $sign = "/";
                                 $a = $(e).html();
