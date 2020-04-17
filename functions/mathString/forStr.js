@@ -109,7 +109,7 @@ forstr = (numberA, numberB) => {
             //arr.insert(".", at: countDot)
             arr.splice(countDot, 0, ".")
         }
-        Result = String(arr)
+        Result = arr.join('')
     }
 
 

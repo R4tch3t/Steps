@@ -1,18 +1,3 @@
-
-isEqualAfter2 = (str) => {
-    let re = new RegExp("\\)\\(", 'g')
-    //re = new RegExp("*", 'g')
-    console.log(re)
-    let zeros = '(2+3)(3+4)7-4)'
-    console.log(zeros.split(')('))
-    zeros = zeros.split(')(').join(')*(')
-    /*zeros.forEach((n1,i)=>{
-        console.log(n1)
-    })*/
-    
-      console.log(zeros)
-    //}
-}
 isEqualAfter = (strArr, i, j, k, rstr, List) => {
     k=k-j
     let x=0

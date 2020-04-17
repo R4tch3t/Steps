@@ -42,11 +42,13 @@ dividestr = (numberA, numberB, LimitDigits) => {
     divA = cleanRSTR(divA)
     divB = cleanRSTR(divB)
 
+    console.log(`divStrdivA: ${divA}`)
+    console.log(`divStrdivB: ${divB}`)
     let StackA = divA.split('')
     let residuos = ""
    // let LimitDigits = LimitDigits
     let mult = "0"
-
+    console.log(`divStacdivA: ${StackA}`)
 
     //div process
     if (StackA.length > 0) {
@@ -72,9 +74,9 @@ dividestr = (numberA, numberB, LimitDigits) => {
     }
 
     //a/b, subtract a to b, a-b, who many a contains b redundant
-    while (residuos != "0" && LimitDigits > 0) {
+    while (residuos !== "0" && LimitDigits > 0) {
 
-        while (BiggerThan(divA, divB) || divA == divB) {
+        while (BiggerThan(divA, divB) || divA === divB) {
             divA = minusstr(divA, divB)
             mult = plusstr(mult, "1")
         }
@@ -109,8 +111,8 @@ dividestr = (numberA, numberB, LimitDigits) => {
         divA = cleanRSTR(divA)
         residuos = divA
 
-        if (StackA.count == 0) {
-            if (divA != "0" && BiggerThan(divB, divA)) {
+        if (StackA.length === 0) {
+            if (divA !== "0" && BiggerThan(divB, divA)) {
                 divA += "0"
                 bandDot = true
                 while (BiggerThan(divB, divA)) {
@@ -120,7 +122,7 @@ dividestr = (numberA, numberB, LimitDigits) => {
             }
         }
     }
-
+    console.log(Result)
     //appending dot on the correct position
     if (bandDot) {
         if (countDot > 0) {
@@ -136,7 +138,7 @@ dividestr = (numberA, numberB, LimitDigits) => {
                 }
             }
 
-            Result = StackA + ""
+            Result = StackA.join("")
         } else {
             StackA = Result.split('')
             countDot -= 1
@@ -148,7 +150,7 @@ dividestr = (numberA, numberB, LimitDigits) => {
             }
             //StackA.insert(".", at: 1)
             StackA.splice(1, 0, ".")
-            Result = StackA + ""
+            Result = StackA.join("")
         }
     }
 

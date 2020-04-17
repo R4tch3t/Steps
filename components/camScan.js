@@ -3,7 +3,8 @@ import {
     StyleSheet,
     View,
     Button,
-    Dimensions
+    Dimensions,
+    BackHandler
 } from 'react-native';
 import {
     Colors,
@@ -13,6 +14,7 @@ import {
   Divider,
   Text
 } from 'react-native-elements'
+import { useFocusEffect } from '@react-navigation/native';
 import {RNCamera} from 'react-native-camera';
 import onChangeText from '../functions/onChangeText.js'
 const {
@@ -20,8 +22,28 @@ const {
   height
 } = Dimensions.get('window');
 export default ({navigation}) => {
-  const [txt, setTxt] = React.useState('modal')
+  const [txt, setTxt] = React.useState('')
+  let evaluating = false
   const middleH = height/2
+  const toSteps = () => {
+    const txtS = txt
+    setGTxtExp(txtS)
+    navigation.navigate('Steps');
+    onChangeText(txtS, setGHtml)
+  }
+  const onBackPress = () => {
+    toSteps()
+    return true
+  };
+  useFocusEffect(
+    React.useCallback(() => {     
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      }
+    }//, [isSelectionModeEnabled, disableSelectionMode]
+    )
+  );
     return (
       <>
         <View style={styles.body}>
@@ -52,12 +74,12 @@ export default ({navigation}) => {
               buttonNegative: 'Cancel',
             }}
             onTextRecognized={({textBlocks})=>{
-              console.log(textBlocks)
+              //console.log(textBlocks)
               if(textBlocks.length>0){
-                console.log(textBlocks[0].bounds.origin)
+                //console.log(textBlocks[0].bounds.origin)
                 //if (textBlocks[0].bounds.origin.y<(middleH+100)&&textBlocks[0].bounds.origin.y>(middleH-100)){
                   setTxt(textBlocks[0].value)
-                  onChangeText(textBlocks[0].value, setGHtml)
+                  //onChangeText(textBlocks[0].value, setGHtml)
                // }
               }
             }}
@@ -65,10 +87,10 @@ export default ({navigation}) => {
               console.log(barcodes);
             }}*/
           />
-          <Text style={{fontSize: 30}}>{txt}</Text>
+          <Text style={styles.txtResult}>{txt}</Text>
           <Button
-            onPress={() => navigation.navigate('Steps')}
-            title="Dismiss"
+            onPress={toSteps}
+            title={strToLang('camBtn00')}
           />
         </View>
       </>
@@ -81,6 +103,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  txtResult: {
+    fontSize: 30,
+    color: 'red'  
   },
   preview: {
     flex: 1,

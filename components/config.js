@@ -14,6 +14,7 @@ import {
   Divider,
   Text
 } from 'react-native-elements'
+import onChangeText from '../functions/onChangeText.js'
 BBS = true
 BSC = false
 export default () => {
@@ -44,6 +45,7 @@ export default () => {
                     setBsc(bbs);
                     setBbs(!bbs);
                     BBS = !BBS
+                    onChangeText(txtGExp, setGHtml)
                   }}
                 />
 
@@ -57,6 +59,7 @@ export default () => {
                     setBbs(bsc);
                     setBsc(!bsc);
                     BSC = !BSC
+                    onChangeText(txtGExp, setGHtml)
                   }}
                 />
                 <Divider style={{ backgroundColor: 'blue' }} />
@@ -67,6 +70,7 @@ export default () => {
                   onPress={() => {
                     toDecimalVal = toDecimalVal === 0 ? 1 : 0
                     setTDval(!tDval)
+                    onChangeText(txtGExp, setGHtml)
                   }}
                 />
                 <CheckBox
@@ -75,6 +79,7 @@ export default () => {
                   onPress={() => {
                     MoreDVal = MoreDVal === 0 ? 1:0
                     setMDval(!mDval)
+                    onChangeText(txtGExp, setGHtml)
                   }}
                 />
                 <CheckBox
@@ -83,6 +88,7 @@ export default () => {
                   onPress={() => {
                     DegRad = DegRad === 0 ? 1 : 0
                     setToRad(!toRad)
+                    onChangeText(txtGExp, setGHtml)
                   }}
                 />
 

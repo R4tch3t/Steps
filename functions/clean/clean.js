@@ -350,7 +350,6 @@
                     
                     
                     if (isFrac(aux) || toDecimalVal==1) {
-                        console.log(`auxDepurarR: ${aux}`)
                         if (!aux.includes("-")) {
                             s+="-"+aux
                             
@@ -380,12 +379,10 @@
         strDevelopment=strDevelopment.split("/--").join("/")
 
         s="(,"+s+",)"
-        console.log(`depurarR ${s}`)
         s=s.split(",,").join(",")
         s=s.split("-+").join("-")
         s=s.split(",--").join(",")
         s=s.split("(--").join("(")
-        console.log(`depurarR2 ${s}`)
         //s="("+s+")"
         STR=s.split(",")
         return STR.reverse()
@@ -409,11 +406,9 @@
         
         //s = str.split('-+').join('-');
         s=s.replace(/\-\+/g,'-')
-        console.log(`depurarI s: ${s}`)
         //
         
         STR=s.split(",")
-        console.log(`depurarI: ${STR}`)
         
         return STR.reverse()
     }

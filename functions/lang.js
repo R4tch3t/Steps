@@ -62,7 +62,10 @@ WrongExpresion = () => {
                     break
                 case "configCheck04":
                     ToLang="Radians"
-                    break                      
+                    break      
+                case "camBtn00":
+                    ToLang="Show Steps"
+                    break
                 default:
                     break; //ToLang=(V?.EqualTo.stringValue)!
             }
@@ -114,7 +117,10 @@ WrongExpresion = () => {
                     break
                 case "configCheck04":
                     ToLang="Radianes"
-                    break                                   
+                    break  
+                case "camBtn00":
+                    ToLang="Ver Pasos"
+                    break                                     
                 default:
                     break;
                 //  ToLang=(V?.EqualTo.stringValue)!

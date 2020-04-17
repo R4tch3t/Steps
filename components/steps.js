@@ -23,33 +23,29 @@ const {
 } = Dimensions.get('window');
 import loading from '../functions/loading.js'
 setGHtml=null
+setGTxtExp=null
+txtGExp=''
 export default () => {
     const [html, setHtml] = React.useState('');
+    const [txtExp, setTxtExp] = React.useState('');
     const [hWeb, setHWeb] = React.useState(100);
     setGHtml = setHtml
+    setGTxtExp = setTxtExp
     const evaluating = text => {
         new Promise((resolve, reject) => {
             setHtml(loading())
             resolve(1)
         }).then(() => {
             new Promise((resolve, reject) => {
+                txtGExp = text
+                setTxtExp(text)
                 onChangeText(text, setHtml)
                 resolve(1)
             })
 
         })
     };
-    const onNavigationStateChange = (navState) => {
-      /*this.setState({
-        height: navState.title
-      });*/
-      
-      if(Number(navState.title)){
-        console.log(navState.title)
-        setHWeb(Number(navState.title))
-      }
-    }
-    //onChangeText(html, setHtml)
+    
     return(
      <>
       <StatusBar barStyle="dark-content" />
@@ -71,7 +67,7 @@ export default () => {
                 placeholder={strToLang('typeAnPH')}
                 //keyboardType="phone-pad"
                 //selectTextOnFocus={true}
-                //defaultValue={'Digita una expresion'}
+                defaultValue={txtExp}
               />
 
               {/*<Text style={styles.sectionDescription}>

@@ -68,7 +68,6 @@ DegRad = 0
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
-  console.log(locaLang)
   const installFiles = () => {
     install().then((band) => {
       setBandIns(band)

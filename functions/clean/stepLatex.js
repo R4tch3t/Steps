@@ -83,8 +83,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                                     //Intercambio rstr
                                     tofrac=replacestrs(tofrac)
-                                    console.log(`tofrac: ${tofrac}`)
-                                    console.log(`change: ${change}`)
+                                    
                                     if (change) {
 
                                         if (toDecimalVal === 1) {
@@ -157,8 +156,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                                 strDevelopment+=res
                                 tofrac=replacestrs(tofrac)
-                                console.log(`tofrac: ${tofrac}`)
-                                console.log(`change: ${change}`)
+                                
                                 if (change) {
                                     if (toDecimalVal === 1) {
                                         if (band) {
@@ -221,8 +219,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                             strDevelopment+=res
                             i=l+j
                             tofrac=replacestrs(tofrac)
-                            console.log(`tofrac: ${tofrac}`)
-                            console.log(`change: ${change}`)
+                            
                             if (change) {
                                 if (toDecimalVal === 1) {
                                     if (band) {
@@ -295,8 +292,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                                 strDevelopment+=res
                                 i=l+j-1
                                 tofrac=replacestrs(tofrac)
-                                console.log(`tofrac: ${tofrac}`)
-                                console.log(`change: ${change}`)
+                                
                                 if (change) {
                                     if (toDecimalVal === 1) {
                                         if (band) {
@@ -362,8 +358,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                         strDevelopment+=res
                         tofrac=replacestrs(tofrac)
-                        console.log(`tofrac: ${tofrac}`)
-                        console.log(`change: ${change}`)
+                        
                         if (change) {
                             if (toDecimalVal === 1) {
                                 if (band) {
@@ -379,17 +374,16 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
                         }else{
                             if (toDecimalVal === 1){
-                                console.log(`toDecimal: ${toDecimalVal}`)
                                 if (band) {
                                     strltx+=tofrac
                                     strltx+="color(red)("+rstr+")"
                                 }
                             }else{
-                                console.log(`toDecimal: ${toDecimalVal} band: ${band}`)
+                                
                                 if (band) {
                                     
                                     strltx+=scanNumbers(tofrac,false)
-                                    console.log(strltx)
+                                
                                     strltx+="color(red)("+scanNumbers(rstr,false)+")"
                                     
                                 }
