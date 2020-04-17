@@ -22,10 +22,11 @@ const {
     height
 } = Dimensions.get('window');
 import loading from '../functions/loading.js'
-
+setGHtml=null
 export default () => {
     const [html, setHtml] = React.useState('');
     const [hWeb, setHWeb] = React.useState(100);
+    setGHtml = setHtml
     const evaluating = text => {
         new Promise((resolve, reject) => {
             setHtml(loading())

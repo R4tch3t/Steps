@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "317631322290",
+    "firebase_url": "https://steps-2aac7.firebaseio.com",
+    "project_id": "steps-2aac7",
+    "storage_bucket": "steps-2aac7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317631322290:android:1805e3a44d180cd49fd1ab",
+        "android_client_info": {
+          "package_name": "com.steps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317631322290-l0bdeq88eij1pspo3ooa530hdn5lncaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL4sP8JwhaFcqsYeL9OseuwiWXPYKbzsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317631322290-l0bdeq88eij1pspo3ooa530hdn5lncaq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
