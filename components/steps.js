@@ -17,10 +17,11 @@ import {
     WebView
 } from 'react-native-webview';
 import onChangeText from '../functions/onChangeText.js'
-const {
+/*const {
     width,
     height
 } = Dimensions.get('window');
+*/
 import loading from '../functions/loading.js'
 setGHtml=null
 setGTxtExp=null
@@ -28,7 +29,8 @@ txtGExp=''
 export default () => {
     const [html, setHtml] = React.useState('');
     const [txtExp, setTxtExp] = React.useState('');
-    const [hWeb, setHWeb] = React.useState(100);
+    const [Wwidth, setWidth] = React.useState(0);
+    const [Wheight, setHeight] = React.useState(0);
     setGHtml = setHtml
     setGTxtExp = setTxtExp
     const evaluating = text => {
@@ -37,7 +39,7 @@ export default () => {
             resolve(1)
         }).then(() => {
             new Promise((resolve, reject) => {
-                txtGExp = text
+                //txtGExp = text
                 setTxtExp(text)
                 onChangeText(text, setHtml)
                 resolve(1)
@@ -45,7 +47,7 @@ export default () => {
 
         })
     };
-    
+
     return(
      <>
       <StatusBar barStyle="dark-content" />
@@ -54,7 +56,15 @@ export default () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
           
-          onLayout={()=>{if(html===""){onChangeText('', setHtml)}}}>
+          onLayout={()=>{
+            const {width, height} = Dimensions.get('window');
+            if (width !== Wwidth || height !== Wheight) {
+              setWidth(width)
+              setHeight(height)
+              evaluating(txtGExp)
+            }
+            /*if(html===""){*/// onChangeText(txtGExp, setHtml)//}
+          }}>
           {/*<Header />*/}
           
           <View style={styles.body}>
@@ -92,7 +102,7 @@ export default () => {
               //source={{uri: loading()}} 
               //automaticallyAdjustContentInsets={true}
               //scrollEnabled={true}
-              style={styles.webView}
+              style={[styles.webView,{width: Wwidth, height: Wheight - 140}]}
             />
           </View>
         </ScrollView>
@@ -116,8 +126,6 @@ const styles = StyleSheet.create({
           paddingHorizontal: 24,
       },
       webView: {
-          width: width,
-          height: height - 140,
           marginTop: 10
       },
       sectionDescription: {

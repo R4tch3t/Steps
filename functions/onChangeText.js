@@ -1,4 +1,5 @@
 
-export default (e,setHtml) => {
-    Preprocess(e,setHtml)
+export default (t,setHtml) => {
+    txtGExp = t
+    Preprocess(t,setHtml)
 }
