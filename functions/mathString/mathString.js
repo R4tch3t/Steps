@@ -369,11 +369,10 @@ residuo = (numberA, numberB) => {
     }
 
     //Maximo Común Divisor
-MCD = (a, b) => {
-        
+MCDStr = (a, b) => {
         if (b !== "0") {
             
-            return MCD(b, residuo(a,b))
+            return MCDStr(b, residuo(a,b))
         
         }
         

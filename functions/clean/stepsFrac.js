@@ -90,14 +90,14 @@ StepsFrac=(Str) => {
                 }
             
             }else if (BiggerThan(absstr(numbersP[2]), "0")) {
-                let mcd = absstr(MCD(numbersP[0], numbersP[2]))
+                let mcd = absstr(MCDStr(numbersP[0], numbersP[2]))
                     
                 if (LessThan(mcd, "2")) {
                     Steps+="["+numbersP[0]+"/"
                 
                     Steps+="color(red)("+numbersP[1]+"*"+numbersP[2]+")]"
                 }else{
-                    let mcd = absstr(MCD(numbersP[0], numbersP[2]))
+                    let mcd = absstr(MCDStr(numbersP[0], numbersP[2]))
                     Steps+="[color(red)("+numbersP[0]+")/("
                     
                     Steps+=numbersP[1]+"*color(red)("+numbersP[2]+"))]=["
@@ -137,13 +137,13 @@ StepsFrac=(Str) => {
                 }
                 
             }else if (simbols[0] === "÷") {
-                let mcd = absstr(MCD(numbersP[1], numbersP[0]))
+                let mcd = absstr(MCDStr(numbersP[1], numbersP[0]))
                 
                 if (LessThan(mcd, "2")) {
                     Steps+="[color(red)("+numbersP[0]+"*"+numbersP[2]+")"
                     Steps+="/"+numbersP[1]+"]"
                 }else{
-                    let mcd = absstr(MCD(numbersP[0], numbersP[1]))
+                    let mcd = absstr(MCDStr(numbersP[0], numbersP[1]))
                     
                     Steps+="[(color(red)("+numbersP[0]+")*"+numbersP[2]
                     Steps+=")/color(red)("+numbersP[1]+")]=["
@@ -201,7 +201,7 @@ StepsFrac=(Str) => {
                     Steps+="]"
                     
                 if (simbols[1]==="-"){
-                    let mcd = absstr(MCD(minusstr(numbersP[0], numbersP[2]), numbersP[3]))
+                    let mcd = absstr(MCDStr(minusstr(numbersP[0], numbersP[2]), numbersP[3]))
                     
                     if (BiggerThan(mcd, "1")) {
                         Steps+="=[(color(red)("+minusstr(numbersP[0],numbersP[2])
@@ -210,7 +210,7 @@ StepsFrac=(Str) => {
                         Steps+=")/color(red)("+mcd+"))]"
                     }
                 } else if (simbols[1]==="+") {
-                     let mcd = absstr(MCD(plusstr(numbersP[0], numbersP[2]) , numbersP[3]))
+                     let mcd = absstr(MCDStr(plusstr(numbersP[0], numbersP[2]), numbersP[3]))
                     if (BiggerThan(mcd, "1")) {
                         Steps+="=[(color(red)("+plusstr(numbersP[0],numbersP[2])
                         Steps+=")/color(red)("+mcd+"))/(color(red)("
@@ -232,7 +232,7 @@ StepsFrac=(Str) => {
                     
                     if (simbols[1] === "+") {
                         a=plusstr(a,b)
-                        let mcd = absstr(MCD(a, c))
+                        let mcd = absstr(MCDStr(a, c))
                         
                         if (BiggerThan(mcd, "1")) {
                             Steps+="=[(color(red)("+a+")/color(red)("+mcd+")"
@@ -243,7 +243,7 @@ StepsFrac=(Str) => {
                         
                     }else{
                         a=minusstr(a, b)
-                        let mcd = absstr(MCD(a, c))
+                        let mcd = absstr(MCDStr(a, c))
                         
                         if (BiggerThan(mcd, "1")){
                             Steps+="=[(color(red)("+a+")/color(red)("+mcd+")"
@@ -258,7 +258,7 @@ StepsFrac=(Str) => {
             else if (simbols[1] === "*") {
                 let a=forstr(numbersP[0], numbersP[2])
                 let b=forstr(numbersP[1], numbersP[3])
-                let mcd=absstr(MCD(a, b))
+                let mcd = absstr(MCDStr(a, b))
                 Steps+="[(color(red)("+numbersP[0]+"*"+numbersP[2]
                 Steps+="))/(color(red)("
                 Steps+=numbersP[1]+"*"+numbersP[3]
@@ -274,7 +274,7 @@ StepsFrac=(Str) => {
             else if (simbols[1] === "÷") {
                 let a=forstr(numbersP[0], numbersP[3])
                 let b=forstr(numbersP[1], numbersP[2])
-                let mcd=absstr(MCD(a, b))
+                let mcd = absstr(MCDStr(a, b))
                 
                 Steps+="[(color(red)("+numbersP[0]+"*"+numbersP[3]
                 Steps+="))/(color(red)("

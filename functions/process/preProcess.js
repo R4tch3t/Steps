@@ -30,7 +30,11 @@ Preprocess = (s, setHtml) => {
             //console.log(ev)
             if (toDecimalVal !== 1) {
                 if (isNumber(ev)) {
+                    console.log(`isNumber: ${isNumber(ev)}`)
+                    console.log(`doubleStr: ${DoubleStr(ev)}`)
+                    console.log(`toFrac: ${tofrac(DoubleStr(ev))}`)
                     ev = tofrac(DoubleStr(ev))
+
                 }
             }
 

@@ -95,12 +95,12 @@ EvaluateFrac = (Str) => {
                 
                 
             }else if (BiggerThan(absstr(numbersP[2]), "0")) {
-                let mcd = MCD(numbersP[0], numbersP[2])
+                let mcd = MCDStr(numbersP[0], numbersP[2])
                 
                 if (LessThan(mcd, "2")) {
                     Result=numbersP[0]+"/"+forstr(numbersP[1],numbersP[2])
                 }else{
-                    let mcd = MCD(numbersP[0], numbersP[2])
+                    let mcd = MCDStr(numbersP[0], numbersP[2])
                     Result=dividestr(numbersP[0],mcd,128)
                     Result+="/"+forstr(numbersP[1],dividestr(numbersP[2],mcd,128))
                 }
@@ -129,7 +129,7 @@ EvaluateFrac = (Str) => {
 
         }
         else if (simbols[0] === "÷") {
-            let mcd = MCD(numbersP[1], numbersP[0])
+            let mcd = MCDStr(numbersP[1], numbersP[0])
             
             if (LessThan(mcd, "2")) {
                 
@@ -169,7 +169,7 @@ EvaluateFrac = (Str) => {
                     
                     if (simbols[1]==="-") {
                         let minustr=minusstr(numbersP[0], numbersP[2])
-                        let mcd = MCD(minustr, numbersP[3])
+                        let mcd = MCDStr(minustr, numbersP[3])
                         Result=minustr+"/"+numbersP[3]
                         
                         if (BiggerThan(mcd, "1")) {
@@ -179,7 +179,7 @@ EvaluateFrac = (Str) => {
                     }
                     else if (simbols[1]==="+") {
                         let plustr=plusstr(numbersP[0], numbersP[2])
-                        let mcd = MCD(plustr, numbersP[3])
+                        let mcd = MCDStr(plustr, numbersP[3])
                         Result=plustr+"/"+numbersP[3]
                         
                         if (BiggerThan(mcd, "1")) {
@@ -193,7 +193,7 @@ EvaluateFrac = (Str) => {
             
                     if (simbols[1] === "+") {
                         a=plusstr(a,b)
-                        let mcd = MCD(a, c)
+                        let mcd = MCDStr(a, c)
                         Result=a+"/"+c
                         if (BiggerThan(mcd, "1")) {
                             Result=dividestr(a,mcd,128)+"/"+dividestr(c, mcd, 128)
@@ -201,7 +201,7 @@ EvaluateFrac = (Str) => {
                         
                     }else{
                         a=minusstr(a, b)
-                        let mcd = MCD(a, c)
+                        let mcd = MCDStr(a, c)
                         Result=a+"/"+c
                         if (BiggerThan(mcd, "1")) {
                             Result=dividestr(a,mcd,128)+"/"+dividestr(c, mcd, 128)
@@ -213,7 +213,7 @@ EvaluateFrac = (Str) => {
             else if (simbols[1] === "*") {
                 let a=forstr(numbersP[0], numbersP[2])
                 let b=forstr(numbersP[1], numbersP[3])
-                let mcd=MCD(a, b)
+                let mcd = MCDStr(a, b)
                 Result=a+"/"+b
                 if (BiggerThan(mcd, "1")) {
                     Result=dividestr(a,mcd,128)+"/"+dividestr(b,mcd,128)
@@ -222,7 +222,7 @@ EvaluateFrac = (Str) => {
             else if (simbols[1] === "÷") {
                 let a=forstr(numbersP[0], numbersP[3])
                 let b=forstr(numbersP[1], numbersP[2])
-                let mcd=MCD(a, b)
+                let mcd = MCDStr(a, b)
                 
                 Result=a+"/"+b
                 if (BiggerThan(mcd, "1")) {
