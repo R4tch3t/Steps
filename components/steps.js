@@ -50,7 +50,7 @@ export default () => {
 
     return(
      <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar backgroundColor="#f4511e" barStyle="default" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"

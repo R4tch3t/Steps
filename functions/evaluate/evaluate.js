@@ -1097,8 +1097,6 @@ Evaluate=(str)=>{
                     let band = true
                     auxStr=auxStr.split("+").join("")
                     aux1Str=aux1Str.split("+").join("")
-                    console.log(`div1 ${aux1Str}`)
-                    console.log(`div ${auxStr}`)
                     if (isNumber(auxStr) && isNumber(aux1Str)){
 
                         str2=aux1Str+"/"+auxStr
@@ -1139,7 +1137,6 @@ Evaluate=(str)=>{
                                 res = res.split('e+').join("e")
                             } else {
                                 res = dividestr(aux1Str, auxStr, 128)
-                                console.log(`resDivMore: ${res}`)
                             }
                             if (aux1Str.startsWith("-") && LessThan(auxStr, "0.0")) {
                                 res = "+"+res
@@ -1206,7 +1203,6 @@ Evaluate=(str)=>{
                         auxStr=auxStr.split(')').join("")
                         
                         str2=aux1Str+"/"+auxStr
-                        console.log('isfracDiv '+str2)
                         StepsC += 1
                         strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
                         strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
@@ -1233,8 +1229,6 @@ Evaluate=(str)=>{
 
                     strltx+="</div>"
                     strltx+="</div>"
-                    console.log(`res div: ${res}`)
-                    console.log(`nexts div: ${STR}` )
                     S.push( res )
 
                     break

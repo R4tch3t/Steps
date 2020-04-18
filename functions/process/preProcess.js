@@ -16,7 +16,6 @@ Preprocess = (s, setHtml) => {
             strOrigin = strOrigin.split('tan').join("t")
             cleanstrD(strOrigin)
             //re = new RegExp("\\)\\(", 'g')
-            //console.log(re)
             strDevelopment = strDevelopment.split(')(').join(")*(")
             removeSteps()
             //let rangselec = self.V.AsciiTab.selectedRange()
@@ -25,21 +24,15 @@ Preprocess = (s, setHtml) => {
 
             //let asciiV=self.V.AsciiTab.string
             //self.V.AsciiTab.setSelectedRange(rangselec)
-            //console.log()
             var ev = Evaluate(s)
-            //console.log(ev)
             if (toDecimalVal !== 1) {
                 if (isNumber(ev)) {
-                    console.log(`isNumber: ${isNumber(ev)}`)
-                    console.log(`doubleStr: ${DoubleStr(ev)}`)
-                    console.log(`toFrac: ${tofrac(DoubleStr(ev))}`)
                     ev = tofrac(DoubleStr(ev))
 
                 }
             }
 
             strltx += "<br><br><p style='text-align:center; font-size: 32px' >`color(green)(RR = " + ev + ")`</p>"
-            //console.log(strltx)
             createHtmlatex(setHtml)
             //process()
 

@@ -27,6 +27,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import headerLeft from './components/headerLeft'
+import headerRight from './components/headerRight'
 import Steps from './components/steps.js'
 import Config from './components/config.js'
 import CamScan from './components/camScan.js'
@@ -97,6 +98,7 @@ const App: () => React$Node = () => {
           options={{
             title: 'Steps',
             headerLeft: ()=>headerLeft(navigation),
+            headerRight: ()=>headerRight(navigation),
             headerStyle: {
               backgroundColor: '#f4511e',
             },

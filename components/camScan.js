@@ -4,7 +4,8 @@ import {
     View,
     Button,
     Dimensions,
-    BackHandler
+    BackHandler,
+    StatusBar
 } from 'react-native';
 import {
     Colors,
@@ -23,16 +24,18 @@ const {
 } = Dimensions.get('window');
 export default ({navigation}) => {
   const [txt, setTxt] = React.useState('')
-  let evaluating = false
-  const middleH = height/2
+  const [bounds, setBounds] = React.useState({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}})
   const toSteps = () => {
     const txtS = txt
-    setGTxtExp(txtS)
     navigation.navigate('Steps');
-    onChangeText(txtS, setGHtml)
+    if(txtS!==''){
+      setGTxtExp(txtS)
+      onChangeText(txtS, setGHtml)
+    }
   }
   const onBackPress = () => {
-    toSteps()
+    //toSteps()
+    navigation.navigate('Steps');
     return true
   };
   useFocusEffect(
@@ -46,6 +49,7 @@ export default ({navigation}) => {
   );
     return (
       <>
+        <StatusBar backgroundColor="#f4511e" barStyle="default" />
         <View style={styles.body}>
           <RNCamera
             /*ref={ref => {
@@ -78,20 +82,31 @@ export default ({navigation}) => {
               if(textBlocks.length>0){
                 //console.log(textBlocks[0].bounds.origin)
                 //if (textBlocks[0].bounds.origin.y<(middleH+100)&&textBlocks[0].bounds.origin.y>(middleH-100)){
+                  //textBlocks[0].bounds
+                  setBounds(textBlocks[0].bounds)
                   setTxt(textBlocks[0].value)
                   //onChangeText(textBlocks[0].value, setGHtml)
                // }
+              }else{
+                setBounds({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}})
               }
             }}
             /*onGoogleVisionBarcodesDetected={({barcodes}) => {
               console.log(barcodes);
             }}*/
           />
-          <Text style={styles.txtResult}>{txt}</Text>
-          <Button
-            onPress={toSteps}
-            title={strToLang('camBtn00')}
+          <View style={{ position: 'absolute', borderWidth: 1, borderColor: 'red', 
+                        left: bounds.origin.x, top: bounds.origin.y, 
+                        height: bounds.size.height, width: bounds.size.width 
+                      }} 
           />
+          <View style={styles.viewResults} >
+            <Text style={styles.txtResult}>{txt}</Text>
+            <Button
+              onPress={toSteps}
+              title={strToLang('camBtn00')}
+            />
+          </View>
         </View>
       </>
     );
@@ -104,15 +119,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  viewResults: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 1
+  },
   txtResult: {
     fontSize: 30,
+    textAlign: 'center',
     color: 'red'  
   },
   preview: {
     flex: 1,
     display: 'flex',
     left: 0,
-    top: 30,
+    top: 10,
     justifyContent: 'flex-start',
     alignContent: 'stretch',
     height: '100%',

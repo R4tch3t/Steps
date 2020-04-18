@@ -42,13 +42,10 @@ dividestr = (numberA, numberB, LimitDigits) => {
     divA = cleanRSTR(divA)
     divB = cleanRSTR(divB)
 
-    console.log(`divStrdivA: ${divA}`)
-    console.log(`divStrdivB: ${divB}`)
     let StackA = divA.split('')
     let residuos = ""
    // let LimitDigits = LimitDigits
     let mult = "0"
-    console.log(`divStacdivA: ${StackA}`)
 
     //div process
     if (StackA.length > 0) {
@@ -122,7 +119,6 @@ dividestr = (numberA, numberB, LimitDigits) => {
             }
         }
     }
-    console.log(Result)
     //appending dot on the correct position
     if (bandDot) {
         if (countDot > 0) {

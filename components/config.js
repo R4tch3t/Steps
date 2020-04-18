@@ -25,7 +25,7 @@ export default () => {
     const [toRad, setToRad] = React.useState(false)
     return (
       <>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar backgroundColor="#f4511e" barStyle="default" />
         <SafeAreaView>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"

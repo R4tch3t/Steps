@@ -5,27 +5,20 @@ jQuery.noConflict();
   $sign = "";
   $a = "", labelPrev=$(e).prev();
   $b = "", labelNext=$(e).next();
-  console.log(`next: ${$(e).next().attr('class')}`)
    if($(labelPrev).attr("class") === "mn" && $(labelNext).attr("class") === "mn") {
         $sign = $(e).html();
         $a = $(labelPrev).html();
         $b = $(labelNext).html();
-        console.log($sign)
-        console.log($(e).prev().prev().html())
         if($sign==='−'&&$(e).prev().prev().html()==='−'){
             $sign="+"
-            console.log(`log: ${$sign}`)
         }else if($sign==='+'&&$(e).prev().prev().html()==='−'){
             $sign='−'
-            console.log(`log: ${$sign}`)
         }
         $(e).css("cursor","pointer");
         evaluateProcess(e);
    }else{
         labelPrev=$(e).prev().prev().children();
         labelNext=$(e).prev().children();
-       console.log(`lbelPrev ${$(labelPrev).attr("class")}`)
-       console.log(`lbelNext ${$(labelNext).attr("class")}`)
         if($(labelPrev).attr("class") === "mn" && $(labelNext).attr("class") === "mn") {
             $sign = "/";
             $a = $(labelPrev).html();
@@ -40,8 +33,6 @@ jQuery.noConflict();
             }
             labelPrev=$(e).prev().children().children().children().next().next();
             labelNext=$(e).next().children().children().children();
-            console.log(`lbelPrev2 ${$(labelPrev).attr("class")}`)
-            console.log(`lbelNext2 ${$(labelNext).attr("class")}`)
             if($(labelPrev).attr("class")==="mn"){
                 $sign = $(e).html();
                 $a=$(labelPrev).html();
@@ -97,7 +88,6 @@ jQuery.noConflict();
 
             }else{
                 labelPrev=$(e).parent().parent().parent().prev().attr("class")==="mn"?$(e).parent().parent().parent().prev():$(e).prev().children().children().children().last();
-                console.log(`labelPrev3: ${$(labelPrev).attr("class")}`)
                 if($(labelPrev).attr("class")==="mn"){
                     $sign=$(e).html();
                     $a=$(labelPrev).html();
@@ -112,8 +102,6 @@ jQuery.noConflict();
 
             labelPrev=$(e).prev().prev().children().children().children().next().next();
             labelNext=$(e).next().next().children().children().children();
-            console.log($(e).next().html())
-            console.log(`lbelNext4: ${$(labelNext).attr("class")}`)
             if($(e).next().attr("class")==="mo"&&$(e).next().html()!=='='&&$(e).next().html()!==')'&&$(e).next().html()!==']'){
                 if($(e).next().children().html()==="]"){
                       $sign = $(e).prev().html();
@@ -162,7 +150,6 @@ jQuery.noConflict();
                                 $sign = '−'
                             }
                             e=$(e).next();
-                            console.log('sign '+$sign)
                             evaluateProcess(e);
                         }
                     }
@@ -195,9 +182,7 @@ jQuery.noConflict();
                 }else{
                     $sign = $(e).prev().html();
                     labelPrev = $(e).prev().prev().attr("class") === "mn" ? $(e).prev().prev() : $(e).prev().prev().children().children().children().last();
-                    console.log(`lPrev6: ${$(labelPrev).children().children().children().last().attr("class")}`)
                     if($(labelPrev).attr("class")==="mn"){
-                        console.log('sign: '+$sign)
                         $a=$(labelPrev).html();
                         $b=$(e).html();
                         $(e).css("cursor","pointer");
@@ -245,7 +230,6 @@ jQuery.noConflict();
                         } else {
                             
                             labelNext = $(e).parent().parent().next().children().children();
-                            console.log(`lbelNext7: ${$(labelNext).attr("class")}`)
                             if ($(labelNext).attr("class") === "mn") {
                                 $sign = "/";
                                 $a = $(e).html();
