@@ -4,8 +4,8 @@ import {
     View,
     Button,
     Dimensions,
-    BackHandler,
-    StatusBar
+    StatusBar,
+  //  BackHandler,
 } from 'react-native';
 import {
     Colors,
@@ -33,7 +33,7 @@ export default ({navigation}) => {
       onChangeText(txtS, setGHtml)
     }
   }
-  const onBackPress = () => {
+  /*const onBackPress = () => {
     //toSteps()
     navigation.navigate('Steps');
     return true
@@ -46,7 +46,7 @@ export default ({navigation}) => {
       }
     }//, [isSelectionModeEnabled, disableSelectionMode]
     )
-  );
+  );*/
     return (
       <>
         <StatusBar backgroundColor="#f4511e" barStyle="default" />
@@ -95,7 +95,7 @@ export default ({navigation}) => {
               console.log(barcodes);
             }}*/
           />
-          <View style={{ position: 'absolute', borderWidth: 1, borderColor: 'red', 
+          <View style={{ position: 'absolute', borderWidth: 1, borderColor: 'red', borderRadius: 5, 
                         left: bounds.origin.x, top: bounds.origin.y, 
                         height: bounds.size.height, width: bounds.size.width 
                       }} 

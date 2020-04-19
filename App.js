@@ -120,6 +120,7 @@ const App: () => React$Node = () => {
           options={{
             title: strToLang('configLabel'),
             headerLeft: ()=>headerLeft(navigation),
+            headerRight: ()=>headerRight(navigation),
             headerStyle: {
               backgroundColor: '#f4511e',
             },
