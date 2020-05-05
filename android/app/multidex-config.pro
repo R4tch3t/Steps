@@ -1,0 +1,10 @@
+-keep class com.google.firebase.provider.FirebaseInitProvider
+-keep class com.google.android.gms.** { *; }
+-keep class com.google.firebase.** { *; }
+-keep class com.reactnativecommunity.** { *; }
+-keep class com.facebook.** { *; }
+-keep class com.adonaysoft.** { *; }
+-keep class androidx.appcompat.widget.** { *; }
+-keep class com.swmansion.reanimated.nodes.** { *; }
+-keep class com.google.zxing.** { *; }
+-keep class org.reactnative.** { *; }

@@ -1,4 +1,4 @@
-package com.steps;
+package com.adonaysoft.steps;
 
 import com.facebook.react.ReactActivity;
 

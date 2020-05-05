@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:317631322290:android:1805e3a44d180cd49fd1ab",
+        "mobilesdk_app_id": "1:317631322290:android:da00536beb1070c99fd1ab",
         "android_client_info": {
-          "package_name": "com.steps"
+          "package_name": "com.adonaysoft.steps"
         }
       },
       "oauth_client": [

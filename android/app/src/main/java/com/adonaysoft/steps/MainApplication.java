@@ -1,4 +1,4 @@
-package com.steps;
+package com.adonaysoft.steps;
 
 import android.app.Application;
 import android.content.Context;
