@@ -76,7 +76,7 @@ export default () => {
                   evaluating(text)
                 }}
                 placeholder={strToLang('typeAnPH')}
-                //keyboardType="numeric"
+                //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
                 //selectTextOnFocus={true}
                 defaultValue={txtExp}
               />
