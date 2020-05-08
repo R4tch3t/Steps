@@ -53,6 +53,7 @@ export default () => {
       <StatusBar backgroundColor="#f4511e" barStyle="default" />
       <SafeAreaView>
         <ScrollView
+          scrollEnabled={false}
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
           
@@ -75,7 +76,7 @@ export default () => {
                   evaluating(text)
                 }}
                 placeholder={strToLang('typeAnPH')}
-                //keyboardType="phone-pad"
+                //keyboardType="numeric"
                 //selectTextOnFocus={true}
                 defaultValue={txtExp}
               />

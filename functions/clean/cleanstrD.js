@@ -14,7 +14,9 @@ cleanstrD = (s) => {
             // nextUnichar = (String(str.first!) as NSString).character(at: str.startIndex)
             nextUnichar = str[0].charCodeAt(0)
         }
-        
+        console.log(`char: ${char}`)
+        console.log(`unichar: ${uniChar}`)
+        console.log(`nextUnichar: ${nextUnichar}`)
         
         if ((uniChar > 47 && uniChar<58) || uniChar===46 || uniChar===120703) {//Si es numero
             if (previusUnichar === 41 || previusUnichar===120703) {
@@ -43,7 +45,7 @@ cleanstrD = (s) => {
             
         }
         
-        if (((uniChar > 36 && uniChar<46) || uniChar===47 || uniChar===94 || uniChar===183 || uniChar===8730 || uniChar===8901 || (uniChar>94 && uniChar<123)) && uniChar !== 44) {//Si es simbolo
+        if (((uniChar > 36 && uniChar<46) || uniChar===47 || uniChar===94 || uniChar===183 || uniChar===215 || uniChar===8730 || uniChar===8901 || (uniChar>94 && uniChar<123)) && uniChar !== 44) {//Si es simbolo
             
             if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar===46 || nextUnichar===120703) && ((previusUnichar > 47 && previusUnichar < 58) || previusUnichar === 41 || previusUnichar===46 || previusUnichar===120703))  { //Si a - b= a + -b
                 s+=",+,"+char
@@ -81,7 +83,7 @@ cleanstrD = (s) => {
                         nextUnichar = str[0].charCodeAt(0)
                     }
                     if (uniChar === 45 && nextUnichar === 40) {
-                        if (previusUnichar !== 42 && previusUnichar !== 47) {
+                        if (previusUnichar !== 42 && previusUnichar !== 215 && previusUnichar !== 47) {
                             changePolarid=false
                         }
                         else{
@@ -92,7 +94,7 @@ cleanstrD = (s) => {
                         changePolarid=true
                     }
                     
-                    if ((uniChar === 47 || uniChar === 42)&&nextUnichar===40) {
+                    if ((uniChar === 47 || uniChar === 42 || uniChar === 215) && nextUnichar === 40) {
                         changePolarid=false
                     }
                     
@@ -155,7 +157,7 @@ cleanstrD = (s) => {
                                 }
                                 numStr=""
                             }
-                            if ((previusUnichar !== 42 && previusUnichar !== 47) && changePolarid) {
+                            if ((previusUnichar !== 42 && previusUnichar !== 215 && previusUnichar !== 47) && changePolarid) {
                                 if (previusUnichar !== 40) {
                                     s+="+,"
                                     strDevelopment+="+"
@@ -168,7 +170,7 @@ cleanstrD = (s) => {
                                     s+="-"
                                     strDevelopment+="-"
                                 }else{
-                                    if (previusUnichar !== 40 && previusUnichar !== 47 && previusUnichar !== 42) {
+                                    if (previusUnichar !== 40 && previusUnichar !== 47 && previusUnichar !== 42 && previusUnichar !== 215) {
                                         s+="+,"
                                         strDevelopment+="+"
                                     }

@@ -260,25 +260,43 @@ function resetModals(){
                     };
             }
 
-            if (!('startsWith' in String.prototype)) {
-                String.prototype.startsWith = function (str, startIndex) {
-                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            if (!String.prototype.startsWith) {
+                String.prototype.startsWith = function (stringBuscada, posicion) {
+                    posicion = posicion || 0;
+                    return this.indexOf(stringBuscada, posicion) === posicion;
                 };
             }
-            if (!('startsWith' in Array.prototype)) {
-                Array.prototype.startsWith = function (str, startIndex) {
-                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            if (!Array.prototype.startsWith) {
+                Array.prototype.startsWith = function (stringBuscada, posicion) {
+                    posicion = posicion || 0;
+                    return this.indexOf(stringBuscada, posicion) === posicion;
                 };
             }
 
-            if (!('includes' in String.prototype)) {
-                String.prototype.includes = function (str, startIndex) {
-                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            if (!String.prototype.includes) {
+                String.prototype.includes = function (search, start) {
+                    'use strict';
+                    if (typeof start !== 'number') {
+                        start = 0;
+                    }
+
+                    if (start + search.length > this.length) {
+                        return false;
+                    } else {
+                        return this.indexOf(search, start) !== -1;
+                    }
                 };
-            }
-            if (!('includes' in Array.prototype)) {
-                Array.prototype.includes = function (str, startIndex) {
-                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+                Array.prototype.includes = function (search, start) {
+                    'use strict';
+                    if (typeof start !== 'number') {
+                        start = 0;
+                    }
+
+                    if (start + search.length > this.length) {
+                        return false;
+                    } else {
+                        return this.indexOf(search, start) !== -1;
+                    }
                 };
             }
             

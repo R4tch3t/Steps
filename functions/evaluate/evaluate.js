@@ -1,8 +1,8 @@
 Evaluate=(str)=>{
         //Entrada de datos
         let STR=[]
-        let  OP=[]
-        let  S=[]
+        let OP=[]
+        let S=[]
         let res = ""
         let str1=""
         let str2=""
@@ -56,6 +56,7 @@ Evaluate=(str)=>{
                 STR.push(S.pop())
             }
             S.splice(0)
+            console.log(STR)
             while (STR.length>0) {
                 
                 switch (STR[STR.length-1]) {
@@ -295,11 +296,12 @@ Evaluate=(str)=>{
                     S.push( res )
                     
                     break
+                case "×":
                 case "*":
-                    STR.pop()
+                   const sm = STR.pop()
                     
-                    auxStr = S[S.length-1] === undefined ? "*": S.pop()
-                    aux1Str=S[S.length-1] === undefined ? "*": S.pop()
+                    auxStr = S[S.length-1] === undefined ? sm: S.pop()
+                    aux1Str=S[S.length-1] === undefined ? sm: S.pop()
                     
                     auxStr=auxStr.split("(").join("")
                     aux1Str=aux1Str.split("(").join("")
@@ -307,7 +309,8 @@ Evaluate=(str)=>{
                     aux1Str=aux1Str.split(")").join("")
                     if (isNumber(auxStr) && isNumber(aux1Str)) {
                         StepsC += 1
-                        str2=aux1Str+"*"+auxStr
+                        str2=aux1Str+sm+auxStr
+                        console.log(`str2: ${str2}`)
                         strDevelopment=strDevelopment.split("("+aux1Str+")").join(aux1Str)
                         strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
                         
@@ -328,7 +331,7 @@ Evaluate=(str)=>{
                         }
                         
                         res=cleanR(res)
-                        str2=str2.split("*+").join("*")
+                        str2=str2.split(`${sm}+`).join(sm)
                         str1=strToLang("Paso")+StepsC.toString()+": quad"
 
                         strDevelopment=strDevelopment.split("--").join("+")
@@ -342,11 +345,11 @@ Evaluate=(str)=>{
                         
                         str1="-> "
                         if (toDecimalVal===1){
-                            str2="[ "+aux1Str+" * "+auxStr+" ]"
+                            str2="[ "+aux1Str+` ${sm} `+auxStr+" ]"
                             str1=str1+str2+" = "+res.split("+").join("")
                         }else{
                             if (str2.includes(".")) {
-                                str2=scanNumbers(aux1Str+"*"+auxStr,false)
+                                str2=scanNumbers(aux1Str+sm+auxStr,false)
                                 str2="["+str2+"]="+StepsFrac(str2)
                             }
                             str1=str1+str2+" = "+DoubleStr(tofrac(res.split("+").join("")))
@@ -360,7 +363,7 @@ Evaluate=(str)=>{
                         auxStr=auxStr.split("(").join("")
                         aux1Str=aux1Str.split(")").join("")
                         auxStr=auxStr.split(")").join("")
-                        str2=aux1Str+"*"+auxStr
+                        str2=aux1Str+sm+auxStr
                         StepsC += 1
 
                         strDevelopment=strDevelopment.split("("+auxStr+")").join(auxStr)
@@ -374,11 +377,11 @@ Evaluate=(str)=>{
                             aux1Str=tofrac(aux1Str)
                         }
                         
-                        res=EvaluateFrac((aux1Str+"*"+auxStr))
+                        res=EvaluateFrac((aux1Str+sm+auxStr))
                         
                         str1=strToLang("Paso")+StepsC+": quad"
                         StepLatex(str1, strDevelopment, str2, str3, res, false, true)
-                        str2=aux1Str+"*"+auxStr
+                        str2=aux1Str+sm+auxStr
                         str1 = "-> ["+str2+"]="+StepsFrac(str2)+"="+res
                         
                         strltx+="<p style='text-align:center' >`"+str1+"`</p>"

@@ -476,10 +476,14 @@ try{
  setModalArr();
 }
 
-    if($sign==="⋅"||$sign==="·"){
+    if($sign==="⋅"||$sign==="·"||$sign==="×"){
            // $("body").append($divCard);
             $overModal[$overModal.length-1]=true;
-            offsetTop = $(e).offset().top+($(e).width()*3.75);
+            if($sign==="×"){
+                offsetTop = $(e).offset().top+($(e).width()*1.25);
+            }else{
+                offsetTop = $(e).offset().top+($(e).width()*3.75);
+            }
             offsetLeft = $(e).offset().left+$(e).width();
             searchElements(parseInt(offsetTop), parseInt(offsetLeft));
             $divCard[$divCard.length-1].css("top",offsetTop+"px");

@@ -41,24 +41,35 @@ function setBackgroundSVG(){
                                     stop.at(1, $stopStr1);
     });
     $pattern = $bodySVG.pattern(40, 40, function(add) {
-                            add.rect(40,40).fill('#fff');
+                            //add.rect(40,40).fill('#fff');
+                            add.circle(40).fill('#fff');
                             // add.rect(20,20).fill('#34ce57')
-                                add.rect(20,20).fill('#007bff');
+                                //add.rect(20,20).fill('#007bff');
+                            add.circle(20).fill('#007bff');    
                             //   add.rect(20,20).fill('#ff0')
-                            add.rect(10,10).move(5,5).fill('#fff');
+                            //add.rect(10,10).move(5,5).fill('#fff');
+                            add.circle(10).move(5,5).fill('#fff');
     });
 
     $("#divSVG").animate({opacity: 0}, "fast", function () {
 
-                        $rectBody.fill($pattern);
-                        $("#divSVG").css("filter","blur(8px)");
-                        // $('p').css('color','yellow');
-                        $("#divSVG").animate({opacity: 1}, "slow", function () {
+            $rectBody.fill($pattern);
+            //$("#divSVG").css("-webkit-filter", 'blur(8px)').css("-moz-filter", "blur(8px)").css("-o-filter", "blur(8px)").css("-ms-filter", "blur(8px)").css("filter", "blur(8px)");
+            // $('p').css('color','yellow');
+            
+            var device = navigator.userAgent;
+            var agentID = device.match(/Android\s+([\d\.]+)/)
+            var opacidad=1
+            if(agentID.length>1){
+                agentID = agentID[1]
+                if(parseFloat(agentID)<5){
+                    opacidad=0.2
+                }
+            }
+            $("#divSVG").animate({opacity: opacidad}, "slow", function () {
                                     //     print($('body'));
-                    });
+            });
     });
-
-
 
 
  })(jQuery);

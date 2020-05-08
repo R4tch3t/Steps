@@ -41,6 +41,14 @@
   box-sizing: border-box;
 }
 
+#divSVG {
+  -webkit-filter: blur(8px);
+  -moz-filter: blur(8px);
+  -o-filter: blur(8px);
+  -ms-filter: blur(8px);
+  filter: blur(8px);
+}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
