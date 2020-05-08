@@ -35,20 +35,31 @@ createHtmlatex = (setHtml) => {
         //head+="<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script>"
         //head+="<script> MathJax = {loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},}; </script>"
         //head+="<script type='text/javascript' id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js'></script>"
-        head+="<script async src='https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=AM_HTMLorMML'></script>"
-        head+="<script src='"+jqueryPath+"'></script>"
-        head+="<script src='"+svgPath+"'></script>"
-        head+="<script src='"+svgFilterPath+"'></script>"
-        head+="<script src='"+svgBPath+"'></script>"
-        head+="<script src='"+showCardDivPath+"'></script>"
-        head+="<script src='"+showCardForPath+"'></script>"
-        head+="<script src='"+evalMatrixPath+"'></script>"
-        head+="<script src='"+matrixModalPath+"'></script>"
-        head+="<script type='text/javascript'>"+FadeInLatex()+"</script>"
+        head+="<script type='text/javascript' async src='https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=AM_HTMLorMML'></script>"
+        head+="<script type='text/javascript' src='"+jqueryPath+"'></script>"
+        head+="<script type='text/javascript' src='"+svgPath+"'></script>"
+        head+="<script type='text/javascript' src='"+svgFilterPath+"'></script>"
+        head+="<script type='text/javascript' src='"+svgBPath+"'></script>"
+        head+="<script type='text/javascript' src='"+showCardDivPath+"'></script>"
+        head+="<script type='text/javascript' src='"+showCardForPath+"'></script>"
+        head+="<script type='text/javascript' src='"+evalMatrixPath+"'></script>"
+        head+="<script type='text/javascript' src='"+matrixModalPath+"'></script>"
+       // head+="<script type='text/javascript'>"+FadeInLatex()+"</script>"
         head+="</head>"
         var body="<body style='opacity: 0' >"+printBackgroundSVG()
-        body+=strltx+"</body></html>"
-        
+        body+=strltx
+        /*body+="<script type='text/javascript' async src='https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=AM_HTMLorMML'></script>"
+        body+="<script type='text/javascript' src='"+jqueryPath+"'></script>"
+        body+="<script type='text/javascript' src='"+svgPath+"'></script>"
+        body+="<script type='text/javascript' src='"+svgFilterPath+"'></script>"
+        body+="<script type='text/javascript' src='"+svgBPath+"'></script>"
+        body+="<script type='text/javascript' src='"+showCardDivPath+"'></script>"
+        body+="<script type='text/javascript' src='"+showCardForPath+"'></script>"
+        body+="<script type='text/javascript' src='"+evalMatrixPath+"'></script>"
+        body+="<script type='text/javascript' src='"+matrixModalPath+"'></script>"
+        body+="<script type='text/javascript'>"+FadeInLatex()+"</script>"*/
+        body+="</body></html>"
+        console.log(head+body)
         setHtml(head+body)
 
        // print(pathHtml)

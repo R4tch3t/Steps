@@ -239,31 +239,65 @@ function resetModals(){
     $mouseUpB = [], $overModal = [];
     setModalArr();
 }
+
 //reading js...
     (function ($) {
      $(document).ready(function() {
-        //polyfill contains
-        if(!('contains' in String.prototype)){
-                String.prototype.contains = function(str, startIndex) {
-                       return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+         function inits(){
+         if(document.readyState === "interactive") {
+             setTimeout(inits, 1); 
+         }else{
+            
+            //polyfill contains
+            if(!('contains' in String.prototype)){
+                    String.prototype.contains = function(str, startIndex) {
+                        return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+                    };
+            }
+            if(!('contains' in Array.prototype)){
+                    Array.prototype.contains = function(str, startIndex) {
+                        return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+                    };
+            }
+
+            if (!('startsWith' in String.prototype)) {
+                String.prototype.startsWith = function (str, startIndex) {
+                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
                 };
-        }
-        if(!('contains' in Array.prototype)){
-                Array.prototype.contains = function(str, startIndex) {
-                       return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            }
+            if (!('startsWith' in Array.prototype)) {
+                Array.prototype.startsWith = function (str, startIndex) {
+                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
                 };
+            }
+
+            if (!('includes' in String.prototype)) {
+                String.prototype.includes = function (str, startIndex) {
+                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+                };
+            }
+            if (!('includes' in Array.prototype)) {
+                Array.prototype.includes = function (str, startIndex) {
+                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+                };
+            }
+            
+            $('body').animate({opacity:1},'slow',function(){
+                setBackgroundSVG();
+            });
+            
+            resetModals();
+    /*$arrowUp = $("<div>").css("position","absolute").css("width","0").css("height","0").css("border-left","14px solid transparent").css("border-right","14px solid transparent").css("border-bottom","14px solid green")
+            .css("opacity","0").attr("id","arrowUp");*/
+
+            $bandModal = [false];
+
+            MathJax.Hub.Register.StartupHook("End", function () {
+                overMouse(0);
+            });
+            
         }
-        
-        resetModals()
-/*$arrowUp = $("<div>").css("position","absolute").css("width","0").css("height","0").css("border-left","14px solid transparent").css("border-right","14px solid transparent").css("border-bottom","14px solid green")
-        .css("opacity","0").attr("id","arrowUp");*/
-
-        $bandModal = [false];
-
-
-        MathJax.Hub.Register.StartupHook("End", function () {
-            overMouse(0);
-        });
-
+        }
+        inits()
         });
  })(jQuery);

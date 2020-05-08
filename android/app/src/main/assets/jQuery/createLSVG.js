@@ -1,8 +1,8 @@
 function createLoading(){
     jQuery.noConflict();
     (function ($) {
-     const Wwidth=$(window).width();
-     const Wheight=$(window).height();
+     var Wwidth=$(window).width();
+     var Wheight=$(window).height();
      $canvas = SVG('drawing').size('400px', '400px').viewbox(0,0,640,660)
      , $path = $canvas.path("M319.05 294.4C319.05 330.61 250.07 360 165.12 360C80.16 360 11.19 330.61 11.19 294.4C11.19 258.2 80.16 228.81 165.12 228.81C250.07 228.81 319.05 258.2 319.05 294.4Z")
      , $path2 = $canvas.path("M626.9 294.4C626.9 330.61 557.93 360 472.98 360C388.02 360 319.05 330.61 319.05 294.4C319.05 258.2 388.02 228.81 472.98 228.81C557.93 228.81 626.9 258.2 626.9 294.4Z")
