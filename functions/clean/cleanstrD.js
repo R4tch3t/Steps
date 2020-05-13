@@ -48,8 +48,13 @@ cleanstrD = (s) => {
         if (((uniChar > 36 && uniChar<46) || uniChar===47 || uniChar===94 || uniChar===183 || uniChar===215 || uniChar===8730 || uniChar===8901 || (uniChar>94 && uniChar<123)) && uniChar !== 44) {//Si es simbolo
             
             if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar===46 || nextUnichar===120703) && ((previusUnichar > 47 && previusUnichar < 58) || previusUnichar === 41 || previusUnichar===46 || previusUnichar===120703))  { //Si a - b= a + -b
-                s+=",+,"+char
-                strDevelopment+=char
+                if(BSC){
+                    s+=","+char+","
+                    strDevelopment+=char
+                }else{
+                    s+=",+,"+char
+                    strDevelopment+=char
+                }
             }
             else if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58 || nextUnichar===46) && !((previusUnichar > 47 && previusUnichar < 58 || previusUnichar === 41 ) || previusUnichar===46) )) {//Si a -[.-+*()..]b
                 s+=","+char
@@ -200,11 +205,43 @@ cleanstrD = (s) => {
                     
                 }
                 
-                
-            }else if (uniChar>94 && uniChar<123) {
-                s+=char
+                    
+            } else if (uniChar>94 && uniChar<123) {
+                if ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar === 46) {
+                    s += char + ","
+                } else {
+                    s += char
+                }
+                //s+=char
                 strDevelopment+=char
-            }else{
+            } else if (uniChar === 8730 && previusUnichar !== 41 && !(previusUnichar > 47 && previusUnichar < 58)) {
+                //if (previusUnichar !== 41 && !(previusUnichar > 47 && previusUnichar < 58)){
+                    s+="2,"+char+","
+                    strDevelopment+="2"+char
+                //} else if (BSC && previusUnichar !== 41) {
+                    /*let changeUni = strDevelopment[strDevelopment.length - 1].charCodeAt(0)
+                    let cn = strDevelopment.length - 2
+                    let charsChang = ''
+                    while (cn>0 && (changeUni > 47 && changeUni < 58 )) {
+                        charsChang = strDevelopment[cn] + charsChang
+                        changeUni = strDevelopment[cn].charCodeAt(0)
+                        cn--
+                    }
+                    if (cn>0 && changeUni === 45) {
+                        changeUni = strDevelopment[cn].charCodeAt(0)
+                        if (changeUni !== 43) {
+                            strDevelopment = strDevelopment.split(charsChang).join('+' + charsChang)
+                        }
+                    }
+                    
+                    s+=","+char+","
+                    strDevelopment+=char
+                }
+                else{
+                    s+=","+char+","
+                    strDevelopment+=char
+                }*/
+            } else {
                 s+=","+char+","
                 strDevelopment+=char
             }
@@ -214,5 +251,7 @@ cleanstrD = (s) => {
         previusUnichar=uniChar
         
     }
+    console.log(`cleanstrDs: ${s}`)
+    console.log(`cleanstrDev: ${strDevelopment}`)
     return s
 }

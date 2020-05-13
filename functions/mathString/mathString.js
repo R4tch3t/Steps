@@ -100,23 +100,26 @@ cleanRSTR= (str) => {
 }
     
 isNumber = (str) => {
-    str = `${str}`
-    if (str.includes("e") || str.includes("oo")) {
+    var str = `${str}`
+    if (str.includes("e") || str.includes("oo") || str.includes("I n f i n i t y")) {
         return true
     }
+    str=str.split("(").join("")
+    str=str.split(")").join("")
+    console.log(`isNum: ${str}`)
     return !isSimbol(str)
 }
     
 isSimbol = (str) => {
     return (str === "" || str.includes(" ") || str.includes("+") || str === "-" 
     || str.includes("*") || str.includes("/") || str.includes("c") || str.includes("÷") 
-    || (str.includes("(") && str.length === 2 && str.includes(")")) || str.includes("quad")
+    /*|| (str.includes("(") && str.length === 2 && str.includes(")"))*/ || str.includes("quad")
     || str === null || str===undefined || isNaN(str))
 }
 
 lnStr = (number) => {
     number = isNumber(number) ? Number(number) : 0.0
-    return Math.log(number).toString()
+    return Math.log(number).toString().split("Infinity").join("I n f i n i t y")
 }
 
 log10Str = (number) => {
@@ -282,7 +285,7 @@ addZeros = (N) => {
 powStr = (numberA, numberB) => {
     let a = isNumber(numberA) ? Number(numberA) : 0.0
     let b = isNumber(numberB) ? Number(numberB) : 0.0
-    let str = Math.pow(a,b)
+    let str = Math.pow(a,b).toString()
     str=str.split('inf').join("oo")
     return str
 }

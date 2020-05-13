@@ -9,7 +9,7 @@ isEqualAfter = (strArr, i, j, k, rstr, List) => {
         x=0;
         auxStr="";
         
-        if (strArr[i] === "-" || (strArr.length<(i+1) && strArr[i+1] === "(") || strArr[i] === "("){
+        if (/*strArr[i] === "-" ||*/ (strArr.length<(i+1) && strArr[i+1] === "(") || strArr[i] === "("){
             OP.push(strArr[i])
             flag=true
         }

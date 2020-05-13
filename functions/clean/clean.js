@@ -20,7 +20,7 @@
     Pref=(op)=>{
         let prf=99
         
-        if (op==="^"||op==="√"||op==="c"||op==="t"||op==="s"||op==="ln"||op==="log10_"||op==="log2_"){
+        if (op==="^"||op==="√"||op==="c"||op==="t"||op==="s"||op==="ln"||op==='log'||op==="log10"||op==="log2"){
             prf=5
         }
         
@@ -45,7 +45,9 @@
     replacestrs=(str)=>{
         let rstr = str.split('c').join('C O S');
         rstr = rstr.split('s').join('S E N');
-        rstr = rstr.split('t').join('T A N')
+        if (!rstr.includes("I n f")){
+            rstr = rstr.split('t').join('T A N')
+        }
         return rstr
     }
     
@@ -226,7 +228,7 @@
             j=0;
             i+=1;
         }
-
+        str = str.split("Infinity").join("I n f i n i t y") 
         return str
     }
     
@@ -263,7 +265,7 @@
         var str=s.split('')
         s=""
         var previusUnichar = 0
-       
+        
         while (str.length>0) {
             var char = str.shift()
             var uniChar = char.charCodeAt(0)
@@ -281,7 +283,11 @@
                 if (uniChar===120703) {
                     s+="pi"
                 }else{
-                    s+=char
+                    /*if (previusUnichar > 94 && previusUnichar < 123) {
+                        s+=","+char
+                    }else{*/
+                        s+=char
+                    //}
                 }
 
                 if (nextUnichar === 120703) {
@@ -304,7 +310,7 @@
                     }
                 }
                 else if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58 || nextUnichar===46) && !((previusUnichar > 47 && previusUnichar < 58 || previusUnichar === 41 ) || previusUnichar===46))) {//Si a -[.-+*()..]b
-                    s+=","+char
+                    s+=","+char //a,-,b
                 }else if (previusUnichar !== 44 && uniChar === 45 && nextUnichar === 40) {
                     var aux = ""
                     //+-*/()-(0-9[aA-zZ])
@@ -346,16 +352,36 @@
                             }
                         
                     }
-
+                    //let s32 = []
+                    
+                    
                     
                     aux=Evaluate(aux)
                     strDevelopment=strDevelopment.split("("+aux+")").join(aux)
-                    
+                    let sqrtC = 0
+                    //let sqrtN = 43
+                    if (str.length > 0) {
+                        sqrtC = str[0].charCodeAt(0)
+                        /*if(str.length>1){
+                            sqrtN=str[1].charCodeAt(0)
+                        }*/
+                    }
                     
                     if (isFrac(aux) || toDecimalVal===1) {
                         if (!aux.includes("-")) {
+                            /*if (sqrtC !== 8730 /*&& !(sqrtN>47 && sqrtN<58)){
+                                s+="-"+aux
+                                strDevelopment=strDevelopment.split("-"+aux).join("+ -"+aux)
+                            }else{
+                                s+="-"+aux
+                                strDevelopment=strDevelopment.split("-"+aux).join("+ -"+aux)
+                                strDevelopment=strDevelopment.split("+ +").join("+")
+                            }*/
                             s+="-"+aux
-                            
+                            strDevelopment=strDevelopment.split("-"+aux).join("+ -"+aux)
+                            if (sqrtC === 8730){
+                                strDevelopment=strDevelopment.split("+ +").join("+")
+                            }
                         }
                         else{
                             s += aux.split('-').join("")
@@ -364,9 +390,15 @@
                         
                     }
                 
-                }else if (uniChar>94 && uniChar<123) {
-                    s+=char
-                }else{
+                } else if (uniChar>94 && uniChar<123) {
+                    if ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar===46) {
+                        s+=char+","
+                    }else{
+                        s+=char
+                    }
+                } else if (uniChar === 8730 && previusUnichar!==41 && !(previusUnichar > 47 && previusUnichar < 58)) {
+                    s += "2," + char + ","
+                } else {
                     s+=","+char+","
                 }
                 
@@ -377,16 +409,21 @@
             
         }
         strDevelopment=strDevelopment.split("*--").join("*")
-        strDevelopment=strDevelopment.split("log10_").join("log_10")
-        strDevelopment=strDevelopment.split("log2_").join("log_2")
+        strDevelopment=strDevelopment.split("log10*").join("log_10")
+       // strDevelopment=strDevelopment.split("log10").join("log_10")
+        strDevelopment=strDevelopment.split("log2*").join("log_2")
         strDevelopment=strDevelopment.split("/--").join("/")
 
+        
         s="(,"+s+",)"
         s=s.split(",,").join(",")
         s=s.split("-+").join("-")
         s=s.split(",--").join(",")
         s=s.split("(--").join("(")
+        s=s.split("log,10,*").join("log10")
+        s=s.split("log,2,*").join("log2")
         //s="("+s+")"
+        console.log(`depurarR: ${s}`)
         STR=s.split(",")
         return STR.reverse()
     }
@@ -403,6 +440,8 @@
   
         strDevelopment=""
         s=cleanstrD(s)
+        strDevelopment=strDevelopment.split("log10*").join("log_10")
+        strDevelopment=strDevelopment.split("log2*").join("log_2")
         s="(,"+s+",)"
         //s = str.split(',,').join(',');
         s=s.replace(/,,/g,',')
@@ -410,7 +449,9 @@
         //s = str.split('-+').join('-');
         s=s.replace(/\-\+/g,'-')
         //
-        
+        s = s.split("log,10,*").join("log10")
+        s = s.split("log,2,*").join("log2")
+
         STR=s.split(",")
         
         return STR.reverse()

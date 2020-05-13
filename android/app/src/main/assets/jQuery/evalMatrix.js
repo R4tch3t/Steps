@@ -480,7 +480,7 @@ try{
            // $("body").append($divCard);
             $overModal[$overModal.length-1]=true;
             if($sign==="×"){
-                offsetTop = $(e).offset().top+($(e).width()*1.25);
+                offsetTop = $(e).offset().top+($(e).width()*1.50);
             }else{
                 offsetTop = $(e).offset().top+($(e).width()*3.75);
             }

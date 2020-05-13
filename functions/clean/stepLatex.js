@@ -56,10 +56,15 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                     }
 
                     if(rstr.includes("t") || rstr2.includes("t")){
-                        rstr = rstr.split('t').join('T A N(') + ')';
-                        rstr2 = rstr2.split('t').join('T A N(') + ')';
+                        if (!rstr.includes("I n f") && !rstr.includes("Inf")) {
+                            rstr = rstr.split('t').join('T A N(') + ')';
+                        }
+                        if (!rstr2.includes("I n f") && !rstr2.includes("Inf")) {
+                            rstr2 = rstr2.split('t').join('T A N(') + ')';
+                        }
                     }
-
+                    console.log(`stepLat: ${rstr}`)
+                    console.log(`stepLat2: ${rstr2}`)
                     if (l>0) {
 
                         if (strArr[l-1]==="(") {
@@ -421,7 +426,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                     strDevelopment = strDevelopment.split('c+').join('c');
                     strDevelopment = strDevelopment.split('s+').join('s');
                     strDevelopment = strDevelopment.split('t+').join('t');
-
+                    strDevelopment = strDevelopment.split('+ +').join('+');
                     break;
                 }
             }

@@ -8,3 +8,4 @@
 -keep class com.swmansion.reanimated.nodes.** { *; }
 -keep class com.google.zxing.** { *; }
 -keep class org.reactnative.** { *; }
+-keep class androidx.appcompat.view.** { *; }
