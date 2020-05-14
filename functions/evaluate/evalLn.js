@@ -17,10 +17,12 @@ EvalLn=(auxStr, sm)=>{
     strDevelopment = strDevelopment.split(sm+auxStr).join(sm + "(" + auxStr + ")")
     str2 = sm+"(" + auxStr + ")"
     auxStr = DoubleStr(auxStr)
-
+    
     if (isNumber(auxStr)) {
+        console.log(`evalLnAuxStr: ${auxStr}`)
         StepsC += 1
         auxStr = auxStr.split('pi').join(Math.PI.toString())
+        auxStr = auxStr.split("I n f i n i t y").join("Infinity")
         if (MoreDVal !== 1 && toDecimalVal === 1) {
             res = ShaveStr(lnStr(auxStr), 16)
             res = res.split("e+").join("e")
@@ -29,6 +31,7 @@ EvalLn=(auxStr, sm)=>{
         }
 
         res = cleanR(res)
+        auxStr = auxStr.split("Infinity").join("I n f i n i t y")
 
         str1 = strToLang("Paso") + StepsC + ": quad"
         strDevelopment = strDevelopment.split(sm + auxStr).join(sm+"(" + auxStr + ")")

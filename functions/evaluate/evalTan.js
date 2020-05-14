@@ -13,7 +13,8 @@ EvalTan = (auxStr) => {
         strDevelopment = strDevelopment.split(aux1S).join(auxStr)
     }
 
-    str2 = "t" + auxStr
+    strDevelopment = strDevelopment.split("t" + auxStr).join("t(" + auxStr + ")")
+    str2 = "t(" + auxStr + ")"
     auxStr = DoubleStr(auxStr)
     if (isNumber(auxStr)) {
         StepsC += 1
@@ -28,7 +29,7 @@ EvalTan = (auxStr) => {
         res = cleanR(res)
         str2 = str2.split('t+').join("t")
         str1 = strToLang("Paso") + StepsC + ": quad"
-        strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
+        strDevelopment = strDevelopment.split("t" + auxStr).join("t("+auxStr+")")
         strDevelopment = strDevelopment.split("--").join("+")
         strDevelopment = strDevelopment.split("-+").join("-")
         StepLatex(str1, strDevelopment, str2, str2, res, false, true)

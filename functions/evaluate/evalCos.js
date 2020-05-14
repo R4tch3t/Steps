@@ -15,13 +15,14 @@ EvalCos = (auxStr) => {
         strDevelopment = strDevelopment.split(aux1S).join(auxStr)
     }
     
-    //strDevelopment = strDevelopment.split("c"+auxStr).join("c(" + auxStr + ")")
-    str2 = "c" + auxStr + ""
+    strDevelopment = strDevelopment.split("c" + auxStr).join("c(" + auxStr + ")")
+    str2 = "c(" + auxStr + ")"
     auxStr = DoubleStr(auxStr)
 
     if (isNumber(auxStr)) {
         StepsC += 1
         auxStr = auxStr.split('pi').join(Math.PI.toString())
+        //auxStr = auxStr.split("I n f i n i t y").join("Infinity")
         if (MoreDVal !== 1 && toDecimalVal === 1) {
             res = ShaveStr((cosStr(auxStr, DegRad)), 16)
             res = res.split('e+').join("e")
@@ -32,8 +33,9 @@ EvalCos = (auxStr) => {
         res = cleanR(res)
         str2 = str2.split('c+').join("c")
         str1 = strToLang("Paso") + StepsC + ": quad"
+        //auxStr = auxStr.split("Infinity").join("I n f i n i t y")
 
-        strDevelopment = strDevelopment.split("c(" + auxStr + ")").join("c"+auxStr)
+        strDevelopment = strDevelopment.split("c" + auxStr).join("c("+auxStr+")")
         strDevelopment = strDevelopment.split("--").join("+")
         strDevelopment = strDevelopment.split("-+").join("-")
         StepLatex(str1, strDevelopment, str2, str2, res, false, true)

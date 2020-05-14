@@ -12,11 +12,15 @@ EvalSen = (auxStr) => {
         auxStr = dividestr(n1, n2, 8)
         strDevelopment = strDevelopment.split(aux1S).join(auxStr)
     }
-    str2 = "s" + auxStr
+
+    strDevelopment = strDevelopment.split("s" + auxStr).join("s(" + auxStr + ")")
+    str2 = "s(" + auxStr + ")"
     auxStr = DoubleStr(auxStr)
+    
     if (isNumber(auxStr)) {
         StepsC += 1
         auxStr = auxStr.split('pi').join(Math.PI.toString())
+        //auxStr = auxStr.split("I n f i n i t y").join("Infinity")
         if (MoreDVal !== 1 && toDecimalVal === 1) {
             res = ShaveStr((senStr(auxStr, DegRad)), 16)
             res = res.split('e+').join("e")
@@ -25,11 +29,11 @@ EvalSen = (auxStr) => {
         }
 
         res = cleanR(res)
-
+        //auxStr = auxStr.split("Infinity").join("I n f i n i t y")
         str2 = str2.split('s+').join("s")
         str1 = strToLang("Paso") + StepsC + ": quad"
 
-        strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
+        strDevelopment = strDevelopment.split("s" + auxStr).join("s("+auxStr+")")
         strDevelopment = strDevelopment.split("--").join("+")
         strDevelopment = strDevelopment.split("-+").join("-")
         StepLatex(str1, strDevelopment, str2, str2, res, false, true)

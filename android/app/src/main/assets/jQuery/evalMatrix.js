@@ -302,8 +302,10 @@ try{
        // $arrowUp.css("top",(offsetTop-13)+"px");
        // $arrowUp.css("left",(offsetLeft-2)+"px");
         var signLabel = "color(green)(-)";
+        var colorMin = "green"
         if($sign==="−"&&parseFloat($a)<parseFloat($b)){
             signLabel = "color(red)(-)";
+            colorMin = "red"
             var Aaux=$a;
             $a=$b;
             $b=Aaux;
@@ -432,14 +434,14 @@ try{
                         arrA[R.length]="color(red)(1)"+arrA[R.length];
                         arrB[R.length]="quad"+arrB[R.length];
                         res+=10;
-                        R[R.length]="quad"+res;
+                        R[R.length]="quadcolor("+colorMin+")"+res;
                         carryArr[carryArr.length-1]="quad"+carryArr[carryArr.length-1];
                         carryArr[carryArr.length]="color(red)(1)";
 
 
                     }else{
                         carry=0;
-                        R[R.length]=""+res;
+                        R[R.length]="color("+colorMin+")"+res;
                         if(carryArr.length<arrA.length){
                             carryArr[carryArr.length]="quad";
                         }
@@ -471,6 +473,7 @@ try{
         strLtx+="):})/(quadquad{:"+braketL+R+braketR+":})`";
         $divCardBody[$divCardBody.length-1].html(strLtx);
     }
+
  }
  showCard($divCard.length-1);
  setModalArr();

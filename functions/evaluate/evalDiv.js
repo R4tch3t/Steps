@@ -7,11 +7,19 @@ EvalDiv = (auxStr, aux1Str) => {
          str2 = aux1Str + "/" + auxStr
          strDevelopment = strDevelopment.split("(" + aux1Str + ")").join(aux1Str)
          strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
+        
+         strDevelopment = strDevelopment.split("log_10" + auxStr).join("log_10(" + auxStr + ")")
+         strDevelopment = strDevelopment.split("log_10" + aux1Str).join("log_10(" + aux1Str + ")")
+         strDevelopment = strDevelopment.split("log_2" + auxStr).join("log_2(" + auxStr + ")")
+         strDevelopment = strDevelopment.split("log_2" + aux1Str).join("log_2(" + aux1Str + ")")
 
          auxStr = DoubleStr(auxStr)
          aux1Str = DoubleStr(aux1Str)
          auxStr = auxStr.split("pi").join(Math.PI.toString())
          aux1Str = aux1Str.split("pi").join(Math.PI.toString())
+         auxStr = auxStr.split("I n f i n i t y").join("Infinity")
+         aux1Str = aux1Str.split("I n f i n i t y").join("Infinity")
+
          if (toDecimalVal === 1) {
              if (MoreDVal !== 1) {
                  if (aux1Str.includes("e")) {
@@ -62,6 +70,9 @@ EvalDiv = (auxStr, aux1Str) => {
 
          }
 
+         auxStr = auxStr.split("Infinity").join("I n f i n i t y")
+         aux1Str = aux1Str.split("Infinity").join("I n f i n i t y")
+
          band = str2.includes(".") || toDecimalVal === 1
 
          if (band) {
@@ -71,6 +82,18 @@ EvalDiv = (auxStr, aux1Str) => {
          str1 = strToLang("Paso") + StepsC + ": quad"
 
          strDevelopment = strDevelopment.split('-+').join("-")
+         console.log(`evalDiv: ${auxStr}`)
+         console.log(`evalDiv1: ${aux1Str}`)
+         console.log(`evalDivStr: ${str2}`)
+         if (auxStr.includes('I n f') || aux1Str.includes('I n f')) {
+             if (auxStr.includes('-')) {
+                str2=str2.split("-I n f i n i t y").join("(-I n f i n i t y)")
+             }else{
+                str2=str2.split("I n f i n i t y").join("(I n f i n i t y)")
+             }
+             strDevelopment = strDevelopment.split(aux1Str + "/" + auxStr).join(str2)
+         }
+         console.log(`evalDivStrAf: ${str2}`)
 
          StepLatex(str1, strDevelopment, str2, str2, res, false, band)
          res = res.split('+').join("")

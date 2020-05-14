@@ -101,7 +101,7 @@ cleanRSTR= (str) => {
     
 isNumber = (str) => {
     var str = `${str}`
-    if (str.includes("e") || str.includes("oo") || str.includes("I n f i n i t y")) {
+    if (str.includes("e") || str.includes("oo") || str.includes("I n f i n i t y") || str.includes("Infinity")) {
         return true
     }
     str=str.split("(").join("")

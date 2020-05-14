@@ -46,21 +46,21 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                     rstr2 = rstr2.split('nan').join('(nan)');
 
                     if (rstr.includes("c") || rstr2.includes("c")) {
-                        rstr = rstr.split('c').join('C O S(') + ')';
-                        rstr2 = rstr2.split('c').join('C O S(') + ')';
+                        rstr = rstr.split('c').join('C O S');
+                        rstr2 = rstr2.split('c').join('C O S');
                     }
 
                     if (rstr.includes("s") || rstr2.includes("s")) {
-                        rstr = rstr.split('s').join('S E N(') + ')';
-                        rstr2 = rstr2.split('s').join('S E N(') + ')';
+                        rstr = rstr.split('s').join('S E N');
+                        rstr2 = rstr2.split('s').join('S E N');
                     }
 
                     if(rstr.includes("t") || rstr2.includes("t")){
                         if (!rstr.includes("I n f") && !rstr.includes("Inf")) {
-                            rstr = rstr.split('t').join('T A N(') + ')';
+                            rstr = rstr.split('t').join('T A N');
                         }
                         if (!rstr2.includes("I n f") && !rstr2.includes("Inf")) {
-                            rstr2 = rstr2.split('t').join('T A N(') + ')';
+                            rstr2 = rstr2.split('t').join('T A N');
                         }
                     }
                     console.log(`stepLat: ${rstr}`)

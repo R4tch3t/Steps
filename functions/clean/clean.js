@@ -190,7 +190,7 @@
     }
     
     
-    cleanR= (str) => {
+    cleanR = (str) => {
         let aux="", rstr=".0"
 
         let arrStr=str
@@ -255,7 +255,7 @@
         let STR=[]
         let OP=[]
         
-        s=str.split(' ').join("")
+        s=s.split(' ').join("")
         s=s.split(')(').join(")*(")
         s=s.toLowerCase()
         s=s.split("cos").join("c")
@@ -431,13 +431,14 @@
     DepurarI=(str)=>{
         let s=str;
         let STR=[];
-        s = str.split(' ').join('');
-        s = str.split(')(').join(')*(');
+        s = s.split(' ').join('');
+        s = s.split(')(').join(')*(');
         s=s.toLowerCase();
-        s = str.split('cos').join('c');
-        s = str.split('sen').join('s');
-        s = str.split('tan').join('t');
-  
+        s = s.split('cos').join('c');
+        s = s.split('sen').join('s');
+        s = s.split('tan').join('t');
+        console.log(`DepurarI: ${s}`)
+
         strDevelopment=""
         s=cleanstrD(s)
         strDevelopment=strDevelopment.split("log10*").join("log_10")
