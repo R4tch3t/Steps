@@ -17,15 +17,20 @@ import {
     WebView
 } from 'react-native-webview';
 import onChangeText from '../functions/onChangeText.js'
+//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 /*const {
     width,
     height
 } = Dimensions.get('window');
 */
 import loading from '../functions/loading.js'
+import AsciiTab from './asciiTab.js'
+
+
 setGHtml=null
 setGTxtExp=null
 txtGExp=''
+heightFix = 185
 export default () => {
     const [html, setHtml] = React.useState('');
     const [txtExp, setTxtExp] = React.useState('');
@@ -47,16 +52,17 @@ export default () => {
 
         })
     };
-
+    
     return(
      <>
       <StatusBar backgroundColor="#f4511e" barStyle="default" />
       <SafeAreaView>
         <ScrollView
           scrollEnabled={false}
-          contentInsetAdjustmentBehavior="automatic"
+          //contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
-          
+         // keyboardDismissMode="none"
+          keyboardShouldPersistTaps='handled'
           onLayout={()=>{
             const {width, height} = Dimensions.get('window');
             if (width !== Wwidth || height !== Wheight) {
@@ -70,8 +76,8 @@ export default () => {
           
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <TextInput
-                style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+              <AsciiTab
+                style={styles.asciiTab}
                 onChangeText={text => {
                   evaluating(text)
                 }}
@@ -103,7 +109,7 @@ export default () => {
               //source={{uri: loading()}} 
               //automaticallyAdjustContentInsets={true}
               //scrollEnabled={true}
-              style={[styles.webView,{width: Wwidth, height: Wheight - 140}]}
+              style={[styles.webView,{width: Wwidth, height: Wheight - heightFix}]}
             />
           </View>
         </ScrollView>
@@ -126,8 +132,16 @@ const styles = StyleSheet.create({
           marginTop: 10,
           paddingHorizontal: 24,
       },
+      asciiTab: {
+        flex: 1,
+        height: 40,
+        marginTop: 3,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 50
+      },
       webView: {
-          marginTop: 10
+        //  marginTop: 10
       },
       sectionDescription: {
           marginTop: 8,

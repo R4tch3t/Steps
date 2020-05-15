@@ -198,6 +198,7 @@ dependencies {
     //implementation 'androidx.multidex:multidex:$multidex_version'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    compile project(":reactnativekeyboardinput")
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
