@@ -9,4 +9,3 @@
 -keep class com.google.zxing.** { *; }
 -keep class org.reactnative.** { *; }
 -keep class androidx.appcompat.view.** { *; }
--keep class com.wix.reactnativekeyboardinput.** { *; }

@@ -1,8 +1,8 @@
 import React, {
-    Component,
-    useCallback 
+    Component
 } from 'react';
 import {
+    Animated,
     StyleSheet,
     Text,
     View,
@@ -13,41 +13,24 @@ import {
     PixelRatio,
     Platform,
     TextInput,
-    Modal,
     Keyboard,
-    Linking
+    Linking,
+    PanResponder
 } from 'react-native';
 import {
     AutoGrowingTextInput
 } from 'react-native-autogrow-textinput';
-import {
-    KeyboardAccessoryView,
-    KeyboardUtils
-} from 'react-native-keyboard-input';
+
 import './mathKeyboard';
+import ModalString from "./modalStrings"
 
 const IsIOS = Platform.OS === 'ios';
-const TrackInteractive = true;
 
-const OpenURLButton = ({ url }) => {
-  const handlePress = useCallback(async () => {
-    // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL(url);
-
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
-      await Linking.openURL(url);
-    } else {
-    //  Alert.alert(`Don't know how to open this URL: ${url}`);
-    }
-  }, [url]);
-
-  handlePress()
-};
 
 export default class AsciiTab extends Component {
-    
+    //pan = new Animated.ValueXY();
+    panResponder = null
+
     constructor(props) {
             super(props);
             //KeyboardRegistry.registerKeyboard('AsciiTab', () => this);
@@ -66,7 +49,8 @@ export default class AsciiTab extends Component {
                     initialProps: undefined,
                 },
                 receivedKeyboardData: undefined,
-                modalVisible: false
+                modalVisible: false,
+                pan: new Animated.ValueXY()
             };
     }
 
@@ -153,8 +137,18 @@ export default class AsciiTab extends Component {
     }
 
     keyboardAccessoryViewContent() {
-        const {modalVisible} = this.state
+        const {modalVisible, pan} = this.state
         const displayKey = modalVisible ? 'none' : 'default'
+        const panResponder=PanResponder.create({
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderMove: Animated.event([
+                null,
+                { dx: pan.x, dy: pan.y }
+            ]),
+            onPanResponderRelease: () => {
+                Animated.spring(pan, { toValue: { x: 0, y: 0 } }).start();
+            }
+        })
         return(
             <View>
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false} >
@@ -190,10 +184,11 @@ export default class AsciiTab extends Component {
                         </TouchableOpacity>)
                     }
                 </View>
-                {modalVisible &&    
-                    <View style={[styles.modalView, {}]}  >
+                {modalVisible &&
+                    <ModalString></ModalString>    
+                    /*<Animated.View style={[styles.modalView, { transform: [{ translateX: pan.x }, { translateY: pan.y }] }]} {...panResponder.panHandlers} >
                         <Text>2</Text>
-                    </View>
+                    </Animated.View>*/
                 }
                 {/*
                 <Modal
