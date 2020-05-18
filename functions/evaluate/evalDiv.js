@@ -35,12 +35,14 @@ EvalDiv = (auxStr, aux1Str) => {
                  let auxStrD = auxStr
                  auxStrD = auxStrD.split('(').join("")
                  let aux1StrD = aux1Str
-                 aux1StrD = aux1Str.split('(').join("")
+                 aux1StrD = aux1StrD.split('(').join("")
                  auxStrD = auxStrD.split(')').join("")
-                 aux1StrD = aux1Str.split(')').join("")
+                 aux1StrD = aux1StrD.split(')').join("")
+                 console.log(`aux1StrD: ${aux1StrD}`)
+                 console.log(`auxtrD: ${auxStrD}`)
 
-                 let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
-                 let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
+                 let aux = (isNumber(auxStrD) ? Number(auxStrD) : 0.0)
+                 let aux1 = (isNumber(aux1StrD) ? Number(aux1StrD) : 0.0)
 
                  res = (aux1 / aux).toString()
                  if (res.length > 16) {

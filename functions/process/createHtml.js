@@ -61,7 +61,7 @@ createHtmlatex = (setHtml) => {
         body+="</body></html>"
         console.log(head+body)
         setHtml(head+body)
-
+        //changeRangeSelG()
        // print(pathHtml)
         //_ = webLayer.init(pathHtml, head, body, Latex)
     }

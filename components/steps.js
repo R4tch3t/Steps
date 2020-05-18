@@ -16,6 +16,7 @@ import {
 import {
     WebView
 } from 'react-native-webview';
+import AsyncStorage from '@react-native-community/async-storage';
 import onChangeText from '../functions/onChangeText.js'
 //import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 /*const {
@@ -26,11 +27,11 @@ import onChangeText from '../functions/onChangeText.js'
 import loading from '../functions/loading.js'
 import AsciiTab from './asciiTab.js'
 
-
 setGHtml=null
 setGTxtExp=null
 txtGExp=''
-heightFix = 185
+heightFix = 160
+evalGlobal=null
 export default () => {
     const [html, setHtml] = React.useState('');
     const [txtExp, setTxtExp] = React.useState('');
@@ -45,13 +46,25 @@ export default () => {
         }).then(() => {
             new Promise((resolve, reject) => {
                 //txtGExp = text
+                setSaveData("@evalString", text)
                 setTxtExp(text)
                 onChangeText(text, setHtml)
                 resolve(1)
             })
-
         })
     };
+    evalGlobal = evaluating
+    const getSaveData = async () => {
+      let value = await AsyncStorage.getItem('@evalString');
+      if (value !== null) {
+        evaluating(value)
+      }else{
+        evaluating('')
+      }
+    }
+    const setSaveData = async (item, val) => {
+      await AsyncStorage.setItem(item, val);
+    }
     
     return(
      <>
@@ -68,7 +81,8 @@ export default () => {
             if (width !== Wwidth || height !== Wheight) {
               setWidth(width)
               setHeight(height)
-              evaluating(txtGExp)
+              //evaluating(txtGExp)
+              getSaveData()
             }
             /*if(html===""){*/// onChangeText(txtGExp, setHtml)//}
           }}>
@@ -79,6 +93,9 @@ export default () => {
               <AsciiTab
                 style={styles.asciiTab}
                 onChangeText={text => {
+                  startIndex = 0;
+                  endIndex = 0;
+                  changeRangeSelG();
                   evaluating(text)
                 }}
                 placeholder={strToLang('typeAnPH')}

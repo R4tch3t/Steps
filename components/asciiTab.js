@@ -15,98 +15,79 @@ import {
     TextInput,
     Keyboard,
     Linking,
-    PanResponder
+    BackHandler
 } from 'react-native';
-import {
-    AutoGrowingTextInput
-} from 'react-native-autogrow-textinput';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import './mathKeyboard';
-import ModalString from "./modalStrings"
+import ModalLeft from "./modalLeft"
+import ModalRight from "./modalRight"
 
 const IsIOS = Platform.OS === 'ios';
+startIndex = 0;
+endIndex = 0;
+changeRangeSelG = null
+focusG = null
+isDataLoad = false
 
-
-export default class AsciiTab extends Component {
-    //pan = new Animated.ValueXY();
-    panResponder = null
-
-    constructor(props) {
-            super(props);
-            //KeyboardRegistry.registerKeyboard('AsciiTab', () => this);
-            this.keyboardAccessoryViewContent = this.keyboardAccessoryViewContent.bind(this);
-            this.onKeyboardItemSelected = this.onKeyboardItemSelected.bind(this);
-            this.resetKeyboardView = this.resetKeyboardView.bind(this);
-            this.onKeyboardResigned = this.onKeyboardResigned.bind(this);
-
-            this.state = {
-                styleFun: styles.styleFun,
-                styleKey: styles.styleKey,
-                styleTextFun: {},
-                styleTextKey: styles.textStyle,
-                customKeyboard: {
-                    component: undefined,
-                    initialProps: undefined,
-                },
-                receivedKeyboardData: undefined,
-                modalVisible: false,
-                pan: new Animated.ValueXY()
-            };
-    }
-
-    onKeyboardItemSelected(keyboardId, params) {
-        const receivedKeyboardData = `onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`;
-        this.setState({
-            receivedKeyboardData
-        });
-    }
-    
-    onKeyboardResigned() {
-        this.resetKeyboardView();
-    }
-
-    resetKeyboardView() {
-        this.setState({
-            customKeyboard: {}
-        });
-    }
-
-    showKeyboardView(component, title) {
-        this.setState({
-            customKeyboard: {
-                component,
-                initialProps: {
-                    title
-                },
-            },
-        });
-    }
-
-    showMathFunctions(){
-        const {modalVisible} = this.state
-        if(!modalVisible){
-            this.setState({styleFun: styles.styleFunAct, 
-                modalVisible: !modalVisible,
-                styleTextFun: styles.textStyle
-            })
-        }else{
-            this.setState({
-                styleFun: styles.styleFun,
-                modalVisible: !modalVisible,
-                styleTextFun: {}
-            })
+export default (props) => {
+    const [modalVisible, setModalVisible] = React.useState(false)
+    const [styleFun, setStyleFun] = React.useState(styles.styleFun)
+    const [styleTextFun, setStyleTextFun] = React.useState({})
+    const [styleKey, setStyleKey] = React.useState(styles.styleKey)
+    const [styleTextKey, setStyleTextKey] = React.useState(styles.textStyle)
+    const [stateStart, setStateStart] = React.useState(0)
+    const [stateEnd, setStateEnd] = React.useState(0)
+    const [isModal, setIsModal] = React.useState(false)
+    const getSaveData = async () => {
+        let value = await AsyncStorage.getItem('@isModal');
+        if (value !== null) {
+            if(value==='1'){
+                setStyleFun(styles.styleFunAct)
+                setIsModal(true)
+                setModalVisible(true)
+                setStyleTextFun(styles.textStyle)
+                _textInput.setNativeProps({
+                    showSoftInputOnFocus: false
+                })
+            }
         }
-        //Keyboard.dismiss()
-
+    }
+    const setSaveData = async (item, val) => {
+        await AsyncStorage.setItem(item, val);
     }
 
-    getToolbarButtons() {
+    if (!isDataLoad){
+        isDataLoad=true;
+        getSaveData()  
+    }
+    //getSaveData()
+    const showMathFunctions=()=>{
+        console.log(isModal)
+        if (!isModal) {
+            setStyleFun(styles.styleFunAct)
+            setIsModal(true)
+            setModalVisible(true)
+            setStyleTextFun(styles.textStyle)
+            setSaveData('@isModal', '1')
+        }else{
+            setStyleFun(styles.styleFun)
+            setIsModal(false)
+            setModalVisible(false)
+            setStyleTextFun({})
+            setSaveData('@isModal', '0')
+        }
+        _focusText()
+        
+    }
+
+    const getToolbarButtons = () => {
         return [{
                 text: 'MathString',
                 testID: 'show1',
-                style: this.state.styleFun,
-                styleText: this.state.styleTextFun,
-                onPress: () => this.showMathFunctions(),
+                style: styleFun,
+                styleText: styleTextFun,
+                onPress: () => showMathFunctions(),
             },
            /* {
                 text: 'show2',
@@ -116,64 +97,154 @@ export default class AsciiTab extends Component {
             {
                 text: 'Gboard',
                 testID: 'reset',
-                style: this.state.styleKey,
-                styleText: this.state.styleTextKey,
+                style: styleKey,
+                styleText: styleTextKey,
                 onPress: () => Linking.openURL("market://details?id=com.google.android.inputmethod.latin"),
             },
         ];
     }
-
-    _onKeyPress(e){
-        
-        console.log(e.nativeEvent.key)
+    /*replaceRange(s, start, end, substitute) {
+        return s.substring(0, start) + substitute + s.substring(end);
+    }*/
+    _onKeyPress=(e)=>{
+        console.log(e.nativeEvent)
         switch (e.nativeEvent.key){
             case 'Enter':
                 heightFix+=20
             break;
             case 'Backspace':
-                heightFix -= 20
+                startIndex--
+                endIndex--
+                this.changeRangeSel()
+            break;
+            default:
+                console.log(e.nativeEvent.key)
+                if(startIndex===0&&endIndex===0){
+                    startIndex++
+                    endIndex++
+                 //   _textInput.shouldApplyNativeSettings()
+                }
+                changeRangeSel()
             break;
         }
     }
+    
+    changeRangeSel = () => {
+        try {
+          
+                console.log(`txtGExp: ${txtGExp.length}`)
+                _textInput.setNativeProps({
+                    selection:{
+                        start: startIndex,
+                        end: endIndex
+                    }
+                })
 
-    keyboardAccessoryViewContent() {
-        const {modalVisible, pan} = this.state
-        const displayKey = modalVisible ? 'none' : 'default'
-        const panResponder=PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
-            onPanResponderMove: Animated.event([
-                null,
-                { dx: pan.x, dy: pan.y }
-            ]),
-            onPanResponderRelease: () => {
-                Animated.spring(pan, { toValue: { x: 0, y: 0 } }).start();
-            }
+            } catch (e) {
+            console.log(e)
+        }
+    }
+    changeRangeSelG = changeRangeSel
+    
+    _focusText = ()=>{
+        _textInput.blur()
+        _textInput.setNativeProps({
+            showSoftInputOnFocus: modalVisible
         })
-        return(
-            <View>
+        //_textInput.blur()
+        setTimeout(_textInput.focus, 250)
+        //_textInput.focus()
+        //_textInput.forceUpdate()
+    }
+
+    _focusTxt = () => {
+        _textInput.focus()
+    }
+
+    focusG = _focusTxt
+    _onSelectionChange=(e)=>{
+        console.log(e.nativeEvent.selection)
+        startIndex = e.nativeEvent.selection.start
+        endIndex = e.nativeEvent.selection.end
+        /*this.setState({
+            selection:{
+                start: startIndex,
+                end: endIndex
+            }
+        })*/
+      // changeRangeSel()
+    }
+
+        return(<View>
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false} >
-                    <AutoGrowingTextInput
-                        style={this.props.style}
-                        onChangeText={this.props.onChangeText}
-                    // onKeyPress={this._onKeyPress}
-                    // onChange={(e)=>{console.log(e)}}
-                        placeholder={this.props.placeholder}
+                    <TextInput
+                        style={props.style}
+                        onTextInput = {
+                            (e) => {
+                                console.log(`onTextInput `);
+                                let rangeStart = e.nativeEvent.range.start;
+                                let rangeEnd = e.nativeEvent.range.end;
+                                let txt = e.nativeEvent.text;
+                                if(txt===''){
+                                    startIndex = rangeStart;
+                                    endIndex = rangeStart;
+                                }else{
+                                    if (rangeStart < rangeEnd) {
+                                        rangeEnd = rangeStart
+                                    }
+                                    startIndex = rangeStart + 1;
+                                    endIndex = rangeEnd + 1;
+                                }
+                                changeRangeSel()
+                            }
+                        }
+                        onBlur={()=>{ setModalVisible(false) }}
+                        onFocus = {
+                            () => {
+                                if (isModal) {
+                                    setModalVisible(true)
+                                }else{
+                                    _textInput.setNativeProps({
+                                        showSoftInputOnFocus: true
+                                    })
+                                }
+                            }
+                        }
+                        //onTouchEnd={props.onTouchEnd}
+                        //showSoftInputOnFocus={!modalVisible}
+                        onChangeText={props.onChangeText}
+                        onSelectionChange={_onSelectionChange}
+                       //onKeyPress={_onKeyPress}
+                       // onEndEditing={(e)=>{ console.log('endEditing:'); changeRangeSel() }}
+                        /*onChange = {
+                            (e) => {
+                                startIndex = 0;
+                                endIndex = 0;
+                                changeRangeSel()
+                                console.log(e.nativeEvent)
+                            }
+                        }*/
+                        
+                        placeholder={props.placeholder}
+                        multiline={true}
+                       // selection={selection}
                         //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
                      //keyboardType={null}
                         //selectTextOnFocus={true}
-                        
-                        ref = {
+                        ref={component => _textInput = component }
+                        /*ref = {
                             (r) => {
                                 this.textInputRef = r;
+                                r.shouldComponentUpdate
                             }
-                        }
-                        defaultValue={this.props.defaultValue}
-                        onFocus={() => this.resetKeyboardView()}
+                        }*/
+                        defaultValue={props.defaultValue}
+                       // onFocus={() => this.resetKeyboardView()}
                     />
                 </TouchableWithoutFeedback>
                 <View style={{flexDirection: 'row'}}>
                     {
-                    this.getToolbarButtons().map((button, index) =>
+                    getToolbarButtons().map((button, index) =>
                         <TouchableOpacity
                         onPress={button.onPress}
                         style={button.style}
@@ -184,88 +255,15 @@ export default class AsciiTab extends Component {
                         </TouchableOpacity>)
                     }
                 </View>
-                {modalVisible &&
-                    <ModalString></ModalString>    
-                    /*<Animated.View style={[styles.modalView, { transform: [{ translateX: pan.x }, { translateY: pan.y }] }]} {...panResponder.panHandlers} >
-                        <Text>2</Text>
-                    </Animated.View>*/
-                }
-                {/*
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                   // Alert.alert("Modal has been closed.");
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
-
-                        <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                        onPress={() => {
-                            this.setState({modalVisible: !modalVisible});
-                        }}
-                        >
-                        <Text style={styles.textStyle}>Hide Modal</Text>
-                        </TouchableHighlight>
-                    </View>
-                    </View>
-                </Modal>
-                */}
-            </View>
-        )
-    }
-
-    /*componentDidMount(){
-        console.log(`heightFix: ${this.textInputRef.current.parentElement.clientWidth}`)
-    }*/
-
-    render() {
-        return this.keyboardAccessoryViewContent()
-        /*return(
-            <>
-            <AutoGrowingTextInput
-                style={this.props.style}
-                onChangeText={this.props.onChangeText}
-                placeholder={this.props.placeholder}
-                //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
-                //selectTextOnFocus={true}
-                ref = {
-                    (r) => {
-                        this.textInputRef = r;
-                    }
-                }
-                defaultValue={this.props.defaultValue}
-                onFocus={() => this.resetKeyboardView()}
-            />
-            </>
-        )
-        
-            return (
-               <View>
-                <KeyboardAccessoryView
-                    renderContent={this.keyboardAccessoryViewContent}
-                    onHeightChanged={IsIOS ? height => this.setState({keyboardAccessoryViewHeight: height}) : undefined}
-                    trackInteractive={TrackInteractive}
-                    kbInputRef={this.textInputRef}
-                    kbComponent={this.state.customKeyboard.component}
-                    kbInitialProps={this.state.customKeyboard.initialProps}
-                    onItemSelected={this.onKeyboardItemSelected}
-                    onKeyboardResigned={this.onKeyboardResigned}
-                    revealKeyboardInteractive
-                />
-               </View> 
-            ) */
+                   <ModalLeft modalVisible={modalVisible} ></ModalLeft>    
+                   <ModalRight modalVisible={modalVisible} ></ModalRight>    
+                 
+            </View>)
         
     }
     
 
-}
-
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     
     styleFun: {
         padding: 3,

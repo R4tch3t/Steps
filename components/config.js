@@ -15,6 +15,7 @@ import {
   Text
 } from 'react-native-elements'
 import onChangeText from '../functions/onChangeText.js'
+import AsyncStorage from '@react-native-community/async-storage';
 BBS = true
 BSC = false
 export default () => {
@@ -23,6 +24,19 @@ export default () => {
     const [tDval, setTDval] = React.useState(true)
     const [mDval, setMDval] = React.useState(false)
     const [toRad, setToRad] = React.useState(false)
+    const getSaveData = async () => {
+     let value = await AsyncStorage.getItem('@mDval');
+     if (value !== null) {
+       value = value === '1' ? true : false
+       // value previously stored
+       MoreDVal = value ? 1 : 0;
+       setMDval(value);
+     }
+    }
+    const setSaveData = async (item, val) => {
+      await AsyncStorage.setItem(item, val);
+    }
+    getSaveData()
     return (
       <>
         <StatusBar backgroundColor="#f4511e" barStyle="default" />
@@ -78,6 +92,7 @@ export default () => {
                   checked={mDval}
                   onPress={() => {
                     MoreDVal = MoreDVal === 0 ? 1:0
+                    setSaveData('@mDval', `${MoreDVal}`);
                     setMDval(!mDval)
                     onChangeText(txtGExp, setGHtml)
                   }}

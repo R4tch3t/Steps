@@ -18,13 +18,13 @@ cleanstrD = (s) => {
         console.log(`unichar: ${uniChar}`)
         console.log(`nextUnichar: ${nextUnichar}`)
         
-        if ((uniChar > 47 && uniChar<58) || uniChar===46 || uniChar===120703) {//Si es numero
-            if (previusUnichar === 41 || previusUnichar===120703) {
+        if ((uniChar > 47 && uniChar<58) || uniChar===46 || uniChar===120703 || uniChar === 960) {//Si es numero
+            if (previusUnichar === 41 || previusUnichar === 120703 || previusUnichar === 960) {
                 s+=",*,"
                 strDevelopment+="*"
             }
 
-            if (uniChar===120703) {
+            if (uniChar === 120703 || uniChar === 960) {
                 s+="pi"
                 strDevelopment+="pi"
             }else{
@@ -32,7 +32,7 @@ cleanstrD = (s) => {
                 strDevelopment+=char
             }
 
-            if (nextUnichar===120703) {
+            if (nextUnichar === 120703 || nextUnichar === 960) {
                 s+=",*,"
                 strDevelopment+="*"
             }
@@ -47,7 +47,7 @@ cleanstrD = (s) => {
         
         if (((uniChar > 36 && uniChar<46) || uniChar===47 || uniChar===94 || uniChar===183 || uniChar===215 || uniChar===8730 || uniChar===8901 || (uniChar>94 && uniChar<123)) && uniChar !== 44) {//Si es simbolo
             
-            if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar===46 || nextUnichar===120703) && ((previusUnichar > 47 && previusUnichar < 58) || previusUnichar === 41 || previusUnichar===46 || previusUnichar===120703))  { //Si a - b= a + -b
+            if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar === 46 || nextUnichar === 120703 || nextUnichar === 960) && ((previusUnichar > 47 && previusUnichar < 58) || previusUnichar === 41 || previusUnichar === 46 || previusUnichar === 120703 || previusUnichar === 960)) { //Si a - b= a + -b
                 if(BSC){
                     s+=","+char+","
                     strDevelopment+=char
