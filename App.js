@@ -23,6 +23,7 @@ import install from './functions/install.js'
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -78,6 +79,47 @@ StepsC = 0
 toDecimalVal = 1
 MoreDVal = 0
 DegRad = 0
+const getSaveData = async () => {
+  let value = await AsyncStorage.getItem('@evalString');
+  if (value !== null) {
+    txtGExp = value
+  }
+  value = await AsyncStorage.getItem('@bbs');
+  if (value !== null) {
+    BBS = value === '1' ? true : false
+    // value previously stored
+    //BBS = value ? 1 : 0;
+    //setMDval(value);
+  }
+  value = await AsyncStorage.getItem('@bsc');
+  if (value !== null) {
+    BSC = value === '1' ? true : false
+    // value previously stored
+    //BBS = value ? 1 : 0;
+    //setMDval(value);
+  }
+  value = await AsyncStorage.getItem('@tDval');
+  if (value !== null) {
+    value = value === '1' ? true : false
+    // value previously stored
+    toDecimalVal = value ? 1 : 0;
+    //setMDval(value);
+  }
+  value = await AsyncStorage.getItem('@mDval');
+  if (value !== null) {
+    value = value === '1' ? true : false
+    // value previously stored
+    MoreDVal = value ? 1 : 0;
+    //setMDval(value);
+  }
+  value = await AsyncStorage.getItem('@toRad');
+  if (value !== null) {
+    value = value === '1' ? true : false
+    // value previously stored
+    DegRad = value ? 1 : 0;
+    //setMDval(value);
+  }
+}
 
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
@@ -91,6 +133,7 @@ const App: () => React$Node = () => {
     });
   };
 
+  //getSaveData()
   /*const effectSteps = ({navigation}) => {
     React.useLayoutEffect(() => {
       navigation.setOptions({
@@ -160,6 +203,7 @@ const App: () => React$Node = () => {
 
   if (bandIns === null) {
     if (html === null){
+      getSaveData();
       installFiles();
     }
   return (

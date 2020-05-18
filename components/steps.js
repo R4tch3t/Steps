@@ -58,8 +58,9 @@ export default () => {
       let value = await AsyncStorage.getItem('@evalString');
       if (value !== null) {
         evaluating(value)
+        //txtGExp = value
       }else{
-        evaluating('')
+       // evaluating('')
       }
     }
     const setSaveData = async (item, val) => {
@@ -79,10 +80,11 @@ export default () => {
           onLayout={()=>{
             const {width, height} = Dimensions.get('window');
             if (width !== Wwidth || height !== Wheight) {
+              //getSaveData()
               setWidth(width)
               setHeight(height)
-              //evaluating(txtGExp)
-              getSaveData()
+              evaluating(txtGExp)
+              //getSaveData()
             }
             /*if(html===""){*/// onChangeText(txtGExp, setHtml)//}
           }}>

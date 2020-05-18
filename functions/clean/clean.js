@@ -423,7 +423,6 @@
         s=s.split("log,10,*").join("log10")
         s=s.split("log,2,*").join("log2")
         //s="("+s+")"
-        console.log(`depurarR: ${s}`)
         STR=s.split(",")
         return STR.reverse()
     }
@@ -437,7 +436,6 @@
         s = s.split('cos').join('c');
         s = s.split('sen').join('s');
         s = s.split('tan').join('t');
-        console.log(`DepurarI: ${s}`)
 
         strDevelopment=""
         s=cleanstrD(s)

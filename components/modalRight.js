@@ -22,7 +22,6 @@ export default (props) => {
   }else{
     Animated.spring(pan, { toValue: { x: -100, y: 0 } }).start();
   }
-    console.log(`modalVisible: ${props.modalVisible}`)
   const replaceRange=(s, start, end, substitute) => {
     return s.substring(0, start) + substitute + s.substring(end);
   }

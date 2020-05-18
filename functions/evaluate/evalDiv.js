@@ -38,8 +38,6 @@ EvalDiv = (auxStr, aux1Str) => {
                  aux1StrD = aux1StrD.split('(').join("")
                  auxStrD = auxStrD.split(')').join("")
                  aux1StrD = aux1StrD.split(')').join("")
-                 console.log(`aux1StrD: ${aux1StrD}`)
-                 console.log(`auxtrD: ${auxStrD}`)
 
                  let aux = (isNumber(auxStrD) ? Number(auxStrD) : 0.0)
                  let aux1 = (isNumber(aux1StrD) ? Number(aux1StrD) : 0.0)
@@ -84,9 +82,6 @@ EvalDiv = (auxStr, aux1Str) => {
          str1 = strToLang("Paso") + StepsC + ": quad"
 
          strDevelopment = strDevelopment.split('-+').join("-")
-         console.log(`evalDiv: ${auxStr}`)
-         console.log(`evalDiv1: ${aux1Str}`)
-         console.log(`evalDivStr: ${str2}`)
          if (auxStr.includes('I n f') || aux1Str.includes('I n f')) {
              if (auxStr.includes('-')) {
                 str2=str2.split("-I n f i n i t y").join("(-I n f i n i t y)")
@@ -95,7 +90,6 @@ EvalDiv = (auxStr, aux1Str) => {
              }
              strDevelopment = strDevelopment.split(aux1Str + "/" + auxStr).join(str2)
          }
-         console.log(`evalDivStrAf: ${str2}`)
 
          StepLatex(str1, strDevelopment, str2, str2, res, false, band)
          res = res.split('+').join("")

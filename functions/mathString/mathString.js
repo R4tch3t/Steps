@@ -181,18 +181,19 @@ absstr = (str) => {
 }
 
 moreDStr = (str) => {
-    //var str=str
+    //var str=str.split('')
     if (str.includes("e")) {
-        str=str.split('e').join("")
+        str=str.split('e').join("").split('')
         let zeros = ""
 
-        while (str[str.length-1] !== "+" && str[str.length-1] !== "-") {
+        while (str.length>0&&str[str.length - 1] !== "+" && str[str.length - 1] !== "-") {
             zeros = `${str.pop()}${zeros}`
         }
-
+        str=str.join('')
         let arr = str.split(".")
-        str=str.split('.').join("")
+        str=str.split('.').join("").split('')
         if (str.pop() === "+") {
+            str=str.join('')
             let c = (isNumber(zeros) ? parseInt(zeros) : 0)
             c -= arr[1].length
             while (c > 0)  {
@@ -200,6 +201,7 @@ moreDStr = (str) => {
                 c-=1
             }
         } else {
+            str=str.join('')
             let c = (isNumber(zeros) ? parseInt(zeros) : 0)
             c--
             while (c > 0)  {
@@ -210,6 +212,7 @@ moreDStr = (str) => {
         }
 
     }
+    
     return str
 }
     //"Rasurar" cadena

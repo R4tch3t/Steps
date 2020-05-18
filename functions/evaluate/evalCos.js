@@ -1,6 +1,4 @@
 EvalCos = (auxStr) => {
-    console.log(`cos: ${strDevelopment}`)
-
     auxStr = auxStr.split("(").join("")
     auxStr = auxStr.split(")").join("")
     if (auxStr.includes("/")) {

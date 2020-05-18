@@ -59,7 +59,6 @@ createHtmlatex = (setHtml) => {
         body+="<script type='text/javascript' src='"+matrixModalPath+"'></script>"
         body+="<script type='text/javascript'>"+FadeInLatex()+"</script>"*/
         body+="</body></html>"
-        console.log(head+body)
         setHtml(head+body)
         //changeRangeSelG()
        // print(pathHtml)

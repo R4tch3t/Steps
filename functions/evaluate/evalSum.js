@@ -1,11 +1,6 @@
 EvalSum = (auxStr, aux1Str) => {
     let aux2Str = ""
-    console.log(`strDevFi: ${strDevelopment}`)
-    console.log(`evalSumAnt auxStr: ${auxStr}`)
-    console.log(`evalSumAnt aux1Str: ${aux1Str}`)
     if (isNumber(auxStr) && isNumber(aux1Str)) {
-        console.log(`evalSum auxStr: ${auxStr}`)
-        console.log(`evalSum aux1Str: ${aux1Str}`)
         strDevelopment = strDevelopment.split("(" + aux1Str + ")").join(aux1Str)
         strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
         auxStr = auxStr.split("(").join("")
@@ -20,7 +15,6 @@ EvalSum = (auxStr, aux1Str) => {
         strDevelopment = strDevelopment.split("log_2" + auxStr).join("log_2(" + auxStr +")")
         strDevelopment = strDevelopment.split("log_2" + aux1Str).join("log_2(" + aux1Str + ")")
 
-        console.log(`strDevSplit: ${strDevelopment}`)
         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: "("+aux1Str+")", with: aux1Str)
         //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: "("+auxStr+")", with: auxStr)
         str2 = aux1Str + "+" + auxStr
@@ -88,15 +82,11 @@ EvalSum = (auxStr, aux1Str) => {
         strDevelopment = strDevelopment.split("+-").join('+ -')
         strDevelopment = strDevelopment.split("-+").join('-')
 
-        console.log(`str1Sum: ${str1}`)        
-
         str2 = str2.split("++").join("+")
         str3 = str3.split("++").join('+')
         str2 = str2.split("+ +").join("+")
         str3 = str3.split("+ +").join('+')
-        console.log(`evalSumAf: ${strDevelopment}`)
         StepLatex(str1, strDevelopment, str2, str3, res, change, true)
-        console.log(`evalSum: ${strDevelopment}`)
         str1 = "-> "
         if (change) {
             if (toDecimalVal === 1) {
@@ -125,8 +115,6 @@ EvalSum = (auxStr, aux1Str) => {
         
         if (toDecimalVal === 1) {
             str1 = str1 + str2 + " = " + res.split("+").join("")
-            console.log(`resSum: ${res}`)
-            console.log(`str1: ${str1}`)
             //str1=str1+str2+" = "+res.replacingOccurrences(of: "+", with: "")
         } else {
             str1 = str1 + str2 + " = " + scanNumbers(res.split("+").join(""), false)
@@ -137,7 +125,6 @@ EvalSum = (auxStr, aux1Str) => {
         //str1=str1.replacingOccurrences(of: " + -", with: " - ")
         //str1=str1.replacingOccurrences(of: "pi", with: String(Double.pi))
         strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
-        console.log(`strltx: ${strltx}`)
 
     } else if (isFrac(auxStr) && isFrac(aux1Str)) {
         auxStr = auxStr.split("(").join('');

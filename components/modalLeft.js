@@ -5,7 +5,6 @@ import { Animated, View, StyleSheet, Text, TouchableOpacity, Dimensions, ScrollV
 export default (props) => {
   const {width, height} = Dimensions.get('window');
   const modalH = height<400 ? 185 : 265
-  console.log(`DimLeft: ${width} ${height}`)
   const pan = useRef(new Animated.ValueXY()).current; 
   /*const panResponder = useRef(
     PanResponder.create({
@@ -24,7 +23,6 @@ export default (props) => {
   }else{
     Animated.spring(pan, { toValue: { x: -100, y: 0 } }).start();
   }
-    console.log(`modalVisible: ${props.modalVisible}`)
   const replaceRange=(s, start, end, substitute) => {
     return s.substring(0, start) + substitute + s.substring(end);
   }

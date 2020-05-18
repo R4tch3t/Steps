@@ -6,7 +6,6 @@ EvalPlux = (auxStr, aux1Str, sm) => {
     if (isNumber(auxStr) && isNumber(aux1Str)) {
         StepsC += 1
         str2 = aux1Str + sm + auxStr
-        console.log(`str2: ${str2}`)
         strDevelopment = strDevelopment.split("(" + aux1Str + ")").join(aux1Str)
         strDevelopment = strDevelopment.split("(" + auxStr + ")").join(auxStr)
 

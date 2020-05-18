@@ -19,24 +19,16 @@ import AsyncStorage from '@react-native-community/async-storage';
 BBS = true
 BSC = false
 export default () => {
-    const [bbs, setBbs] = React.useState(true);
-    const [bsc, setBsc] = React.useState(false);
-    const [tDval, setTDval] = React.useState(true)
-    const [mDval, setMDval] = React.useState(false)
-    const [toRad, setToRad] = React.useState(false)
-    const getSaveData = async () => {
-     let value = await AsyncStorage.getItem('@mDval');
-     if (value !== null) {
-       value = value === '1' ? true : false
-       // value previously stored
-       MoreDVal = value ? 1 : 0;
-       setMDval(value);
-     }
-    }
+    const [bbs, setBbs] = React.useState(BBS);
+    const [bsc, setBsc] = React.useState(BSC);
+    const [tDval, setTDval] = React.useState(toDecimalVal === 1 ? true : false)
+    const [mDval, setMDval] = React.useState(MoreDVal===1 ? true : false)
+    const [toRad, setToRad] = React.useState(DegRad === 1 ? true : false)
+    
     const setSaveData = async (item, val) => {
       await AsyncStorage.setItem(item, val);
     }
-    getSaveData()
+    
     return (
       <>
         <StatusBar backgroundColor="#f4511e" barStyle="default" />
@@ -55,6 +47,8 @@ export default () => {
                   uncheckedIcon="circle-o"
                   checked={bbs}
                   onPress={() => {
+                    setSaveData("@bbs",BBS?'0':'1')
+                    setSaveData("@bsc",BBS?'1':'0')
                     BSC = bbs
                     setBsc(bbs);
                     setBbs(!bbs);
@@ -69,6 +63,8 @@ export default () => {
                   uncheckedIcon="circle-o"
                   checked={bsc}
                   onPress={() => {
+                    setSaveData("@bsc",BSC?'0':'1')
+                    setSaveData("@bbs",BSC?'1':'0')
                     BBS = bsc
                     setBbs(bsc);
                     setBsc(!bsc);
@@ -83,6 +79,7 @@ export default () => {
                   checked={tDval}
                   onPress={() => {
                     toDecimalVal = toDecimalVal === 0 ? 1 : 0
+                    setSaveData('@tDval', `${toDecimalVal}`);
                     setTDval(!tDval)
                     onChangeText(txtGExp, setGHtml)
                   }}
@@ -102,6 +99,7 @@ export default () => {
                   checked={toRad}
                   onPress={() => {
                     DegRad = DegRad === 0 ? 1 : 0
+                    setSaveData('@toRad', `${DegRad}`);
                     setToRad(!toRad)
                     onChangeText(txtGExp, setGHtml)
                   }}

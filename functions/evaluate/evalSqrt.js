@@ -6,8 +6,6 @@ EvalSqrt = (auxStr, aux1Str, replace) => {
     
 
     if ((isNumber(auxStr) && isNumber(aux1Str)) || (auxStr === "" || aux1Str === "")) {
-        console.log(`evalSqrt: ${auxStr}`)
-        console.log(`evalSqrt1: ${aux1Str}`)
                 
         if (aux1Str.startsWith("-")&&replace){
             strDevelopment = strDevelopment.split(aux1Str).join("+"+aux1Str)
@@ -17,7 +15,6 @@ EvalSqrt = (auxStr, aux1Str, replace) => {
             strDevelopment = strDevelopment.split("*+").join("*")
             strDevelopment = strDevelopment.split("/+").join("/")
         }
-        console.log(strDevelopment)
         
 
         str2 = aux1Str + "√" + auxStr;

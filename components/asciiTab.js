@@ -2,11 +2,9 @@ import React, {
     Component
 } from 'react';
 import {
-    Animated,
     StyleSheet,
     Text,
     View,
-    ScrollView,
     TouchableOpacity,
     TouchableHighlight,
     TouchableWithoutFeedback,
@@ -15,7 +13,6 @@ import {
     TextInput,
     Keyboard,
     Linking,
-    BackHandler
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -45,7 +42,7 @@ export default (props) => {
             if(value==='1'){
                 setStyleFun(styles.styleFunAct)
                 setIsModal(true)
-                setModalVisible(true)
+                //setModalVisible(true)
                 setStyleTextFun(styles.textStyle)
                 _textInput.setNativeProps({
                     showSoftInputOnFocus: false
@@ -63,7 +60,6 @@ export default (props) => {
     }
     //getSaveData()
     const showMathFunctions=()=>{
-        console.log(isModal)
         if (!isModal) {
             setStyleFun(styles.styleFunAct)
             setIsModal(true)
@@ -107,7 +103,6 @@ export default (props) => {
         return s.substring(0, start) + substitute + s.substring(end);
     }*/
     _onKeyPress=(e)=>{
-        console.log(e.nativeEvent)
         switch (e.nativeEvent.key){
             case 'Enter':
                 heightFix+=20
@@ -118,7 +113,6 @@ export default (props) => {
                 this.changeRangeSel()
             break;
             default:
-                console.log(e.nativeEvent.key)
                 if(startIndex===0&&endIndex===0){
                     startIndex++
                     endIndex++
@@ -131,8 +125,6 @@ export default (props) => {
     
     changeRangeSel = () => {
         try {
-          
-                console.log(`txtGExp: ${txtGExp.length}`)
                 _textInput.setNativeProps({
                     selection:{
                         start: startIndex,
@@ -141,7 +133,6 @@ export default (props) => {
                 })
 
             } catch (e) {
-            console.log(e)
         }
     }
     changeRangeSelG = changeRangeSel
@@ -163,7 +154,6 @@ export default (props) => {
 
     focusG = _focusTxt
     _onSelectionChange=(e)=>{
-        console.log(e.nativeEvent.selection)
         startIndex = e.nativeEvent.selection.start
         endIndex = e.nativeEvent.selection.end
         /*this.setState({
@@ -181,7 +171,6 @@ export default (props) => {
                         style={props.style}
                         onTextInput = {
                             (e) => {
-                                console.log(`onTextInput `);
                                 let rangeStart = e.nativeEvent.range.start;
                                 let rangeEnd = e.nativeEvent.range.end;
                                 let txt = e.nativeEvent.text;
@@ -215,13 +204,11 @@ export default (props) => {
                         onChangeText={props.onChangeText}
                         onSelectionChange={_onSelectionChange}
                        //onKeyPress={_onKeyPress}
-                       // onEndEditing={(e)=>{ console.log('endEditing:'); changeRangeSel() }}
                         /*onChange = {
                             (e) => {
                                 startIndex = 0;
                                 endIndex = 0;
                                 changeRangeSel()
-                                console.log(e.nativeEvent)
                             }
                         }*/
                         

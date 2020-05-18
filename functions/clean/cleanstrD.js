@@ -14,9 +14,6 @@ cleanstrD = (s) => {
             // nextUnichar = (String(str.first!) as NSString).character(at: str.startIndex)
             nextUnichar = str[0].charCodeAt(0)
         }
-        console.log(`char: ${char}`)
-        console.log(`unichar: ${uniChar}`)
-        console.log(`nextUnichar: ${nextUnichar}`)
         
         if ((uniChar > 47 && uniChar<58) || uniChar===46 || uniChar===120703 || uniChar === 960) {//Si es numero
             if (previusUnichar === 41 || previusUnichar === 120703 || previusUnichar === 960) {
@@ -251,7 +248,5 @@ cleanstrD = (s) => {
         previusUnichar=uniChar
         
     }
-    console.log(`cleanstrDs: ${s}`)
-    console.log(`cleanstrDev: ${strDevelopment}`)
     return s
 }

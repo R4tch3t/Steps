@@ -61,7 +61,6 @@ Evaluate=(str)=>{
                 STR.push(S.pop())
             }
             S.splice(0)
-            console.log(STR)
             while (STR.length>0) {
                 
                 switch (STR[STR.length-1]) {

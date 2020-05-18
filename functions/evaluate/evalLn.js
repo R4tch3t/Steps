@@ -19,7 +19,6 @@ EvalLn=(auxStr, sm)=>{
     auxStr = DoubleStr(auxStr)
     
     if (isNumber(auxStr)) {
-        console.log(`evalLnAuxStr: ${auxStr}`)
         StepsC += 1
         auxStr = auxStr.split('pi').join(Math.PI.toString())
         auxStr = auxStr.split("I n f i n i t y").join("Infinity")
@@ -55,7 +54,6 @@ EvalLn=(auxStr, sm)=>{
             str1 = str1 + str2 + " = " + tofrac(DoubleStr(res.split("+").join("")))
         }
         str1 = str1.split("pi").join(Math.PI.toString())
-        console.log(`evalLnStr1: ${str1}`)
         strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
 
     } else {

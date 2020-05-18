@@ -26,7 +26,6 @@ EvalPow=(auxStr, aux1Str)=>{
         str1 = strToLang("Paso") + StepsC + ": quad"
 
         StepLatex(str1, strDevelopment, str2, str3, res, change, true)
-        console.log(`evalPow: ${strDevelopment}`)
         str1 = "-> "
 
         if (toDecimalVal === 1) {

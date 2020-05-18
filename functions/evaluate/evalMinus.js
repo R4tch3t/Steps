@@ -50,17 +50,13 @@ EvalMinus = (auxStr, aux1Str) => {
         strDevelopment = strDevelopment.split("log_2" + aux1Str).join("log_2(" + aux1Str + ")")
 
         strDevelopment = strDevelopment.split(auxStr + aux1Str).join(aux1Str + auxStr)
-        strDevelopment = strDevelopment.split(aux1Str + auxStr).join(auxStr + aux1Str)
-        console.log(`evalMinusPrevCH: ${strDevelopment}`)
-        
+        strDevelopment = strDevelopment.split(aux1Str + auxStr).join(auxStr + aux1Str)        
         
 
         strDevelopment = strDevelopment.split("--").join("+")
         strDevelopment = strDevelopment.split("+-").join("-")
         strDevelopment = strDevelopment.split("-+").join("-")
-        console.log(`evalMinus: ${strDevelopment}`)
         StepLatex(str1, strDevelopment, str2, str2, res, false, true)
-        console.log(`evalMinusAfter: ${strDevelopment}`)
         str1 = "-> "
         if (toDecimalVal === 1) {
             str2 = "[ " + str2 + " ]"

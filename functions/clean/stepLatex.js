@@ -63,8 +63,6 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
                             rstr2 = rstr2.split('t').join('T A N');
                         }
                     }
-                    console.log(`stepLat: ${rstr}`)
-                    console.log(`stepLat2: ${rstr2}`)
                     if (l>0) {
 
                         if (strArr[l-1]==="(") {
