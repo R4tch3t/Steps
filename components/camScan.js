@@ -3,34 +3,25 @@ import {
     StyleSheet,
     View,
     Button,
-    Dimensions,
     StatusBar,
   //  BackHandler,
 } from 'react-native';
 import {
-    Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import {
-  CheckBox,
-  Divider,
   Text
 } from 'react-native-elements'
-import { useFocusEffect } from '@react-navigation/native';
 import {RNCamera} from 'react-native-camera';
 import onChangeText from '../functions/onChangeText.js'
-const {
-  width,
-  height
-} = Dimensions.get('window');
+
 export default ({navigation}) => {
   const [txt, setTxt] = React.useState('')
   const [bounds, setBounds] = React.useState({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}})
   const toSteps = () => {
     const txtS = txt
-    navigation.navigate('Steps');
+    navigation.navigate(nameStack);
     if(txtS!==''){
-      setGTxtExp(txtS)
-      onChangeText(txtS, setGHtml)
+      //setGTxtExp(txtS)
+      stackGTxtExp[nameStack].setGTxtExp(txtS)
+      onChangeText(txtS, stacksetGHtml[nameStack].setGHtml)
     }
   }
   /*const onBackPress = () => {
@@ -85,7 +76,6 @@ export default ({navigation}) => {
                   //textBlocks[0].bounds
                   setBounds(textBlocks[0].bounds)
                   setTxt(textBlocks[0].value)
-                  //onChangeText(textBlocks[0].value, setGHtml)
                // }
               }else{
                 setBounds({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}})
@@ -133,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     left: 0,
-    top: 10,
+    top: 0,
     justifyContent: 'flex-start',
     alignContent: 'stretch',
     height: '100%',

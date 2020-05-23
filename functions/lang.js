@@ -66,6 +66,9 @@ WrongExpresion = () => {
                 case "camBtn00":
                     ToLang="Show Steps"
                     break
+                case "newStack":
+                    ToLang = "Add Stack"
+                    break
                 default:
                     break; //ToLang=(V?.EqualTo.stringValue)!
             }
@@ -120,7 +123,10 @@ WrongExpresion = () => {
                     break  
                 case "camBtn00":
                     ToLang="Ver Pasos"
-                    break                                     
+                    break
+                case "newStack":
+                    ToLang = "Nueva pestaña"
+                    break
                 default:
                     break;
                 //  ToLang=(V?.EqualTo.stringValue)!

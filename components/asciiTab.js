@@ -16,64 +16,92 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import './mathKeyboard';
 import ModalLeft from "./modalLeft"
 import ModalRight from "./modalRight"
 
 const IsIOS = Platform.OS === 'ios';
 startIndex = 0;
 endIndex = 0;
-changeRangeSelG = null
-focusG = null
-isDataLoad = false
-
+//changeRangeSelG = null
+//focusG = null
+//isDataLoad = {}
 export default (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
     const [styleFun, setStyleFun] = React.useState(styles.styleFun)
     const [styleTextFun, setStyleTextFun] = React.useState({})
     const [styleKey, setStyleKey] = React.useState(styles.styleKey)
     const [styleTextKey, setStyleTextKey] = React.useState(styles.textStyle)
-    const [stateStart, setStateStart] = React.useState(0)
-    const [stateEnd, setStateEnd] = React.useState(0)
     const [isModal, setIsModal] = React.useState(false)
+    const [isDataLoad, setIsDataLoad] = React.useState(false)
+    const stackName = props.route.name
+    //isDataLoad[stackName]={band: false}
+    //console.log(props.route.name)
     const getSaveData = async () => {
-        let value = await AsyncStorage.getItem('@isModal');
-        if (value !== null) {
-            if(value==='1'){
-                setStyleFun(styles.styleFunAct)
-                setIsModal(true)
-                //setModalVisible(true)
-                setStyleTextFun(styles.textStyle)
-                _textInput.setNativeProps({
-                    showSoftInputOnFocus: false
-                })
+        try{
+            let value = await AsyncStorage.getItem('@isModal');
+            console.log(value)
+            stackIsModal = value !== null ? JSON.parse(value) : {};
+            if (stackIsModal[stackName] !== undefined) {
+                if (stackIsModal[stackName].isModal === 1) {
+                    setStyleFun(styles.styleFunAct)
+                    setIsModal(true)
+                    //setModalVisible(true)
+                    setStyleTextFun(styles.textStyle)
+                    stacktextInput[stackName]._textInput.setNativeProps({
+                        showSoftInputOnFocus: false
+                    })
+                }
             }
+        }catch(e){
+
         }
     }
-    const setSaveData = async (item, val) => {
-        await AsyncStorage.setItem(item, val);
-    }
+    /*const setSaveData = async (item, val) => {
+        try{
+            await AsyncStorage.setItem(item, val);
+        }catch(e){
 
-    if (!isDataLoad){
-        isDataLoad=true;
+        }
+    }*/
+
+    const setObjSave = async (item, val) => {
+        try {
+            const jsonValue = JSON.stringify(val)
+            console.log(`saveObj: ${jsonValue}`)
+            await AsyncStorage.setItem(item, jsonValue);
+        } catch (e) {
+
+        }
+    }
+    console.log(isDataLoad)
+    if (!isDataLoad) {
+        setIsDataLoad(true)
         getSaveData()  
     }
     //getSaveData()
     const showMathFunctions=()=>{
-        if (!isModal) {
-            setStyleFun(styles.styleFunAct)
-            setIsModal(true)
-            setModalVisible(true)
-            setStyleTextFun(styles.textStyle)
-            setSaveData('@isModal', '1')
-        }else{
-            setStyleFun(styles.styleFun)
-            setIsModal(false)
-            setModalVisible(false)
-            setStyleTextFun({})
-            setSaveData('@isModal', '0')
-        }
-        _focusText()
+        new Promise((resolve, reject)=>{
+            if (!isModal) {
+                //stacksfocusG[stackName].focusG()
+                setStyleFun(styles.styleFunAct)
+                setIsModal(true)
+                setModalVisible(true)
+                setStyleTextFun(styles.textStyle)
+                stackIsModal[stackName]={isModal: 1}
+                setObjSave('@isModal', stackIsModal)
+            // setSaveData('@isModal', '1')
+            }else{
+                setStyleFun(styles.styleFun)
+                setIsModal(false)
+                setModalVisible(false)
+                setStyleTextFun({})
+                stackIsModal[stackName]={isModal: 0}
+                setObjSave('@isModal', stackIsModal)
+                //setSaveData('@isModal', '0')
+            }
+            resolve(1)
+        }).then(() => _focusText())
+        
         
     }
 
@@ -125,7 +153,7 @@ export default (props) => {
     
     changeRangeSel = () => {
         try {
-                _textInput.setNativeProps({
+                stacktextInput[stackName]._textInput.setNativeProps({
                     selection:{
                         start: startIndex,
                         end: endIndex
@@ -135,24 +163,28 @@ export default (props) => {
             } catch (e) {
         }
     }
-    changeRangeSelG = changeRangeSel
-    
-    _focusText = ()=>{
-        _textInput.blur()
-        _textInput.setNativeProps({
-            showSoftInputOnFocus: modalVisible
+    stackchangeRangeSelG[stackName]={changeRangeSelG: changeRangeSel}
+
+    _focusText = () => {
+        console.log('focus')
+        stacktextInput[stackName]._textInput.blur()
+        stacktextInput[stackName]._textInput.setNativeProps({
+            showSoftInputOnFocus: !modalVisible
         })
         //_textInput.blur()
-        setTimeout(_textInput.focus, 250)
+        setTimeout(stacktextInput[stackName]._textInput.focus, 250)
         //_textInput.focus()
         //_textInput.forceUpdate()
     }
 
     _focusTxt = () => {
-        _textInput.focus()
+        /*stacktextInput[stackName]._textInput.setNativeProps({
+            showSoftInputOnFocus: false
+        })*/
+        stacktextInput[stackName]._textInput.focus()
     }
-
-    focusG = _focusTxt
+    stacksfocusG[stackName]={focusG: _focusTxt}
+    
     _onSelectionChange=(e)=>{
         startIndex = e.nativeEvent.selection.start
         endIndex = e.nativeEvent.selection.end
@@ -166,7 +198,7 @@ export default (props) => {
     }
 
         return(<View>
-                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false} >
+                
                     <TextInput
                         style={props.style}
                         onTextInput = {
@@ -190,15 +222,17 @@ export default (props) => {
                         onBlur={()=>{ setModalVisible(false) }}
                         onFocus = {
                             () => {
+                               // txtGExp = stacksVars[nameStack].txtGExp === undefined ? '' : stacksVars[nameStack].txtGExp
                                 if (isModal) {
                                     setModalVisible(true)
                                 }else{
-                                    _textInput.setNativeProps({
+                                    stacktextInput[stackName]._textInput.setNativeProps({
                                         showSoftInputOnFocus: true
                                     })
                                 }
                             }
                         }
+                        //autoFocus={true}
                         //onTouchEnd={props.onTouchEnd}
                         //showSoftInputOnFocus={!modalVisible}
                         onChangeText={props.onChangeText}
@@ -218,7 +252,7 @@ export default (props) => {
                         //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
                      //keyboardType={null}
                         //selectTextOnFocus={true}
-                        ref={component => _textInput = component }
+                        ref={component => stacktextInput[stackName]={_textInput: component} }
                         /*ref = {
                             (r) => {
                                 this.textInputRef = r;
@@ -228,7 +262,7 @@ export default (props) => {
                         defaultValue={props.defaultValue}
                        // onFocus={() => this.resetKeyboardView()}
                     />
-                </TouchableWithoutFeedback>
+                
                 <View style={{flexDirection: 'row'}}>
                     {
                     getToolbarButtons().map((button, index) =>

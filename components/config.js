@@ -53,7 +53,7 @@ export default () => {
                     setBsc(bbs);
                     setBbs(!bbs);
                     BBS = !BBS
-                    onChangeText(txtGExp, setGHtml)
+                    onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml)
                   }}
                 />
 
@@ -69,7 +69,7 @@ export default () => {
                     setBbs(bsc);
                     setBsc(!bsc);
                     BSC = !BSC
-                    onChangeText(txtGExp, setGHtml)
+                    onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml)
                   }}
                 />
                 <Divider style={{ backgroundColor: 'blue' }} />
@@ -81,7 +81,7 @@ export default () => {
                     toDecimalVal = toDecimalVal === 0 ? 1 : 0
                     setSaveData('@tDval', `${toDecimalVal}`);
                     setTDval(!tDval)
-                    onChangeText(txtGExp, setGHtml)
+                    onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml)
                   }}
                 />
                 <CheckBox
@@ -91,7 +91,7 @@ export default () => {
                     MoreDVal = MoreDVal === 0 ? 1:0
                     setSaveData('@mDval', `${MoreDVal}`);
                     setMDval(!mDval)
-                    onChangeText(txtGExp, setGHtml)
+                    onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml)
                   }}
                 />
                 <CheckBox
@@ -101,7 +101,7 @@ export default () => {
                     DegRad = DegRad === 0 ? 1 : 0
                     setSaveData('@toRad', `${DegRad}`);
                     setToRad(!toRad)
-                    onChangeText(txtGExp, setGHtml)
+                    onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml)
                   }}
                 />
 

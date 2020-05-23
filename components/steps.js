@@ -5,9 +5,7 @@ import {
     StyleSheet,
     ScrollView,
     View,
-    Text,
     StatusBar,
-    TextInput,
     Dimensions,
 } from 'react-native';
 import {
@@ -27,18 +25,21 @@ import onChangeText from '../functions/onChangeText.js'
 import loading from '../functions/loading.js'
 import AsciiTab from './asciiTab.js'
 
-setGHtml=null
-setGTxtExp=null
+//setGHtml=null
+//setGTxtExp=null
 txtGExp=''
 heightFix = 160
-evalGlobal=null
-export default () => {
+//evalGlobal=null
+export default (props) => {
     const [html, setHtml] = React.useState('');
     const [txtExp, setTxtExp] = React.useState('');
     const [Wwidth, setWidth] = React.useState(0);
     const [Wheight, setHeight] = React.useState(0);
-    setGHtml = setHtml
-    setGTxtExp = setTxtExp
+    const stackName = props.route.name
+    //setGHtml = setHtml
+    //setGTxtExp = setTxtExp
+    stacksetGHtml[stackName]={setGHtml: setHtml}
+    stackGTxtExp[stackName]={setGTxtExp: setTxtExp}
     const evaluating = text => {
         new Promise((resolve, reject) => {
             setHtml(loading())
@@ -47,24 +48,35 @@ export default () => {
             new Promise((resolve, reject) => {
                 //txtGExp = text
                 setSaveData("@evalString", text)
+                stacksVars[stackName]={txtGExp: text}
+                
+                setObjSave("@evalObject", stacksVars)
                 setTxtExp(text)
                 onChangeText(text, setHtml)
                 resolve(1)
             })
         })
     };
-    evalGlobal = evaluating
-    const getSaveData = async () => {
-      let value = await AsyncStorage.getItem('@evalString');
-      if (value !== null) {
-        evaluating(value)
-        //txtGExp = value
-      }else{
-       // evaluating('')
+    
+    
+    stackevalGlobal[stackName]={evalGlobal: evaluating}
+   // evalGlobal = evaluating
+    const setSaveData = async (item, val) => {
+      try{
+        await AsyncStorage.setItem(item, val);
+      }catch(e){
+
       }
     }
-    const setSaveData = async (item, val) => {
-      await AsyncStorage.setItem(item, val);
+
+    const setObjSave = async (item, val) => {
+      try{
+        const jsonValue = JSON.stringify(val)
+        console.log(`saveObj: ${jsonValue}`)
+        await AsyncStorage.setItem(item, jsonValue);
+      }catch(e){
+
+      }
     }
     
     return(
@@ -79,6 +91,7 @@ export default () => {
           keyboardShouldPersistTaps='handled'
           onLayout={()=>{
             const {width, height} = Dimensions.get('window');
+            txtGExp = stacksVars[stackName].txtGExp === undefined ? '' : stacksVars[stackName].txtGExp
             if (width !== Wwidth || height !== Wheight) {
               //getSaveData()
               setWidth(width)
@@ -86,7 +99,6 @@ export default () => {
               evaluating(txtGExp)
               //getSaveData()
             }
-            /*if(html===""){*/// onChangeText(txtGExp, setHtml)//}
           }}>
           {/*<Header />*/}
           
@@ -95,15 +107,19 @@ export default () => {
               <AsciiTab
                 style={styles.asciiTab}
                 onChangeText={text => {
+                new Promise((resolve, reject) => {
                   startIndex = 0;
                   endIndex = 0;
-                  changeRangeSelG();
-                  evaluating(text)
+                  stackchangeRangeSelG[stackName].changeRangeSelG()
+                  resolve(1)
+                }).then(() => evaluating(text))
+                  
                 }}
                 placeholder={strToLang('typeAnPH')}
                 //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
                 //selectTextOnFocus={true}
                 defaultValue={txtExp}
+                route={props.route}
               />
 
               {/*<Text style={styles.sectionDescription}>

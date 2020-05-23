@@ -28,18 +28,19 @@ export default (props) => {
   }
   const instertChar = (char) => {
     const countC = char.length
-    focusG()
+    stacksfocusG[nameStack].focusG()
     txtGExp = replaceRange(txtGExp, startIndex, endIndex, char);
-    evalGlobal(txtGExp);
+    stackevalGlobal[nameStack].evalGlobal(txtGExp);
     if (startIndex < endIndex){
         endIndex = startIndex
     }
     startIndex += countC;
     endIndex += countC;
-    changeRangeSelG();
+    stackchangeRangeSelG[nameStack].changeRangeSelG();
   }
+  
   const backSpance = () => {
-    focusG()
+    stacksfocusG[nameStack].focusG()
     if (startIndex > 0 && startIndex===endIndex) {
       startIndex--;
     }
@@ -47,21 +48,24 @@ export default (props) => {
     //if (endIndex > 0) {
       endIndex = startIndex;
     //}
-    evalGlobal(txtGExp);
-    changeRangeSelG();
+    console.log(startIndex)
+    console.log(endIndex)
+    stackevalGlobal[nameStack].evalGlobal(txtGExp);
+    stackchangeRangeSelG[nameStack].changeRangeSelG();
   }
+
   const backSpan = () => {    
-    focusG()
+    stacksfocusG[nameStack].focusG()
     if (endIndex > 0 && endIndex===startIndex) {
       endIndex--;
     }
     if (startIndex > 0){
       startIndex--;
     }
-    changeRangeSelG();
+    stackchangeRangeSelG[nameStack].changeRangeSelG();
   }
   const nextSpan = () => {
-    focusG()
+    stacksfocusG[nameStack].focusG()
     const ltxt = txtGExp.length
     if (ltxt > endIndex && endIndex !== startIndex) {
       endIndex++;
@@ -74,7 +78,7 @@ export default (props) => {
       }
     }
     
-    changeRangeSelG();
+    stackchangeRangeSelG[nameStack].changeRangeSelG();
   }
   return (
     

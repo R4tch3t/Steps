@@ -32,6 +32,7 @@ import headerRight from './components/headerRight'
 import Steps from './components/steps.js'
 import Config from './components/config.js'
 import CamScan from './components/camScan.js'
+import NewStack from './components/newStack.js'
 import * as RNLocalize from 'react-native-localize';
 
 import {} from './functions/animation/animation'
@@ -79,8 +80,32 @@ StepsC = 0
 toDecimalVal = 1
 MoreDVal = 0
 DegRad = 0
+setStacksG=null
+stacksG = [{name: 'Steps'}]
+stackLength=2
+//setBandInsG=null
+setBandNewG=null
+stacksVars={}
+nameStack='Steps'
+stacksetGHtml={}
+stackGTxtExp={}
+stackevalGlobal={}
+stackchangeRangeSelG={}
+stacksfocusG={}
+stacktextInput={}
+stackIsModal = {}
 const getSaveData = async () => {
-  let value = await AsyncStorage.getItem('@evalString');
+try{
+  /*let value = await AsyncStorage.getItem('@stacksNames')
+  value = value !== null ? JSON.parse(value) : stacksG;
+  //setStacksG(value)
+  stacksG = value
+  console.log(`stacksGet: ${value}`)*/
+  
+  let value = await AsyncStorage.getItem('@evalObject')
+  stacksVars = value !== null ? JSON.parse(value) : {};
+  
+  value = await AsyncStorage.getItem('@evalString');
   if (value !== null) {
     txtGExp = value
   }
@@ -119,38 +144,78 @@ const getSaveData = async () => {
     DegRad = value ? 1 : 0;
     //setMDval(value);
   }
+}catch(e){
+
+}
 }
 
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
+  let [stacks, setStacks] = React.useState(null);
+  const [bandNew, setBandNew] = React.useState(false)
+  setStacksG = setStacks
+  //stacksG=stacks
+  //setBandInsG = setBandIns
+  setBandNewG = setBandNew
+  console.log(stacks)
   const installFiles = () => {
-    install().then((band) => {
-      setBandIns(band)
+    install().then(async (band) => {
+        let value = await AsyncStorage.getItem('@stacksNames')
+        value = value !== null ? JSON.parse(value) : stacksG;
+        stacksG = value
+        setBandIns(band)
+        setStacks(value)
+    
     }).catch((error) => {
       setBandIns(false)
       console.log('Error  ' + error);
-    });
+    })//.finally(() => setStacks(stacksG));
   };
+  const stateStack = (s) => {
+    console.log(s.routeNames[s.index])
+    switch (s.routeNames[s.index]){
+      case strToLang('configLabel'):
+      case 'CamScan':
+        return
+      case strToLang('newStack'):
+        //const stacksP=[{name: 'steps'}]
+        //setStacks(stacksP)
+        break;
+      default:
+        nameStack = s.routeNames[s.index]
+        txtGExp = stacksVars[nameStack].txtGExp
+        //stacksfocusG[nameStack].focusG()
+        //startIndex = txtGExp !== undefined ? txtGExp.length : 0
+        if (txtGExp === undefined) {
+          startIndex = 0
+          endIndex = 0
+        } else {
+          startIndex = txtGExp.length
+          endIndex = txtGExp.length
+        }
+        break;
+    }
+      
+    
+  }
 
-  //getSaveData()
-  /*const effectSteps = ({navigation}) => {
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerRight: () => ( 
-        <Button onPress = {
-            () => console.log('clickR')
-          }
-          title = "Update count" />
-        ),
-      });
-    }, [navigation, setCount]);
-  } */
-
-  const stackSteps = ({navigation}) => {
+  const stackSteps = (props) => {
+    const {navigation} = props
+    console.log(props.route.name)
+    //var sV = {}
+    //sV[props.route.name] = {}
+    //sV[props.route.name].txtGExp = '??'
+    //console.log(sV[props.route.name])
+    if (stacksVars[props.route.name]===undefined){
+      //stacksVars={}
+      stacksVars[props.route.name]={txtGExp: txtGExp}
+    }
+    //stacksVars[props.route.name].txtGExp = txtGExp
+    console.log(stacksVars[props.route.name])
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Steps" component={Steps}
+        <Stack.Screen name={props.route.name} component={Steps}
           options={{
             title: 'Steps',
             headerLeft: ()=>headerLeft(navigation),
@@ -164,6 +229,31 @@ const App: () => React$Node = () => {
             },
             headerTitleAlign: 'center'
           }}
+        
+        />
+      </Stack.Navigator>
+    );
+  }
+
+  const newStack = (props) => {
+    const {navigation} = props
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name={props.route.name} component={NewStack}
+          options={{
+            title: props.route.name,
+            headerLeft: ()=>headerLeft(navigation),
+            headerRight: ()=>headerRight(navigation),
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center'
+          }}
+        
         />
       </Stack.Navigator>
     );
@@ -228,23 +318,38 @@ const App: () => React$Node = () => {
     </SafeAreaView>
     </>)
   }
-  if (bandIns === true)
+  if (bandIns === true){
+    if (bandNew) {
+      new Promise((resolve, reject)=>{
+        resolve(1)
+      }).then(() => setBandNew(false))
+      return <></>
+    } else if (stacks === null){
+      return <></>
+    }else
     return (
-      <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Steps">
-          <Drawer.Screen name="Steps" 
-          component={stackSteps}
-         />
+      <NavigationContainer onStateChange={stateStack} >
+        <Drawer.Navigator initialRouteName={nameStack}>
          <Drawer.Screen name={strToLang('configLabel')} 
           component={stackConfig}
          />
          <Drawer.Screen name="CamScan" 
           component={stackCamScan}
          />
+        {
+          stacks.map((stack, index) => 
+            <Drawer.Screen key={index} name={stack.name} 
+              component={stackSteps}
+            />
+          )
+        }
+        <Drawer.Screen name={strToLang('newStack')} 
+          component={newStack}
+         />
         </Drawer.Navigator>
       </NavigationContainer>
     );
-
+  }    
 };
 
 const styles = StyleSheet.create({

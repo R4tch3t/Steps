@@ -27,15 +27,15 @@ export default (props) => {
   }
   const instertChar = (char) => {
     const countC = char.length
-    focusG()
+    stacksfocusG[nameStack].focusG()
     txtGExp = replaceRange(txtGExp, startIndex, endIndex, char);
-    evalGlobal(txtGExp);
+    stackevalGlobal[nameStack].evalGlobal(txtGExp);
     if (startIndex < endIndex){
         endIndex = startIndex
     }
     startIndex += countC;
     endIndex += countC;
-    changeRangeSelG();
+    stackchangeRangeSelG[nameStack].changeRangeSelG();
   }
   
   return (
