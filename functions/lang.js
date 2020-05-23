@@ -69,6 +69,9 @@ WrongExpresion = () => {
                 case "newStack":
                     ToLang = "Add Stack"
                     break
+                case "delStack":
+                    ToLang = "Delete stack"
+                    break    
                 default:
                     break; //ToLang=(V?.EqualTo.stringValue)!
             }
@@ -127,6 +130,9 @@ WrongExpresion = () => {
                 case "newStack":
                     ToLang = "Nueva pestaña"
                     break
+                case "delStack":
+                    ToLang = "Eliminar pestaña"
+                    break    
                 default:
                     break;
                 //  ToLang=(V?.EqualTo.stringValue)!

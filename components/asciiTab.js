@@ -105,6 +105,43 @@ export default (props) => {
         
     }
 
+    const delStack = async () => {
+        let auxStack = [{name: 'Steps'}]
+        nameStack = 'Steps'
+        let count = 1
+        let newCount = 2
+        let delCount = 0
+        await (new Promise((resolve, reject)=>{
+            
+        if (stackName==='Steps'){
+            count=2
+        }//else{
+            
+        console.log(stacksG)
+        while (count < stacksG.length){
+            if (stacksG[count].name !== stackName){
+                auxStack.push({name: `Steps ${newCount}`})
+                newCount++
+                //nameStack = stacksG[count].name
+            }else{
+                delCount = count === stacksG.length - 1 ? count - 1 : count
+            }
+            count++
+        }
+           
+        nameStack = auxStack[delCount].name
+        stacksG = auxStack
+        
+        setObjSave("@stacksNames", stacksG)
+        resolve(1)
+        }).then(() => new Promise((resolve, reject) => {
+            setBandNewG(true)
+            setStacksG(stacksG)
+            resolve(1)
+        })))
+        
+    }
+
     const getToolbarButtons = () => {
         return [{
                 text: 'MathString',
@@ -113,17 +150,19 @@ export default (props) => {
                 styleText: styleTextFun,
                 onPress: () => showMathFunctions(),
             },
-           /* {
-                text: 'show2',
-                testID: 'show2',
-                onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2 (passed prop)'),
-            },*/
             {
                 text: 'Gboard',
                 testID: 'reset',
-                style: styleKey,
+                style: [styleKey, {backgroundColor: "green"}],
                 styleText: styleTextKey,
                 onPress: () => Linking.openURL("market://details?id=com.google.android.inputmethod.latin"),
+            },
+            {
+                text: strToLang('delStack'),
+                testID: 'reset',
+                style: [styleKey, {backgroundColor: "red"}],
+                styleText: styleTextKey,
+                onPress: delStack,
             },
         ];
     }
@@ -296,7 +335,6 @@ const styles = StyleSheet.create({
         padding: 3,
         borderRadius: 30,
         elevation: 2,
-        backgroundColor: "green"
     },
     styleFunAct: {
         padding: 3,
