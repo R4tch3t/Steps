@@ -16,7 +16,6 @@ import {
   Text,
   StatusBar,
   ActivityIndicator,
-  Dimensions,
 } from 'react-native';
 //import loading from './html/Loading.html'
 import install from './functions/install.js'
@@ -97,11 +96,6 @@ stacktextInput={}
 stackIsModal = {}
 const getSaveData = async () => {
 try{
-  /*let value = await AsyncStorage.getItem('@stacksNames')
-  value = value !== null ? JSON.parse(value) : stacksG;
-  //setStacksG(value)
-  stacksG = value
-  console.log(`stacksGet: ${value}`)*/
   
   let value = await AsyncStorage.getItem('@evalObject')
   stacksVars = value !== null ? JSON.parse(value) : {};
@@ -159,7 +153,6 @@ const App: () => React$Node = () => {
   //stacksG=stacks
   //setBandInsG = setBandIns
   setBandNewG = setBandNew
-  console.log(stacks)
   const installFiles = () => {
     install().then(async (band) => {
         let value = await AsyncStorage.getItem('@stacksNames')
@@ -174,7 +167,6 @@ const App: () => React$Node = () => {
     })//.finally(() => setStacks(stacksG));
   };
   const stateStack = (s) => {
-    console.log(s.routeNames[s.index])
     switch (s.routeNames[s.index]){
       case strToLang('newStack'):
       case strToLang('delStack'):
@@ -201,17 +193,11 @@ const App: () => React$Node = () => {
 
   const stackSteps = (props) => {
     const {navigation} = props
-    console.log(props.route.name)
-    //var sV = {}
-    //sV[props.route.name] = {}
-    //sV[props.route.name].txtGExp = '??'
-    //console.log(sV[props.route.name])
+
     if (stacksVars[props.route.name]===undefined){
-      //stacksVars={}
       stacksVars[props.route.name]={txtGExp: txtGExp}
     }
-    //stacksVars[props.route.name].txtGExp = txtGExp
-    console.log(stacksVars[props.route.name])
+
     return (
       <Stack.Navigator>
         <Stack.Screen name={props.route.name} component={Steps}
@@ -240,7 +226,7 @@ const App: () => React$Node = () => {
       <Stack.Navigator>
         <Stack.Screen name={props.route.name} component={NewDelStack}
           options={{
-            title: props.route.name,
+            title: 'Steps',
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {
@@ -263,7 +249,7 @@ const App: () => React$Node = () => {
       <Stack.Navigator>
         <Stack.Screen name={strToLang('configLabel')} component={Config}
           options={{
-            title: strToLang('configLabel'),
+            title: 'Config',
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {

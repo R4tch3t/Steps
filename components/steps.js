@@ -16,51 +16,41 @@ import {
 } from 'react-native-webview';
 import AsyncStorage from '@react-native-community/async-storage';
 import onChangeText from '../functions/onChangeText.js'
-//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-/*const {
-    width,
-    height
-} = Dimensions.get('window');
-*/
+
 import loading from '../functions/loading.js'
 import AsciiTab from './asciiTab.js'
 
-//setGHtml=null
-//setGTxtExp=null
 txtGExp=''
 heightFix = 160
-//evalGlobal=null
+
 export default (props) => {
     const [html, setHtml] = React.useState('');
     const [txtExp, setTxtExp] = React.useState('');
     const [Wwidth, setWidth] = React.useState(0);
     const [Wheight, setHeight] = React.useState(0);
     const stackName = props.route.name
-    //setGHtml = setHtml
-    //setGTxtExp = setTxtExp
+
     stacksetGHtml[stackName]={setGHtml: setHtml}
     stackGTxtExp[stackName]={setGTxtExp: setTxtExp}
     const evaluating = text => {
-        new Promise((resolve, reject) => {
+        /*new Promise((resolve, reject) => {
             setHtml(loading())
             resolve(1)
         }).then(() => {
-            new Promise((resolve, reject) => {
-                //txtGExp = text
+            new Promise((resolve, reject) => {*/
                 setSaveData("@evalString", text)
                 stacksVars[stackName]={txtGExp: text}
                 
                 setObjSave("@evalObject", stacksVars)
                 setTxtExp(text)
                 onChangeText(text, setHtml)
-                resolve(1)
-            })
-        })
+               // resolve(1)
+            //})
+        //})
     };
     
     
     stackevalGlobal[stackName]={evalGlobal: evaluating}
-   // evalGlobal = evaluating
     const setSaveData = async (item, val) => {
       try{
         await AsyncStorage.setItem(item, val);
@@ -72,7 +62,6 @@ export default (props) => {
     const setObjSave = async (item, val) => {
       try{
         const jsonValue = JSON.stringify(val)
-        console.log(`saveObj: ${jsonValue}`)
         await AsyncStorage.setItem(item, jsonValue);
       }catch(e){
 
@@ -93,11 +82,9 @@ export default (props) => {
             const {width, height} = Dimensions.get('window');
             txtGExp = stacksVars[stackName].txtGExp === undefined ? '' : stacksVars[stackName].txtGExp
             if (width !== Wwidth || height !== Wheight) {
-              //getSaveData()
               setWidth(width)
               setHeight(height)
               evaluating(txtGExp)
-              //getSaveData()
             }
           }}>
           {/*<Header />*/}
@@ -122,10 +109,6 @@ export default (props) => {
                 route={props.route}
               />
 
-              {/*<Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>*/}
             </View>
             <WebView
               //injectedJavaScript={'true'}
@@ -140,8 +123,6 @@ export default (props) => {
                 onNavigationStateChange.bind(this)
               }*/
               source={{html: html}}
-              //source={{html: require('./html/Loading.html')}}
-              //source={{uri: loading()}} 
               //automaticallyAdjustContentInsets={true}
               //scrollEnabled={true}
               style={[styles.webView,{width: Wwidth, height: Wheight - heightFix}]}

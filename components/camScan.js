@@ -24,20 +24,7 @@ export default ({navigation}) => {
       onChangeText(txtS, stacksetGHtml[nameStack].setGHtml)
     }
   }
-  /*const onBackPress = () => {
-    //toSteps()
-    navigation.navigate('Steps');
-    return true
-  };
-  useFocusEffect(
-    React.useCallback(() => {     
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-      }
-    }//, [isSelectionModeEnabled, disableSelectionMode]
-    )
-  );*/
+  
     return (
       <>
         <StatusBar backgroundColor="#f4511e" barStyle="default" />

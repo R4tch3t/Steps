@@ -1,17 +1,11 @@
-import React, {
-    Component
-} from 'react';
+import React from 'react';
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    TouchableHighlight,
-    TouchableWithoutFeedback,
-    PixelRatio,
     Platform,
     TextInput,
-    Keyboard,
     Linking,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -22,9 +16,7 @@ import ModalRight from "./modalRight"
 const IsIOS = Platform.OS === 'ios';
 startIndex = 0;
 endIndex = 0;
-//changeRangeSelG = null
-//focusG = null
-//isDataLoad = {}
+
 export default (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
     const [styleFun, setStyleFun] = React.useState(styles.styleFun)
@@ -34,12 +26,10 @@ export default (props) => {
     const [isModal, setIsModal] = React.useState(false)
     const [isDataLoad, setIsDataLoad] = React.useState(false)
     const stackName = props.route.name
-    //isDataLoad[stackName]={band: false}
-    //console.log(props.route.name)
+
     const getSaveData = async () => {
         try{
             let value = await AsyncStorage.getItem('@isModal');
-            console.log(value)
             stackIsModal = value !== null ? JSON.parse(value) : {};
             if (stackIsModal[stackName] !== undefined) {
                 if (stackIsModal[stackName].isModal === 1) {
@@ -56,29 +46,21 @@ export default (props) => {
 
         }
     }
-    /*const setSaveData = async (item, val) => {
-        try{
-            await AsyncStorage.setItem(item, val);
-        }catch(e){
-
-        }
-    }*/
 
     const setObjSave = async (item, val) => {
         try {
             const jsonValue = JSON.stringify(val)
-            console.log(`saveObj: ${jsonValue}`)
             await AsyncStorage.setItem(item, jsonValue);
         } catch (e) {
 
         }
     }
-    console.log(isDataLoad)
+    
     if (!isDataLoad) {
         setIsDataLoad(true)
         getSaveData()  
     }
-    //getSaveData()
+
     const showMathFunctions=()=>{
         new Promise((resolve, reject)=>{
             if (!isModal) {
@@ -123,7 +105,6 @@ export default (props) => {
                 bandChange = true
             }//else{
                 
-            console.log(auxVars)
             while (count < stacksG.length){
                 if (stacksG[count].name !== stackName){
                     auxStack.push({name: `Steps ${newCount}`})
@@ -145,10 +126,6 @@ export default (props) => {
                 }
                 count++
             }
-
-            /*if(delCount===stacksG.length){
-
-            }*/
 
             nameStack = auxStack[delCount].name
             stacksG = auxStack
@@ -228,21 +205,16 @@ export default (props) => {
     stackchangeRangeSelG[stackName]={changeRangeSelG: changeRangeSel}
 
     _focusText = () => {
-        console.log('focus')
         stacktextInput[stackName]._textInput.blur()
         stacktextInput[stackName]._textInput.setNativeProps({
             showSoftInputOnFocus: !modalVisible
         })
         //_textInput.blur()
         setTimeout(stacktextInput[stackName]._textInput.focus, 250)
-        //_textInput.focus()
-        //_textInput.forceUpdate()
     }
 
     _focusTxt = () => {
-        /*stacktextInput[stackName]._textInput.setNativeProps({
-            showSoftInputOnFocus: false
-        })*/
+        
         stacktextInput[stackName]._textInput.focus()
     }
     stacksfocusG[stackName]={focusG: _focusTxt}
@@ -250,13 +222,6 @@ export default (props) => {
     _onSelectionChange=(e)=>{
         startIndex = e.nativeEvent.selection.start
         endIndex = e.nativeEvent.selection.end
-        /*this.setState({
-            selection:{
-                start: startIndex,
-                end: endIndex
-            }
-        })*/
-      // changeRangeSel()
     }
 
         return(<View>
@@ -294,45 +259,24 @@ export default (props) => {
                                 }
                             }
                         }
-                        //autoFocus={true}
-                        //onTouchEnd={props.onTouchEnd}
-                        //showSoftInputOnFocus={!modalVisible}
+
                         onChangeText={props.onChangeText}
                         onSelectionChange={_onSelectionChange}
-                       //onKeyPress={_onKeyPress}
-                        /*onChange = {
-                            (e) => {
-                                startIndex = 0;
-                                endIndex = 0;
-                                changeRangeSel()
-                            }
-                        }*/
                         
                         placeholder={props.placeholder}
                         multiline={true}
-                       // selection={selection}
-                        //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
-                     //keyboardType={null}
-                        //selectTextOnFocus={true}
                         ref={component => stacktextInput[stackName]={_textInput: component} }
-                        /*ref = {
-                            (r) => {
-                                this.textInputRef = r;
-                                r.shouldComponentUpdate
-                            }
-                        }*/
                         defaultValue={props.defaultValue}
-                       // onFocus={() => this.resetKeyboardView()}
                     />
                 
                 <View style={{flexDirection: 'row'}}>
                     {
                     getToolbarButtons().map((button, index) =>
                         <TouchableOpacity
-                        onPress={button.onPress}
-                        style={button.style}
-                        key={index}
-                        testID={button.testID}
+                            onPress={button.onPress}
+                            style={button.style}
+                            key={index}
+                            testID={button.testID}
                         >
                         <Text style={button.styleText}>{button.text}</Text>
                         </TouchableOpacity>)

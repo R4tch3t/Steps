@@ -11,7 +11,6 @@ cleanstrD = (s) => {
         var nextUnichar = 0
 
         if (str.length>0) {
-            // nextUnichar = (String(str.first!) as NSString).character(at: str.startIndex)
             nextUnichar = str[0].charCodeAt(0)
         }
         
@@ -212,32 +211,9 @@ cleanstrD = (s) => {
                 //s+=char
                 strDevelopment+=char
             } else if (uniChar === 8730 && previusUnichar !== 41 && !(previusUnichar > 47 && previusUnichar < 58)) {
-                //if (previusUnichar !== 41 && !(previusUnichar > 47 && previusUnichar < 58)){
                     s+="2,"+char+","
                     strDevelopment+="2"+char
-                //} else if (BSC && previusUnichar !== 41) {
-                    /*let changeUni = strDevelopment[strDevelopment.length - 1].charCodeAt(0)
-                    let cn = strDevelopment.length - 2
-                    let charsChang = ''
-                    while (cn>0 && (changeUni > 47 && changeUni < 58 )) {
-                        charsChang = strDevelopment[cn] + charsChang
-                        changeUni = strDevelopment[cn].charCodeAt(0)
-                        cn--
-                    }
-                    if (cn>0 && changeUni === 45) {
-                        changeUni = strDevelopment[cn].charCodeAt(0)
-                        if (changeUni !== 43) {
-                            strDevelopment = strDevelopment.split(charsChang).join('+' + charsChang)
-                        }
-                    }
-                    
-                    s+=","+char+","
-                    strDevelopment+=char
-                }
-                else{
-                    s+=","+char+","
-                    strDevelopment+=char
-                }*/
+               
             } else {
                 s+=","+char+","
                 strDevelopment+=char

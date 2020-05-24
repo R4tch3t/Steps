@@ -4,11 +4,6 @@ EvalMinus = (auxStr, aux1Str) => {
     auxStr = auxStr.split(")").join("");
     aux1Str = aux1Str.split(")").join("");
     aux1Str = aux1Str.split("+").join("");
-    /*strDevelopment = strDevelopment.split("log_10" + auxStr).join("log_10(" + auxStr + ")")
-    strDevelopment = strDevelopment.split("log_10" + aux1Str).join("log_10(" + aux1Str + ")")
-    strDevelopment = strDevelopment.split("log_2" + auxStr).join("log_2(" + auxStr + ")")
-    strDevelopment = strDevelopment.split("log_2" + aux1Str).join("log_2(" + aux1Str + ")")*/
-    //aux1Str=aux1Str.replacingOccurrences(of: "+", with: "")
     str2 = aux1Str + "-" + auxStr
 
     if (isNumber(auxStr) && isNumber(aux1Str)) {

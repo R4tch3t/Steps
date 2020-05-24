@@ -22,7 +22,6 @@ export default (props) => {
   const setObjSave = async (item, val) => {
     try{
       const jsonValue = JSON.stringify(val)
-      console.log(`saveObj: ${jsonValue}`)
       await AsyncStorage.setItem(item, jsonValue);
     }catch(e){
 
@@ -54,7 +53,7 @@ export default (props) => {
             let bandChange = false
             startIndex = 0
             endIndex = 0
-            
+
             if (stackName==='Steps'){
                 count=2
                 if (stacksG.length>1){
@@ -64,9 +63,8 @@ export default (props) => {
                     stacksVars[`Steps`]={txtGExp: ''}
                 }
                 bandChange = true
-            }//else{
+            }
                 
-            console.log(auxVars)
             while (count < stacksG.length){
                 if (stacksG[count].name !== stackName){
                     auxStack.push({name: `Steps ${newCount}`})
@@ -74,7 +72,6 @@ export default (props) => {
                     if(bandChange){
                         stacksVars[`Steps ${newCount-1}`]={txtGExp: stacksVars[`Steps ${newCount}`].txtGExp}
                     }
-                    //nameStack = stacksG[count].name
                 }else{
                     if (count === stacksG.length - 1){
                         delCount = count - 1
@@ -89,9 +86,6 @@ export default (props) => {
                 count++
             }
 
-            /*if(delCount===stacksG.length){
-
-            }*/
 
             nameStack = auxStack[delCount].name
             stacksG = auxStack
@@ -129,8 +123,6 @@ export default (props) => {
                 delStack()
               }
               
-              console.log(stacksG)
-              console.log(props)
               setWidth(width)
               setHeight(height)
             }

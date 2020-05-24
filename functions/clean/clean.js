@@ -7,10 +7,7 @@
 //    
     
     prepareStrDevelopment=(str, rstr)=>{
-        //let rOriginal=V.strDevelopment.range(of: rstr)
-        
-        //V.strDevelopment=V.strDevelopment.replacingOccurrences(of: str, with: rstr, options: String.CompareOptions.caseInsensitive, range: rOriginal)
-        //let re = new RegExp(str, 'gi');
+
         str = str.toLowerCase()
         strDevelopment = strDevelopment.toLowerCase()
         strDevelopment = strDevelopment.split(str).join(rstr)

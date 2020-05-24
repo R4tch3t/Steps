@@ -45,11 +45,8 @@ export default (props) => {
       startIndex--;
     }
     txtGExp = replaceRange(txtGExp, startIndex, endIndex, '');
-    //if (endIndex > 0) {
-      endIndex = startIndex;
-    //}
-    console.log(startIndex)
-    console.log(endIndex)
+    endIndex = startIndex;
+    
     stackevalGlobal[nameStack].evalGlobal(txtGExp);
     stackchangeRangeSelG[nameStack].changeRangeSelG();
   }

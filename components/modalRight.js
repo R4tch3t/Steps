@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-import { Animated, View, StyleSheet, Text, TouchableOpacity, Dimensions } from "react-native";
-const {width, height} = Dimensions.get('window');
+import { Animated, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default (props) => {
   const pan = useRef(new Animated.ValueXY()).current; 
@@ -27,15 +26,21 @@ export default (props) => {
   }
   const instertChar = (char) => {
     const countC = char.length
+    //new Promise((resolve, reject)=>{
     stacksfocusG[nameStack].focusG()
     txtGExp = replaceRange(txtGExp, startIndex, endIndex, char);
-    stackevalGlobal[nameStack].evalGlobal(txtGExp);
-    if (startIndex < endIndex){
+    stackevalGlobal[nameStack].evalGlobal(txtGExp)
+    //resolve(1)
+    //})
+   // .then(() => {
+      if (startIndex < endIndex) {
         endIndex = startIndex
-    }
-    startIndex += countC;
-    endIndex += countC;
-    stackchangeRangeSelG[nameStack].changeRangeSelG();
+      }
+      startIndex += countC;
+      endIndex += countC;
+      stackchangeRangeSelG[nameStack].changeRangeSelG();
+   // });
+    
   }
   
   return (
