@@ -106,34 +106,57 @@ export default (props) => {
     }
 
     const delStack = async () => {
-        let auxStack = [{name: 'Steps'}]
-        nameStack = 'Steps'
-        let count = 1
-        let newCount = 2
-        let delCount = 0
-        await (new Promise((resolve, reject)=>{
-            
-        if (stackName==='Steps'){
-            count=2
-        }//else{
-            
-        console.log(stacksG)
-        while (count < stacksG.length){
-            if (stacksG[count].name !== stackName){
-                auxStack.push({name: `Steps ${newCount}`})
-                newCount++
-                //nameStack = stacksG[count].name
-            }else{
-                delCount = count === stacksG.length - 1 ? count - 1 : count
+        await (new Promise((resolve, reject) => {
+            let auxStack = [{name: 'Steps'}]
+            const auxVars = JSON.parse(JSON.stringify(stacksVars))
+            nameStack = 'Steps'
+            let count = 1
+            let newCount = 2
+            let delCount = 0
+            let bandChange = false
+                
+            if (stackName==='Steps'){
+                count=2
+                if (stacksG.length>1){
+                    stacksVars[`Steps`]={txtGExp: stacksVars[`Steps 2`].txtGExp}
+                }
+                bandChange = true
+            }//else{
+                
+            console.log(auxVars)
+            while (count < stacksG.length){
+                if (stacksG[count].name !== stackName){
+                    auxStack.push({name: `Steps ${newCount}`})
+                    newCount++
+                    if(bandChange){
+                        stacksVars[`Steps ${newCount-1}`]={txtGExp: stacksVars[`Steps ${newCount}`].txtGExp}
+                    }
+                    //nameStack = stacksG[count].name
+                }else{
+                    if (count === stacksG.length - 1){
+                        delCount = count - 1
+                        if (stacksG.length>2){
+                            stacksVars[`Steps ${count}`]={txtGExp: auxVars[`Steps ${count}`].txtGExp}                    
+                        }
+                    }else{
+                        delCount = count
+                    }
+                    bandChange=true
+                }
+                count++
             }
-            count++
-        }
-           
-        nameStack = auxStack[delCount].name
-        stacksG = auxStack
-        
-        setObjSave("@stacksNames", stacksG)
-        resolve(1)
+
+            /*if(delCount===stacksG.length){
+
+            }*/
+
+            nameStack = auxStack[delCount].name
+            stacksG = auxStack
+
+            setObjSave("@evalObject", stacksVars)
+            setObjSave("@stacksNames", stacksG)
+
+            resolve(1)
         }).then(() => new Promise((resolve, reject) => {
             setBandNewG(true)
             setStacksG(stacksG)
