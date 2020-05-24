@@ -67,7 +67,7 @@ WrongExpresion = () => {
                     ToLang="Show Steps"
                     break
                 case "newStack":
-                    ToLang = "Add Stack"
+                    ToLang = "Add stack"
                     break
                 case "delStack":
                     ToLang = "Delete stack"

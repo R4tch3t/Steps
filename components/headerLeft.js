@@ -25,7 +25,10 @@ export default (navigation) => {
             type = 'font-awesome'
             color = '#f50'
             onPress = {
-                () => navigation.toggleDrawer()
+                () => {
+                    stacktextInput[nameStack]._textInput.blur()
+                    navigation.toggleDrawer()
+                }
             } />
             <Icon
             raised

@@ -27,6 +27,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Icon} from 'react-native-elements'
 import headerLeft from './components/headerLeft'
 import headerRight from './components/headerRight'
 import Steps from './components/steps.js'
@@ -332,19 +333,43 @@ const App: () => React$Node = () => {
         <Drawer.Navigator initialRouteName={nameStack}>
          <Drawer.Screen name={strToLang('configLabel')} 
           component={stackConfig}
+          options={{
+            drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'briefcase' : 'briefcase'}></Icon>
+          }}
          />
          <Drawer.Screen name="CamScan" 
           component={stackCamScan}
+          options={{
+            drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'camera' : 'camera'}></Icon>
+          }}
          />
         {
           stacks.map((stack, index) => 
-            <Drawer.Screen key={index} name={stack.name} 
+            <Drawer.Screen key={index}  name={stack.name} 
               component={stackSteps}
+              options={{
+            drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
+          }}
             />
           )
         }
         <Drawer.Screen name={strToLang('newStack')} 
           component={newStack}
+          options={{
+            drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'plus' : 'plus'}></Icon>
+          }}
          />
         </Drawer.Navigator>
       </NavigationContainer>
