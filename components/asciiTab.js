@@ -180,13 +180,13 @@ export default (props) => {
                 styleText: styleTextKey,
                 onPress: () => Linking.openURL("market://details?id=com.google.android.inputmethod.latin"),
             },
-            {
+            /*{
                 text: strToLang('delStack'),
                 testID: 'reset',
                 style: [styleKey, {backgroundColor: "red"}],
                 styleText: styleTextKey,
                 onPress: delStack,
-            },
+            },*/
         ];
     }
     /*replaceRange(s, start, end, substitute) {

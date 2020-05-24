@@ -13,11 +13,16 @@ export default (navigation) => {
             let newCount = 2
             let delCount = 0
             let bandChange = false
-                
+            startIndex = 0
+            endIndex = 0
+            
             if (stackName==='Steps'){
                 count=2
                 if (stacksG.length>1){
                     stacksVars[`Steps`]={txtGExp: stacksVars[`Steps 2`].txtGExp}
+                }
+                if (stacksG.length===1){
+                    stacksVars[`Steps`]={txtGExp: ''}
                 }
                 bandChange = true
             }//else{
@@ -67,7 +72,7 @@ export default (navigation) => {
         <View style={{flexDirection: 'row'}} >
             <Icon
             raised
-            name = 'close'
+            name = 'trash'
             type = 'font-awesome'
             color = '#f50'
             onPress = {delStack} />

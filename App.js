@@ -33,7 +33,7 @@ import headerRight from './components/headerRight'
 import Steps from './components/steps.js'
 import Config from './components/config.js'
 import CamScan from './components/camScan.js'
-import NewStack from './components/newStack.js'
+import NewDelStack from './components/newDelStack.js'
 import * as RNLocalize from 'react-native-localize';
 
 import {} from './functions/animation/animation'
@@ -176,13 +176,11 @@ const App: () => React$Node = () => {
   const stateStack = (s) => {
     console.log(s.routeNames[s.index])
     switch (s.routeNames[s.index]){
+      case strToLang('newStack'):
+      case strToLang('delStack'):
       case strToLang('configLabel'):
       case 'CamScan':
-        return
-      case strToLang('newStack'):
-        //const stacksP=[{name: 'steps'}]
-        //setStacks(stacksP)
-        break;
+        return;
       default:
         nameStack = s.routeNames[s.index]
         txtGExp = stacksVars[nameStack].txtGExp
@@ -240,7 +238,7 @@ const App: () => React$Node = () => {
     const {navigation} = props
     return (
       <Stack.Navigator>
-        <Stack.Screen name={props.route.name} component={NewStack}
+        <Stack.Screen name={props.route.name} component={NewDelStack}
           options={{
             title: props.route.name,
             headerLeft: ()=>headerLeft(navigation),
@@ -371,6 +369,15 @@ const App: () => React$Node = () => {
               name={Platform.OS === 'android' ? 'plus' : 'plus'}></Icon>
           }}
          />
+        <Drawer.Screen name={strToLang('delStack')} 
+          component={newStack}
+          options={{
+            drawerIcon: config => <Icon
+              size={23}
+              type = 'font-awesome'
+              name={Platform.OS === 'android' ? 'trash' : 'trash'}></Icon>
+          }}
+         /> 
         </Drawer.Navigator>
       </NavigationContainer>
     );
