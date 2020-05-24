@@ -335,18 +335,18 @@ const App: () => React$Node = () => {
           component={stackConfig}
           options={{
             drawerIcon: config => <Icon
-                size={23}
-                type = 'font-awesome'
-                name={Platform.OS === 'android' ? 'briefcase' : 'briefcase'}></Icon>
+              size={23}
+              type = 'font-awesome'
+              name={Platform.OS === 'android' ? 'briefcase' : 'briefcase'}></Icon>
           }}
          />
          <Drawer.Screen name="CamScan" 
           component={stackCamScan}
           options={{
             drawerIcon: config => <Icon
-                size={23}
-                type = 'font-awesome'
-                name={Platform.OS === 'android' ? 'camera' : 'camera'}></Icon>
+              size={23}
+              type = 'font-awesome'
+              name={Platform.OS === 'android' ? 'camera' : 'camera'}></Icon>
           }}
          />
         {
@@ -354,11 +354,11 @@ const App: () => React$Node = () => {
             <Drawer.Screen key={index}  name={stack.name} 
               component={stackSteps}
               options={{
-            drawerIcon: config => <Icon
-                size={23}
-                type = 'font-awesome'
-                name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
-          }}
+                drawerIcon: config => <Icon
+                  size={23}
+                  type = 'font-awesome'
+                  name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
+              }}
             />
           )
         }
@@ -366,9 +366,9 @@ const App: () => React$Node = () => {
           component={newStack}
           options={{
             drawerIcon: config => <Icon
-                size={23}
-                type = 'font-awesome'
-                name={Platform.OS === 'android' ? 'plus' : 'plus'}></Icon>
+              size={23}
+              type = 'font-awesome'
+              name={Platform.OS === 'android' ? 'plus' : 'plus'}></Icon>
           }}
          />
         </Drawer.Navigator>
