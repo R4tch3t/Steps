@@ -81,7 +81,8 @@ EvalSqrt = (auxStr, aux1Str, replace) => {
         str1 = str1.split(' + -').join(" - ")
         str1 = str1.split('pi').join(Math.PI.toString())
 
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center; width: " + wMobil + "px' >`" + str1 + "`</p>"
+        Pstrltx(str1)
 
 
     } else if (isFrac(auxStr) && isFrac(aux1Str)) {
@@ -108,7 +109,8 @@ EvalSqrt = (auxStr, aux1Str, replace) => {
         str2 = str2.split("+-").join("-")
         str1 = "-> [" + str2 + "]=" + StepsFrac(str2) + "=" + res
 
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center; width: " + wMobil + "px' >`" + str1 + "`</p>"
+        Pstrltx(str1)
 
     } else {
         res = strToLang("WrongEx")

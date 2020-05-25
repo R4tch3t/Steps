@@ -13,7 +13,7 @@ StepLatex=(str1, str2, rstr, rstr2, res, change, band)=>{
 
         var OP=[];
         if (band) {
-            strltx+="<div class='card' style='background: transparent' >"
+            strltx+="<div class='card divSteps' style='background: transparent' >"
             strltx+="<div class='card-body' style='background: transparent' >"
             strltx+="<p>`"+str1+"`"
         }

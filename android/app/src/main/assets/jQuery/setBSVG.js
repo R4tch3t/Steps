@@ -6,9 +6,12 @@ function setBackgroundSVG(){
     var Wheight=$("body").prop("scrollHeight");
     var windowW = $(window).width();
     var windowH = $(window).height();
+    $(".pProcess").width(windowW);
+
     if (Wwidth < windowW) {
         Wwidth = windowW;
     }
+
     if (Wheight < windowH) {
         Wheight = windowH;
     }
@@ -21,6 +24,8 @@ function setBackgroundSVG(){
     $originHeight=Wheight;
     $bodySVG = SVG('bodySVG').size(Wwidth,Wheight).viewbox(0,0,Wwidth,Wheight);
     $rectBody = $bodySVG.rect(Wwidth,Wheight);
+    
+    $('.divSteps').width(Wwidth);
 
     $stopR0=16517;
     $stopR1=3328;
@@ -58,12 +63,12 @@ function setBackgroundSVG(){
             // $('p').css('color','yellow');
             
             var device = navigator.userAgent;
-            var agentID = device.match(/Android\s+([\d\.]+)/)
-            var opacidad=1
+            var agentID = device.match(/Android\s+([\d\.]+)/);
+            var opacidad=1;
             if(agentID.length>1){
-                agentID = agentID[1]
+                agentID = agentID[1];
                 if(parseFloat(agentID)<5){
-                    opacidad=0.2
+                    opacidad=0.2;
                 }
             }
             $("#divSVG").animate({opacity: opacidad}, "slow", function () {
@@ -90,7 +95,7 @@ function resizeB(){
             Wheight = windowH;
         }
 
-        $bodySVG.size(Wwidth,Wheight).viewbox(0,0,Wwidth,Wheight),
+        $bodySVG.size(Wwidth,Wheight).viewbox(0,0,Wwidth,Wheight);
         $rectBody.size(Wwidth,Wheight);
 
     })(jQuery);
@@ -100,7 +105,7 @@ function resizeW(){
     jQuery.noConflict();
     (function ($) {
 
-     $bodySVG.size($originWidth,$originHeight).viewbox(0,0,$originWidth,$originHeight),
+     $bodySVG.size($originWidth,$originHeight).viewbox(0,0,$originWidth,$originHeight);
      $rectBody.size($originWidth,$originHeight);
 
      })(jQuery);

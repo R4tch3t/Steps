@@ -52,7 +52,8 @@ EvalSen = (auxStr) => {
             str1 = str1 + str2 + " = " + tofrac(DoubleStr(res.split("+").join("")))
         }
         str1 = str1.split("pi").join(Math.PI.toString())
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center; width: " + wMobil + "px' >`" + str1 + "`</p>"
+        Pstrltx(str1)
 
     } else {
         res = WrongExpresion()

@@ -124,7 +124,8 @@ EvalSum = (auxStr, aux1Str) => {
         str1 = str1.split("pi").join(Math.PI.toString());
         //str1=str1.replacingOccurrences(of: " + -", with: " - ")
         //str1=str1.replacingOccurrences(of: "pi", with: String(Double.pi))
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        Pstrltx(str1)
 
     } else if (isFrac(auxStr) && isFrac(aux1Str)) {
         auxStr = auxStr.split("(").join('');
@@ -157,7 +158,8 @@ EvalSum = (auxStr, aux1Str) => {
         str2 = str2.split("+-").join("-")
         str1 = "-> [" + str2 + "]=" + StepsFrac(str2) + "=" + res
 
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        Pstrltx(str1)
 
     } else {
         res = strToLang("WrongEx")

@@ -62,7 +62,8 @@ EvalPlux = (auxStr, aux1Str, sm) => {
             str1 = str1 + str2 + " = " + DoubleStr(tofrac(res.split("+").join("")))
         }
         str1 = str1.split("pi").join(Math.PI.toString())
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center; width: " + wMobil + "px' >`" + str1 + "`</p>"
+        Pstrltx(str1)
 
     } else if (isFrac(auxStr) && isFrac(aux1Str)) {
         aux1Str = aux1Str.split("(").join("")
@@ -90,7 +91,8 @@ EvalPlux = (auxStr, aux1Str, sm) => {
         str2 = aux1Str + sm + auxStr
         str1 = "-> [" + str2 + "]=" + StepsFrac(str2) + "=" + res
 
-        strltx += "<p style='text-align:center' >`" + str1 + "`</p>"
+        //strltx += "<p style='text-align:center; width: " + wMobil + "px' >`" + str1 + "`</p>"
+        Pstrltx(str1)
     } else {
         res = WrongExpresion()
     }

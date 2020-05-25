@@ -3,6 +3,9 @@ str1 = ""
 str2 = ""
 str3 = ""
 change = false
+Pstrltx = (s) => {
+    strltx += "<p class='pProcess' style='text-align:center;' >`" + s + "`</p>"
+}
 Evaluate=(str)=>{
         //Entrada de datos
         let STR=[]
