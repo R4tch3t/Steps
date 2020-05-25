@@ -32,6 +32,7 @@ export default (props) => {
 
     stacksetGHtml[stackName]={setGHtml: setHtml}
     stackGTxtExp[stackName]={setGTxtExp: setTxtExp}
+    
     const evaluating = text => {
         /*new Promise((resolve, reject) => {
             setHtml(loading())
@@ -47,6 +48,18 @@ export default (props) => {
                // resolve(1)
             //})
         //})
+    };
+
+    const reloadHtml = () => {
+        new Promise((resolve, reject) => {
+            setHtml('')
+            resolve(1)
+        }).then(() => {
+            new Promise((resolve, reject) => {
+                evaluating(txtGExp)
+                resolve(1)
+            })
+        })
     };
     
     
@@ -84,7 +97,8 @@ export default (props) => {
             if (width !== Wwidth || height !== Wheight) {
               setWidth(width)
               setHeight(height)
-              evaluating(txtGExp)
+              reloadHtml()
+              
             }
           }}>
           {/*<Header />*/}

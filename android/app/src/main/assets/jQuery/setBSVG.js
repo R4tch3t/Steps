@@ -6,10 +6,12 @@ function setBackgroundSVG(){
     var Wheight=$("body").prop("scrollHeight");
     var windowW = $(window).width();
     var windowH = $(window).height();
-    $(".pProcess").width(windowW);
-
+    
     if (Wwidth < windowW) {
         Wwidth = windowW;
+    }else{
+        $('.divSteps').width(Wwidth);
+        $(".pProcess").width(windowW-30);
     }
 
     if (Wheight < windowH) {
@@ -17,7 +19,9 @@ function setBackgroundSVG(){
     }
 
     if(Wwidth>1800){
+      //  $(".pProcess").width($(window).width());
         Wwidth+=Wwidth*0.20;
+        $('.divSteps').width(Wwidth);
     }
     
     $originWidth=Wwidth;
@@ -25,7 +29,7 @@ function setBackgroundSVG(){
     $bodySVG = SVG('bodySVG').size(Wwidth,Wheight).viewbox(0,0,Wwidth,Wheight);
     $rectBody = $bodySVG.rect(Wwidth,Wheight);
     
-    $('.divSteps').width(Wwidth);
+    //$('.divSteps').width(Wwidth);
 
     $stopR0=16517;
     $stopR1=3328;
