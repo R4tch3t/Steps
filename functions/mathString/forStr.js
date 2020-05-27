@@ -39,18 +39,25 @@ forstr = (numberA, numberB) => {
 
     let StackA = numberA.split('').reverse()
     let StackB = numberB.split('').reverse()
-
+    console.log(StackA)
+    console.log(StackB)
     let StackPlus = []
     let countA = 0
     let countB = 0
 
     for (i in StackB) {
         let n1 = StackB[i]
+        //let n1 = i
         StackPlus.push("")
         for (i2 in StackA) {
             let n2 = StackA[i2]
+            //let n2 = i2
+            console.log(`n1: ${n1}`)
+            console.log(`n2: ${n2}`)
             let nI1 = (isNumber(n1) ? parseInt(n1) : 0)
             let nI2 = (isNumber(n2) ? parseInt(n2) : 0)
+            console.log(`nI1: ${nI1}`)
+            console.log(`nI2: ${nI2}`)
             let x = (nI1 * nI2 + carry).toString()
 
             if (countA < (StackA.length - 1) && x.length > 1) {
@@ -70,13 +77,14 @@ forstr = (numberA, numberB) => {
 
             if (countB === 0) {
                 let auxStack = StackPlus.shift().split('')
-                Result = (auxStack.shift()).toString() + Result
+                Result = (auxStack.pop()).toString() + Result
                 StackPlus.push(auxStack.join(''))
             } else {
+                console.log('auxStack: ' + StackPlus)
                 let auxStack = (cleanRSTR(plusstr(StackPlus.shift(), StackPlus.shift()))).split('')
-
+                
                 if (countB < (StackB.length - 1)) {
-                    Result = (auxStack.shift()).toString() + Result
+                    Result = (auxStack.pop()).toString() + Result
                 }
 
                 StackPlus.push((auxStack).join(''))
@@ -86,13 +94,13 @@ forstr = (numberA, numberB) => {
         countA = 0
         countB += 1
     }
-
+    
     if (StackPlus.length > 0) {
         Result = (StackPlus[0]).toString() + Result
     } else {
         Result = "00"
     }
-
+    console.log(`ResultFor: ${Result}`)
     if (banddecimal) {
         var arr = Result.split('')
         countDot = arr.length - countDot
@@ -116,5 +124,6 @@ forstr = (numberA, numberB) => {
     if (bandminus) {
         Result = "-" + Result
     }
+    
     return cleanRSTR(Result)
 }

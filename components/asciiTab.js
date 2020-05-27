@@ -233,16 +233,23 @@ export default (props) => {
                                 let rangeStart = e.nativeEvent.range.start;
                                 let rangeEnd = e.nativeEvent.range.end;
                                 let txt = e.nativeEvent.text;
+                                console.log(`rangeStart: ${rangeStart}`)
+                                console.log(`rangeEnd: ${rangeEnd}`)
+                                console.log(`txt: ${txt}`)
                                 if(txt===''){
                                     startIndex = rangeStart;
                                     endIndex = rangeStart;
                                 }else{
-                                    if (rangeStart < rangeEnd) {
+                                    if (txt.length>1) {
+                                        rangeEnd = txt.length - 1
+                                        rangeStart = rangeEnd
+                                    } else if (rangeStart < rangeEnd) {
                                         rangeEnd = rangeStart
                                     }
                                     startIndex = rangeStart + 1;
                                     endIndex = rangeEnd + 1;
                                 }
+                                console.log(`textInput: ${startIndex}`)
                                 changeRangeSel()
                             }
                         }

@@ -95,7 +95,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -122,7 +122,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     dexOptions {
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "8g"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -134,8 +134,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 3
-        versionName "2.1"
+        versionCode 5
+        versionName "3.0"
         missingDimensionStrategy 'react-native-camera', 'mlkit'
     }
     splits {
@@ -172,9 +172,9 @@ android {
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
            // signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            shrinkResources true
+            //shrinkResources true
             multiDexKeepProguard file('multidex-config.pro')
-            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
     }

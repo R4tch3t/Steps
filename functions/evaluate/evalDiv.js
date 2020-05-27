@@ -59,7 +59,8 @@ EvalDiv = (auxStr, aux1Str) => {
              strDevelopment = strDevelopment.split('--').join("+")
 
          } else {
-
+            console.log(`evalDiv: ${auxStr}`)
+            console.log(`eval1Div: ${aux1Str}`)
              if (aux1Str.includes(".") || auxStr.includes(".")) {
                  aux1Str = "(" + tofrac(aux1Str) + ")"
                  auxStr = "(" + tofrac(auxStr) + ")"

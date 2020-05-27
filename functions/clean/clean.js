@@ -161,15 +161,20 @@
             a=arrStr[1]
             b=addZeros(Count)
             let MCD = MCDStr(a, b) // MCD para simplificar la "fraccion"
+            console.log(`a: ${a}`)
+            console.log(`b: ${b}`)
+            console.log(`mcd: ${MCD}`)
+            //let MCD = Math.mcd(parseInt(a), parseInt(b)).toString();
             a=dividestr(a, MCD, Count)
             
                 b=dividestr(b,MCD,Count)
             
                 if (arrStr[0] !== "0") {
+                    console.log(`forFracStr: ${forstr(arrStr[0], b)}`)
                     a = plusstr(absstr(a), absstr(forstr(arrStr[0], b)))
-                    
                 }
-                
+                console.log(`aAft: ${a}`)
+                console.log(`bAft: ${b}`)
                 
                 if (arrStr[0].includes("-")) {
                     a="-"+a

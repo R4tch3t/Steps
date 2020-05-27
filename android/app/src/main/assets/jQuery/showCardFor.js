@@ -27,10 +27,12 @@ jQuery.noConflict();
                             $(divPlus).css("top",topSideL/3.96 );
                             $divCardBody[c].append($(divPlus));
                        }
-                       var divFor=$("<div>").css("color","black").css("font-size","22px").html("x");
-                       $(divFor).css("position","absolute").css("left",leftSideL-3)
+                       var divFor=$("<div>").css("color","black").css("font-size","22px").html("`xx`");
+                       $(divFor).css("position","absolute").css("left",leftSideL-15)
                        $(divFor).css("top",(topSideL-47) );
+                       $(divFor).prop('id','divFor');
                        $divCardBody[c].append($(divFor));
+                       MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divFor", function () {}]);
                 }
 
                 showModalCard(c);

@@ -109,9 +109,14 @@ export default (props) => {
                 style={styles.asciiTab}
                 onChangeText={text => {
                 new Promise((resolve, reject) => {
+                  const auxStart=startIndex;
+                  const auxEnd = endIndex;
                   startIndex = 0;
                   endIndex = 0;
                   stackchangeRangeSelG[stackName].changeRangeSelG()
+                  startIndex = auxStart;
+                  endIndex = auxEnd;
+                  console.log(startIndex)
                   resolve(1)
                 }).then(() => evaluating(text))
                   

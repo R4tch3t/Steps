@@ -172,7 +172,7 @@ absstr = (str) => {
     }
 
     let arr=str.split('')
-
+    
     if (arr[0] === "-") {
         arr.shift()
     }
