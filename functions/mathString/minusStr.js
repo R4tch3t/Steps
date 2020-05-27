@@ -21,6 +21,15 @@ minusstr = (numberA, numberB) => {
         return plusstr(numberA, numberB.split('-').join(""))
     }
     
+    if (numberA === "oo" || numberA === "Infinity") {
+        return "oo"
+    }
+
+    if (numberB === "oo" || numberB === "Infinity") {
+
+        return "-oo"
+    }
+
     if (LessThan(numberA, numberB)) {
         bandminus=true
     }
@@ -29,10 +38,6 @@ minusstr = (numberA, numberB) => {
         let aux=numberA
         numberA=numberB
         numberB=aux
-    }
-
-    if (numberA === "oo" || numberB === "oo") {
-        return "oo"
     }
     
     if (!numberA.includes(".")) {

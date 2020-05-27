@@ -16,12 +16,16 @@ EvalMinus = (auxStr, aux1Str) => {
         auxStr = auxStr.split("I n f i n i t y").join("Infinity")
         aux1Str = aux1Str.split("I n f i n i t y").join("Infinity")
         if (MoreDVal !== 1 && toDecimalVal === 1) {
-            let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
-            let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
-            let nD = nDigits(auxStr, aux1Str)
+            if (auxStr === 'Infinity' && aux1Str==='Infinity'){
+                res = '0'
+            }else{
+                let aux = (isNumber(auxStr) ? Number(auxStr) : 0.0)
+                let aux1 = (isNumber(aux1Str) ? Number(aux1Str) : 0.0)
+                let nD = nDigits(auxStr, aux1Str)
 
-            res = (Math.round((aux1 - aux) * nD) / nD).toString()
-            res = res.split('+').join("")
+                res = (Math.round((aux1 - aux) * nD) / nD).toString()
+                res = res.split('+').join("")
+            }
         } else {
             res = minusstr(aux1Str, auxStr)
         }

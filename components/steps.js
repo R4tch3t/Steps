@@ -116,7 +116,6 @@ export default (props) => {
                   stackchangeRangeSelG[stackName].changeRangeSelG()
                   startIndex = auxStart;
                   endIndex = auxEnd;
-                  console.log(startIndex)
                   resolve(1)
                 }).then(() => evaluating(text))
                   

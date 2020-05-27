@@ -12,7 +12,7 @@ plusstr = (numberA, numberB) => {
         numberA=numberA.split('-').join("")
         numberB=numberB.split('-').join("")
 
-        if (numberA === "oo" || numberB === "oo") {
+        if (numberA === "oo" || numberB === "oo" || numberA === "Infinity" || numberB === "Infinity") {
             return "oo"
         }
 

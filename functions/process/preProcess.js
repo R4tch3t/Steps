@@ -27,7 +27,6 @@ Preprocess = (s, setHtml) => {
             var ev = Evaluate(s)
             if (toDecimalVal !== 1) {
                 if (isNumber(ev)) {
-                    console.log('doubleStr '+DoubleStr(ev))
                     ev = tofrac(DoubleStr(ev))
 
                 }
