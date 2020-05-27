@@ -95,8 +95,11 @@ EvalSum = (auxStr, aux1Str) => {
                 if (str3.includes(".")) {
                     str3 = scanNumbers(str3, false)
                     str3 = "[" + str3 + "]=" + StepsFrac(str3)
+                    str2 = str3
+                }else{
+                    str2 = "[" + str3 + "]"
                 }
-                str2 = str3
+                
             }
         } else {
             if (toDecimalVal === 1) {
@@ -106,9 +109,12 @@ EvalSum = (auxStr, aux1Str) => {
                 if (str2.includes(".")) {
                     str2 = scanNumbers(str2, false)
                     str2 = "[" + str2 + "]=" + StepsFrac(str2)
+                    str2 = " " + str2 + " "
+                }else{
+                    str2 = "[" + str2 + "]"
                 }
 
-                str2 = " " + str2 + " "
+                
 
             }
         }

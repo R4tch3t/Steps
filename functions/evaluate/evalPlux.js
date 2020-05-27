@@ -58,6 +58,8 @@ EvalPlux = (auxStr, aux1Str, sm) => {
             if (str2.includes(".")) {
                 str2 = scanNumbers(aux1Str + sm + auxStr, false)
                 str2 = "[" + str2 + "]=" + StepsFrac(str2)
+            }else{
+                str2 = "[" + str2 + "]"
             }
             str1 = str1 + str2 + " = " + DoubleStr(tofrac(res.split("+").join("")))
         }
