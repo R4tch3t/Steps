@@ -250,7 +250,7 @@
         let s=str        
         let STR=[]
         let OP=[]
-        
+        console.log(`depurarR bef: ${s}`)
         s=s.split(' ').join("")
         s=s.split(')(').join(")*(")
         s=s.toLowerCase()
@@ -418,6 +418,7 @@
         s=s.split("(--").join("(")
         s=s.split("log,10,*").join("log10")
         s=s.split("log,2,*").join("log2")
+        console.log(`depurarR aft: ${s}`)
         //s="("+s+")"
         STR=s.split(",")
         return STR.reverse()

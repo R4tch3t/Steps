@@ -24,7 +24,13 @@ Preprocess = (s, setHtml) => {
 
             //let asciiV=self.V.AsciiTab.string
             //self.V.AsciiTab.setSelectedRange(rangselec)
-            var ev = Evaluate(s)
+            var ev = ''
+            if (FCT&&s.includes('x')) {
+                ev = StepsFactor(s);
+            }else{
+                ev = Evaluate(s)
+            }
+
             if (toDecimalVal !== 1) {
                 if (isNumber(ev)) {
                     ev = tofrac(DoubleStr(ev))

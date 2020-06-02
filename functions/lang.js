@@ -56,13 +56,19 @@ WrongExpresion = () => {
                     break
                 case "configCheck02":
                     ToLang="To decimals"
-                    break
+                    break    
                 case "configCheck03":
                     ToLang="More digits"
                     break
                 case "configCheck04":
                     ToLang="Radians"
-                    break      
+                    break
+                case "configText02":
+                    ToLang="Equations"
+                    break    
+                case "configCheck05":
+                    ToLang="Factorization"
+                    break          
                 case "camBtn00":
                     ToLang="Show Steps"
                     break
@@ -124,6 +130,12 @@ WrongExpresion = () => {
                 case "configCheck04":
                     ToLang="Radianes"
                     break  
+                case "configText02":
+                    ToLang="Ecuaciones"
+                    break
+                case "configCheck05":
+                    ToLang="Factorización"
+                    break        
                 case "camBtn00":
                     ToLang="Ver Pasos"
                     break

@@ -40,6 +40,7 @@ import {} from './functions/clean/clean'
 import {} from './functions/clean/cleanstrD'
 import {} from './functions/clean/stepLatex'
 import {} from './functions/clean/stepsFrac'
+import {} from './functions/clean/stepsFactor'
 import {} from './functions/evaluate/evalSum'
 import {} from './functions/evaluate/evalMinus'
 import {} from './functions/evaluate/evalPlux'
@@ -137,6 +138,12 @@ try{
     value = value === '1' ? true : false
     // value previously stored
     DegRad = value ? 1 : 0;
+    //setMDval(value);
+  }
+  value = await AsyncStorage.getItem('@fct');
+  if (value !== null) {
+    // value previously stored
+    FCT = value === '1' ? true : false
     //setMDval(value);
   }
 }catch(e){

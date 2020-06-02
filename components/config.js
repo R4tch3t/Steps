@@ -18,12 +18,14 @@ import onChangeText from '../functions/onChangeText.js'
 import AsyncStorage from '@react-native-community/async-storage';
 BBS = true
 BSC = false
+FCT = true
 export default () => {
     const [bbs, setBbs] = React.useState(BBS);
     const [bsc, setBsc] = React.useState(BSC);
-    const [tDval, setTDval] = React.useState(toDecimalVal === 1 ? true : false)
-    const [mDval, setMDval] = React.useState(MoreDVal===1 ? true : false)
-    const [toRad, setToRad] = React.useState(DegRad === 1 ? true : false)
+    const [tDval, setTDval] = React.useState(toDecimalVal === 1 ? true : false);
+    const [mDval, setMDval] = React.useState(MoreDVal===1 ? true : false);
+    const [toRad, setToRad] = React.useState(DegRad === 1 ? true : false);
+    const [toFact, setToFact] = React.useState(FCT);
     
     const setSaveData = async (item, val) => {
       await AsyncStorage.setItem(item, val);
@@ -102,6 +104,21 @@ export default () => {
                     setSaveData('@toRad', `${DegRad}`);
                     setToRad(!toRad)
                     onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml)
+                  }}
+                />
+                <Divider style={{ backgroundColor: 'blue' }} />
+                <Text style={styles.sectionText1} h4>{strToLang("configText02")}</Text>
+                <CheckBox
+                  title={strToLang('configCheck05')}
+                  checked={toFact}
+                  onPress={() => {
+                    //BSC = bbs
+                    //setBsc(bbs);
+                    setSaveData("@fct", FCT ? '0' : '1');
+                    FCT = !FCT
+                    setToFact(FCT);
+                    
+                    onChangeText(txtGExp, stacksetGHtml[nameStack].setGHtml);
                   }}
                 />
 
