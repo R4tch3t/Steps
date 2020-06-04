@@ -25,7 +25,8 @@ Preprocess = (s, setHtml) => {
             //let asciiV=self.V.AsciiTab.string
             //self.V.AsciiTab.setSelectedRange(rangselec)
             var ev = ''
-            if (FCT&&s.includes('x')) {
+            //if (s.includes(/x/i)) {
+            if (s.match(/[A-Z]/gi)){
                 ev = StepsFactor(s);
             }else{
                 ev = Evaluate(s)
