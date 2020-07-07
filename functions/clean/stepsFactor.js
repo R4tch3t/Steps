@@ -28,14 +28,18 @@ genStepsSumFactor = (STRR, factorStack, lastMCD, aux1Char, lastPow)=>{
             sumFactor += f[0]
         }
         factorSTR = "" + f[1] + f[0]  + factorSTR
-        str2 = "" + f[1] + (fbyMCD > 1 ? fbyMCD : "") + str2Aux + str2
+        str2 = "" + f[1] + ((fbyMCD > 1 || fbyMCD < -1) ? fbyMCD : ((aux1Char === "") ? fbyMCD:"")) + str2Aux + str2
     }
     const f = factorStack.pop()
     const fbyMCD = f * lastMCD
     factorSTR = "(" + f + factorSTR + ")"
-    str2 = (fbyMCD > 1 || fbyMCD < -1 ? fbyMCD : "") + str2Aux + str2
+    if (aux1Char===""){
+        str2 = ""+fbyMCD + str2Aux + str2
+    }else{
+        str2 = (fbyMCD > 1 || fbyMCD < -1 ? fbyMCD : fbyMCD===-1?"-":"") + str2Aux + str2
+    }
     sumFactor += f
-    res = baseFactor + factorSTR;
+    res = (fbyMCD < 0&&lastPow===1?"+":"") + baseFactor + factorSTR;
     //res += sumFactor[1].pop()
 
     //res = "(" + res
@@ -71,12 +75,12 @@ genStepsSumFactor = (STRR, factorStack, lastMCD, aux1Char, lastPow)=>{
 
     str2 = baseFactor + "" + res
     const mulFactor = (sumFactor * lastMCD)
-    const appendRes = ((mulFactor > 1 || mulFactor < -1)?mulFactir:"") + aux1Char + ""
+    const appendRes = ((mulFactor > 1 || mulFactor < -1) ? mulFactor : (mulFactor === -1) ? "-" : (aux1Char===""?mulFactor:"")) + aux1Char + ""
     res = "" + appendRes
     if(lastPow>1){
         res += "^" + lastPow;
     }
-    STRR.push(appendRes)
+    STRR.push(appendRes.split("-").join(""))
     if (lastPow>1){
         STRR.push(lastPow+"")
         STRR.push("^")
@@ -97,7 +101,7 @@ genStepsSumFactor = (STRR, factorStack, lastMCD, aux1Char, lastPow)=>{
 
 SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
     var STR = STR
-    let c = STR.length-1
+    let bandEnd = false
     let STRR = []
     let OPR = []
     let lastPow = parseInt(auxStr)
@@ -130,7 +134,7 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                 console.log(`+b: ${b}`)
                 //console.log(`STR.length: ${STR.length}`)
                 //console.log(`STR.length: ${factorStack.length}`)
-                if(STR.length===0){
+                if (STR.length === 0 && bandEnd){
                     if (FCT) {
                         genStepsSumFactor(STRR,factorStack, lastMCD, aux1Char, lastPow)
                     }
@@ -141,7 +145,14 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                         STRR.shift()
                     }
                     //STRR.push(lastB+aux1Char)
+                }else if(STR.length===0&&!bandEnd){
+                    if (STRR[2] === "^") {
+                        aux1SStr[0] = STRR.shift() + ""
+                        STRR.shift()
+                        STRR.shift()
+                    }
                 }
+                bandEnd=false
                 if (a !== null) {
                     let auxA = (a + "")
                     if (!factorStack.length && STR.length){
@@ -150,14 +161,33 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                             if(auxA===""){
                                 auxA="1"
                             }
+                            if (sign === "-") {
+                                auxA = "-" + auxA
+                            }
                             auxA=parseInt(auxA)
                             lastB=auxA
                             lastMCD=lastB
+                            if(lastMCD<0){
+                                lastMCD = lastMCD*-1
+                            }
                             lastPow=1
                             factorStack.push(lastB / lastMCD)
                         }else{
-                            STRR.push(a)
-                            STRR.push(sign)
+                            /*if (STR.length<3){
+                                STRR.push(a)
+                                STRR.push(sign)
+                            }else{
+                                auxA = auxA.split(aux1Char).join("")
+                                if (auxA === "") {
+                                    auxA = "1"
+                                }*/
+                                //aux1Char=""
+                                auxA = parseInt(auxA)
+                                lastB = auxA
+                                lastMCD = lastB
+                                lastPow = 1
+                                factorStack.push(lastB / lastMCD)
+                            //}
                         }
                     }else{
                         if (auxA.includes(aux1Char)){
@@ -178,11 +208,48 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                                 factorStack.push([(auxA / lastMCD), sign])
                             }
                             //factorStack.push([auxA,"+"])
+                            
+                            if (STR.length > 1){
+                                const nextNum = STR[STR.length-1]
+                                if(!nextNum.includes(aux1Char)){
+                                    genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow)
+                                    if(STR.length===2){
+                                        STRR.push(STR.pop())
+                                        STRR.push(STR.pop())
+                                    }
+                                }
+                            }
                         }else{
                             console.log(`noIncludes`)
-                            genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow)
-                            STRR.push(a)
-                            STRR.push(sign)
+                            /*if (STR.length === 0) {
+                                genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow)
+                                if (aux1Char!==""){
+                                    STRR.push(a)
+                                    STRR.push(sign)
+                                }
+                            }else{*/
+                            console.log(`nextSTR: ${factorStack}`)
+                                //aux1Char = ""
+                                auxA = parseInt(auxA)
+                                if (auxA % lastMCD > 0) {
+                                    factorStack[0] = (factorStack[0] * lastMCD)
+                                    for (let i = 1; i < factorStack.length; i++) {
+                                        console.log(factorStack[i])
+                                        factorStack[i] = [(factorStack[i][0] * lastMCD), factorStack[i][1]]
+                                    }
+                                    lastMCD = 1
+                                    factorStack.push([auxA, sign])
+                                } else {
+                                    factorStack.push([(auxA / lastMCD), sign])
+                                }
+                            console.log(`lastFactorS: ${factorStack}`)
+                            //}
+                            if (STR.length === 0) {
+                                if (FCT) {
+                                    genStepsSumFactor(STRR, factorStack, lastMCD, "", lastPow)
+                                    //STRR.push(sign)
+                                }
+                            }
                         }
                         if (STR.length === 0) {
                             if (FCT) {
@@ -245,7 +312,8 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                         }
                     }
                 }
-                if (STR[STR.length - 3] === "+"){
+                bandEnd=true
+                if (STR[STR.length - 3] === "+" || STR[STR.length - 3] === "-"){
                     if(!FCT){
                         STRR.push(lastB + aux1Char)
                         STRR.push(lastPow+"")
