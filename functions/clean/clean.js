@@ -38,6 +38,30 @@
         }
         return prf
     }
+
+    PrefF = (op) => {
+        let prf = 99
+        if (op === "+" || op === "-") {
+            prf = 3
+        }
+
+        if (op === "*" || op === "·" || op === "/" || op === "%" || op === "⋅" || op === "×") {
+            prf = 4
+        }
+
+        if (op === "^" || op === "√" || op === "c" || op === "t" || op === "s" || op === "ln" || op === 'log' || op === "log10" || op === "log2") {
+            prf = 5
+        }
+
+        if (op === ")") {
+            prf = 2
+        }
+
+        if (op === "(") {
+            prf = 1
+        }
+        return prf
+    }
     
     replacestrs=(str)=>{
         let rstr = str.split('c').join('C O S');
@@ -247,9 +271,11 @@
     }
 
     DepurarR = (str) => {
+        
         let s=str        
         let STR=[]
         let OP=[]
+        
         console.log(`depurarR bef: ${s}`)
         s=s.split(' ').join("")
         s=s.split(')(').join(")*(")
@@ -257,11 +283,11 @@
         s=s.split("cos").join("c")
         s=s.split("sen").join("s")
         s = s.split("tan").join("t")
-
+        
         var str=s.split('')
         s=""
         var previusUnichar = 0
-        
+       // return []
         while (str.length>0) {
             var char = str.shift()
             var uniChar = char.charCodeAt(0)
@@ -269,7 +295,7 @@
             if (str.length>0) {
                 nextUnichar=str[0].charCodeAt(0)
             }
-
+           // console.log(`char: ${char} uniChar: ${uniChar} nextUnichar: ${nextUnichar}`)
             if ((uniChar > 47 && uniChar < 58) || uniChar === 46 || uniChar === 120703 || uniChar === 960) { //Si es numero
                 
                 if (previusUnichar === 41 || (previusUnichar === 120703 || previusUnichar === 960)) {
@@ -404,6 +430,7 @@
 
             
         }
+        
         strDevelopment=strDevelopment.split("*--").join("*")
         strDevelopment=strDevelopment.split("log10*").join("log_10")
        // strDevelopment=strDevelopment.split("log10").join("log_10")
@@ -411,6 +438,7 @@
         strDevelopment=strDevelopment.split("/--").join("/")
 
         
+
         s="(,"+s+",)"
         s=s.split(",,").join(",")
         s=s.split("-+").join("-")
@@ -418,9 +446,14 @@
         s=s.split("(--").join("(")
         s=s.split("log,10,*").join("log10")
         s=s.split("log,2,*").join("log2")
+        
         console.log(`depurarR aft: ${s}`)
         //s="("+s+")"
         STR=s.split(",")
+        console.log(s)
+        //console.log(STR.reverse())
+        console.log(strDevelopment)
+        //return [")", "^", "2x", "+", "2", "^", "2x", "+", "2", "^", "2x", "("]
         return STR.reverse()
     }
 

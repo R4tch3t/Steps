@@ -224,5 +224,6 @@ cleanstrD = (s) => {
         previusUnichar=uniChar
         
     }
+    console.log(`cleanstrD: ${strDevelopment}`)
     return s
 }

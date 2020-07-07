@@ -27,6 +27,7 @@ Preprocess = (s, setHtml) => {
             var ev = ''
             //if (s.includes(/x/i)) {
             if (s.match(/[A-Z]/gi)){
+                console.log(s.match(/[A-Z]/gi))
                 ev = StepsFactor(s);
             }else{
                 ev = Evaluate(s)
