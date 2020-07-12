@@ -264,7 +264,7 @@
         }
         
         if (n !== 2) {
-        return false
+            return false
         }
         
         return true
@@ -324,14 +324,14 @@
             
             if (((uniChar > 36 && uniChar<46) || uniChar===47 || uniChar===94 || uniChar===215 || uniChar===183 || uniChar===8730 || uniChar===8901 ||  (uniChar>94 && uniChar<123)) && uniChar !== 44) {//Si es simbolo
                 //a,+,-b
-                if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || nextUnichar === 46 || nextUnichar === 120703 || nextUnichar === 960) && ((previusUnichar > 47 && previusUnichar < 58) || previusUnichar === 41 || previusUnichar === 46 || previusUnichar === 120703 || previusUnichar === 960)) { //Si a - b= a + -b                   
+                if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58) || (nextUnichar > 96 && nextUnichar < 123) || nextUnichar === 46 || nextUnichar === 120703 || nextUnichar === 960) && ((previusUnichar > 47 && previusUnichar < 58) || (previusUnichar > 96 && previusUnichar < 123) || previusUnichar === 41 || previusUnichar === 46 || previusUnichar === 120703 || previusUnichar === 960)) { //Si a - b= a + -b                   
                     if (toDecimalVal===0){
                         s+=",+,"+char
                     }else{
                         s+=","+char+","
                     }
                 }
-                else if (uniChar === 45 && ((nextUnichar > 47 && nextUnichar < 58 || nextUnichar===46) && !((previusUnichar > 47 && previusUnichar < 58 || previusUnichar === 41 ) || previusUnichar===46))) {//Si a -[.-+*()..]b
+                else if (uniChar === 45 && (((nextUnichar > 47 && nextUnichar < 58) || (nextUnichar > 96 && nextUnichar < 123) || nextUnichar === 46) && !(((previusUnichar > 47 && previusUnichar < 58) || (previusUnichar > 96 && previusUnichar < 123) || previusUnichar === 41) || previusUnichar === 46))) { //Si a -[.-+*()..]b
                     s+=","+char //a,-,b
                 }else if (previusUnichar !== 44 && uniChar === 45 && nextUnichar === 40) {
                     var aux = ""
