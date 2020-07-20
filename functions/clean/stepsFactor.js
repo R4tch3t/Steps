@@ -61,6 +61,7 @@ StepsFactor = (str) => {
             STR.push(S.pop())
         }
         S.splice(0)
+        OP = []
         console.log(`STR steps: ${STR}`);
         while (STR.length>0) {
             //console.log(STR[STR.length - 1])
@@ -69,13 +70,215 @@ StepsFactor = (str) => {
                 factorSum(STR, S, OP);
                 break
             case "-":
-                STR.pop()
+                let sign = STR.pop()
+                let auxStr = S[S.length - 1] === undefined ? "+" : S.pop();
+                let aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
+                let auxChar = auxStr.match(/[A-Z]/gi);
+                let aux1Char = aux1Str.match(/[A-Z]/gi);
+                let strSplit = aux1Str.split(aux1Char).join("")
+                if (strSplit===""){
+                    strSplit = "1"
+                } else if (strSplit === "-" ){
+                    strSplit = "-1"
+                }
+                //OP.push(sign)
+                OP.push([[sign + "" + auxStr,"",0],[strSplit,aux1Char,1]])
+                //OP.push()
                 break
             case "·":
             case "⋅":
             case "×":
             case "*":
                 STR.pop()
+                auxStr = S[S.length - 1] === undefined ? null : S.pop();
+                aux1Str = S[S.length - 1] === undefined ? null : S.pop();
+                console.log(`plusFactor auxStr: ${auxStr} aux1Str: ${aux1Str}`)
+                console.log(`plusFactor OP: ${OP[0]}`)
+                //let arrStr = auxStr.split("");
+               // let arr1Str = aux1Str.split("");
+                let c = 0
+                let c2 = 0
+                let prevPow = -1
+                let resArr = []
+                let bandMul = true
+                let powArr = []
+                const numberArr = []
+                const charArr = []
+                
+
+                if(OP.length>0){
+                    let a = OP.shift()//.reverse()
+                    let b = OP.shift()//.reverse()
+                    while(bandMul){
+                        console.log(`a: ${a[0]}`)
+                        console.log(`b: ${b}`)
+                        bandMul = OP.length>0
+                        //build Res
+                        StepsC += 1;
+                        str1 = strToLang("Paso") + StepsC.toString() + ": quad"
+                        str2 = strDevelopment
+                        res = "("
+                        c = a.length-1
+                        while(c>-1){
+                                if (a[c][1]===""){
+                                    res += parseInt(a[c][0])>-1 ? "+"+a[c][0] : a[c][0]
+                                }else{
+                                    //res += a[c][0] + "" + a[c][1]
+                                    if (c === a.length - 1) {
+                                        res += (((a[c][0] + "") === "1") ? "" : ((a[c][0] + "") === "-1" ? "-" : a[c][0])) + "" + a[c][1] + "" + (a[c][2] > 1 ? ("^" + a[c][2]) : "")
+                                    } else {
+                                        res += (((a[c][0] + "") === "1") ? "+" : ((a[c][0] + "") === "-1" ? "-" : (a[c][0] > -1 ? "+" + a[c][0] : a[c][0]))) + "" + a[c][1] + "" + (a[c][2] > 1 ? ("^" + a[c][2]) : "")
+                                    }
+                                }
+                               
+                            c--
+                        }
+                        res += ")*("
+                        c = b.length - 1
+                        while (c > -1) {
+                            if (b[c][1] === "") {
+                                res += parseInt(b[c][0]) > -1 ? "+" + b[c][0] : b[c][0]
+                            } else {
+                                //res += a[c][0] + "" + a[c][1]
+                                if (c === b.length - 1){
+                                    res += (((b[c][0] + "") === "1") ? "" : ((b[c][0] + "") === "-1" ? "-" : b[c][0])) + "" + b[c][1] + "" + (b[c][2] > 1 ? ("^" + b[c][2]) : "")
+                                }else{
+                                    res += (((b[c][0] + "") === "1") ? "+" : ((b[c][0] + "") === "-1" ? "-" : (b[c][0] > 0 ? "+" + b[c][0] : ""))) + "" + b[c][1] + "" + (b[c][2] > 1 ? ("^" + b[c][2]) : "")
+                                }
+                            }
+                            c--
+                        }
+                        c=0
+                        res += ")"
+                        StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                        str1 = "-> "
+                        str2 = "[ " + str2 + " ]"
+                        str1 = str1 + str2 + " = " + res
+                        Pstrltx(str1)
+                        strltx += "</div>"
+                        strltx += "</div>"
+
+                        while(c<a.length){
+                            const arrA = a[c]
+                            const charA = arrA[1];
+                            //const arrPowA = strA[2]
+                            let powA = arrA[2]
+                            /*if(arrPowA.length>1){
+                                powA=parseInt(arrPowA[1])
+                                //strA = arrPowA[0]
+                            } */
+                            let consA = parseInt(arrA[0])
+                            
+                            /*if (consA === "") {
+                                consA = 1
+                            } else if (splitA === "-"){
+                                consA = -1
+                            }*/
+
+                            //splitA = parseInt(splitA)
+                            //const i = c;
+                            while (c2 < b.length) {
+                                const arrB = b[c2]
+                                const charB = arrB[1];
+                                let powB = arrB[2]
+                                let consB = parseInt(arrB[0])
+
+                               // splitB = parseInt(splitB)
+                                numberArr.push(consA * consB)
+                                //if (powA > 0 || powB > 0){
+                                //powArr.push([(powA + powB), (consA * consB)])
+                                /*}else{
+                                    powArr.push(i + c2)
+                                }*/
+                                if (charB!=="") {
+                                  //  charArr.push(charB)
+                                  powArr.push([(powA + powB), (consA * consB), charB])
+                                } else if (charA !== "") {
+                                    //charArr.push(charA)
+                                    powArr.push([(powA + powB), (consA * consB), charA])
+                                } else {
+                                    //charArr.push("")
+                                    powArr.push([(powA + powB), (consA * consB), ""])
+                                }    
+                                c2++
+                            // i++
+                            }
+                            c2=0
+                            c++
+                        }
+                        c=0
+                        c2=0
+                        a = []
+                        powArr=powArr.sort()
+                        while(c<powArr.length){
+                            if(prevPow===powArr[c][0]){
+                                //c2 += numberArr[c]
+                                c2 += powArr[c][1]
+                                if (!powArr[c + 1] || prevPow !== powArr[c + 1][0]) {
+                                    //resArr.push([c2, charArr[c], powArr[c]])
+                                    resArr.push([c2, powArr[c][2], powArr[c][0]])
+                                    a.push([c2, powArr[c][2], powArr[c][0]])
+                                }
+                            }else{
+                                //c2 = numberArr[c]
+                                c2 = powArr[c][1]
+                                if (!powArr[c + 1] || powArr[c][0] !== powArr[c + 1][0]) {
+                                    //resArr.push([c2, charArr[c], powArr[c]])
+                                    resArr.push([c2, powArr[c][2], powArr[c][0]])
+                                    a.push([c2, powArr[c][2], powArr[c][0]])
+                                }
+                            }
+                            prevPow = powArr[c][0]
+                            c++
+                        }
+                        //numberArr = numberArr.reverse()
+                        //numberArr = numberArr.reverse()
+                    
+                        //resArr = resArr.reverse()
+                        StepsC += 1;
+                        str1 = strToLang("Paso") + StepsC.toString() + ": quad"
+                        str2 = strDevelopment
+                        //c=0
+                        console.log(`resArr: ${resArr}`)
+                        const firstLot = resArr.pop()
+                        res = (firstLot[0] === 1 ? "" : firstLot[0] === -1?"-":firstLot[0]) + "" + firstLot[1] + "^" + firstLot[2]
+                        while (resArr.length){
+                            const lot = resArr.pop()
+                            console.log(`lot: ${lot}`)
+                            /*if (lot[0]===1){
+                                res += "" + lot[1] + "^" + lot[2]
+                            } else if (lot[0] === -1) {
+                                res += "-" + lot[1] + "^" + lot[2]
+                            }else{*/
+                            if (lot[1]===""){
+                                res += ((lot[0] > -1) ? "+" + lot[0] : lot[0]) + "" //+ lot[1] + "^" + lot[2]
+                            }else{
+                                res += (lot[0] === 1 ? "+" : lot[0] === -1 ? "-" : (lot[0] > -1 ? ("+" + lot[0]) : lot[0])) + "" + lot[1]
+                                //res += (lot[1] === 1 ? "" : lot[1] === -1 ? "-" : lot[1]) + ""
+                                res += (lot[2] > 1 ? "^" + lot[2] : "")
+                            }
+                            //}
+                            //c++
+                        }
+                        
+                        StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                        str1 = "-> "
+                        str2 = "[ " + str2 + " ]"
+                        str1 = str1 + str2 + " = " + res
+                        Pstrltx(str1)
+                        strltx += "</div>"
+                        strltx += "</div>"
+                        S.push(res)
+                        console.log(`numberArr: ${numberArr}`)
+                        console.log(`powArr: ${powArr}`)
+                        console.log(`charArr: ${charArr}`)
+                        console.log(`resArr: ${resArr}`)
+                        b=OP.pop();
+                        resArr=[];
+                        powArr=[];
+                        c2=0;
+                    }
+                }
                 break
             case "/":
                 STR.pop()

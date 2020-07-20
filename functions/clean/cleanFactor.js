@@ -15,21 +15,26 @@ genStepsSumFactor = (STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow) => {
         baseFactor += "^" + lastPow
         str2Aux += "^" + lastPow
     }
-    let sumFactor = 0
+    const sign = factorStack[factorStack.length - 1][1]
+    let sumFactor = sign==="*"?1:0
     //factorSTR = factorSTR + "("
     //factorSTR = "("
     str2 = ""
+    console.log(`factorStack: ${factorStack} lastMCD: ${lastMCD}`)
     while (factorStack.length > 1) {
         const f = factorStack.pop()
         const fbyMCD = f[0] * lastMCD
         if (f[1] === "-") {
             sumFactor -= f[0]
-        } else {
+        } else if (f[1] === "+") {
             sumFactor += f[0]
+        }else{
+            sumFactor *= f[0]
         }
         factorSTR = "" + f[1] + f[0] + factorSTR
-        str2 = "" + f[1] + ((fbyMCD > 1 || fbyMCD < -1) ? fbyMCD : ((aux1Char === "") ? fbyMCD : "")) + str2Aux + str2
+        str2 = "" + f[1] + ((fbyMCD > 1 || fbyMCD < -1) ? fbyMCD : ((aux1Char === "") ? fbyMCD : "")) + (f[0]<0?"-":"") + str2Aux + str2
     }
+    console.log(`sumFactor: ${sumFactor}`)
     const f = factorStack.pop()
     const fbyMCD = f * lastMCD
     factorSTR = "(" + f + factorSTR + ")"
@@ -38,8 +43,13 @@ genStepsSumFactor = (STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow) => {
     } else {
         str2 = (fbyMCD > 1 || fbyMCD < -1 ? fbyMCD : fbyMCD === -1 ? "-" : "") + str2Aux + str2
     }
-    sumFactor += f
+    if (sign==="*"){
+        sumFactor *= f
+    }else{
+        sumFactor += f
+    }
     res = (fbyMCD < 0 /*&&lastPow===1*/ ? "+" : "") + baseFactor + factorSTR;
+    console.log(`resDevSum: ${res}`)
     //res += sumFactor[1].pop()
 
     //res = "(" + res
@@ -138,11 +148,11 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
         switch (STR[STR.length - 1]) {
             case "-":
             case "+":
-                const sign = STR.pop()
+                let sign = STR.pop()
                 let a = OPR.length > 0 ? OPR.pop() : null
                 let b = OPR.length > 0 ? OPR.pop() : null
-                console.log(`+a: ${a}`)
-                console.log(`+b: ${b}`)
+                console.log(`${sign}a: ${a}`)
+                console.log(`${sign}b: ${b}`)
                 //console.log(`STR.length: ${STR.length}`)
                 //console.log(`STR.length: ${factorStack.length}`)
                 if (STR.length === 0 && bandEnd) {
@@ -335,12 +345,97 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                     }
                 }
                 break;
+            case "*":
+                sign = STR.pop()
+                a = OPR.length > 0 ? OPR.pop() : null
+                b = OPR.length > 0 ? OPR.pop() : null
+                console.log(`${sign}a: ${a}`)
+                console.log(`${sign}b: ${b}`)
+                
+                if (a !== null && b !== null) {
+                    let auxA = (a + "")
+                    let auxB = (b + "")
+                    lastB = auxB.split(aux1Char).join("")
+                    if (lastB === "") {
+                        lastB = 1
+                    } else if (lastB === "-") {
+                        lastB = -1
+                    } else {
+                        lastB = parseInt(lastB)
+                    }
+                    lastMCD = lastB < 0 ? lastB * -1 : lastB
+                    auxA = auxA.split(aux1Char).join("");
+                    if (auxA === "") {
+                        auxA = 1
+                    } else if (auxA === "-") {
+                        auxA = -1
+                    } else {
+                        auxA = parseInt(auxA)
+                    }
+                    if (!factorStack.length && STR.length) {
+                        if (auxA % lastMCD > 0) {
+                            factorStack.push(lastB)
+                            factorStack.push([auxA,sign])
+                            lastMCD=1
+                        }else{
+                            factorStack.push(lastB / lastMCD)
+                            factorStack.push([auxA / lastMCD, sign])
+                        }
+                        lastPow=1
+                        
+                        //factorStack.push(1)
+
+                    } else if (factorStack.length){
+
+                    }
+                }else if(a!==null&&b===null){
+                    let auxA = (a + "")
+                    lastB = auxA.split(aux1Char).join("")
+                    if (lastB === "") {
+                        lastB = 1
+                    } else if (lastB === "-") {
+                        lastB = -1
+                    } else {
+                        lastB = parseInt(lastB)
+                    }
+                    //lastMCD = lastB < 0 ? lastB * -1 : lastB
+                    if (lastB % lastMCD > 0) {
+                        //factorStack.push(lastB)
+                        factorStack.push([lastB, sign])
+                        lastMCD = 1
+                    } else {
+                        //factorStack.push(lastB / lastMCD)
+                        factorStack.push([lastB / lastMCD, sign])
+                    }
+                    console.log(`plusFactor: ${factorStack} auxA: ${auxA} lastMCD: ${lastMCD}`)
+                }else{
+                    if(STR[STR.length-3]!=="^"){
+                        genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow)
+                        lastPow-=1
+                    }
+                }
+                if (STR[STR.length - 1] === "+" || STR[STR.length - 1] === "-") {
+                    console.log(`factorStack: ${factorStack}`)
+                    console.log(`lastMCD: ${lastMCD}`)
+                    let auxA = a + ""
+                    let auxB = b + ""
+                    if (auxA.includes(aux1Char) || auxB.includes(aux1Char)) {
+                        genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow)
+                    }else{
+                        lastPow=0
+                        genStepsSumFactor(STRR, factorStack, lastMCD, "", lastPow, maxPow)
+                    }
+                }
+                break;
             case "^":
                 STR.pop()
                 a = parseInt(OPR.pop())
                 b = OPR.pop().split(aux1Char).join("")
                 if (b === "") {
                     b = "1"
+                }
+                if (b === "-") {
+                    b = "-1"
                 }
                 b = parseInt(b)
                 console.log(`a: ${a} b: ${b}`)
@@ -365,7 +460,8 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                         factorStack.push(lastB / lastMCD)
                         console.log(`STR[STR.length-4 ${STR[STR.length-4]}`)
                         if(STR[STR.length-4]==="^"){
-                            if ((STR[STR.length - 3]+"") === ((lastPow-1)+"")) {
+                            const subPow = (lastPow - 1) + "";
+                            if ((STR[STR.length - 3] + "") === (subPow)) {
                                 factorStack.pop()
                                 STRR.push(b+""+aux1Char)
                                 STRR.push(lastPow)
@@ -393,6 +489,8 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                             lastB += b
                         } else if (sign === "-") {
                             lastB -= b
+                        }else{
+                            lastB *= b
                         }
 
                         res = lastB + "" + aux1Char + "^" + lastPow;
@@ -422,7 +520,7 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                     }
                 }
                 bandEnd = true
-                if (STR[STR.length - 3] === "+" || STR[STR.length - 3] === "-") {
+                if (STR[STR.length - 3] === "+" || STR[STR.length - 3] === "-" || STR[STR.length - 3] === "*") {
                     if (!FCT) {
                         STRR.push(lastB + aux1Char)
                         STRR.push(lastPow + "")
@@ -432,7 +530,7 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                             STRR.push(b + "" + aux1Char)
                             STRR.push(a + "")
                             STRR.push("^")
-                            if (STR[STR.length - 1] === "+" || STR[STR.length - 1] === "-") {
+                            if (STR[STR.length - 1] === "+" || STR[STR.length - 1] === "-" || STR[STR.length - 1] === "*") {
                                 STRR.push(STR[STR.length - 1])
                             }
                             factorStack.pop()
