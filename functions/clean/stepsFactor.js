@@ -102,21 +102,65 @@ StepsFactor = (str) => {
                 let resArr = []
                 let bandMul = true
                 let powArr = []
+                let subRes = ["",""]
                 const numberArr = []
                 const charArr = []
                 
 
                 if(OP.length>0){
-                    let a = OP.shift()//.reverse()
-                    let b = OP.shift()//.reverse()
+                    let a = null//OP.shift()//.reverse()
+                    let b = null//OP.shift().reverse()
+                    res = "("
+                    while(c2<OP.length){
+                        a=OP[c2]
+                        c = a.length - 1
+                        while (c > -1) {
+                            if (a[c][1] === "") {
+                                res += parseInt(a[c][0]) > -1 ? "+" + a[c][0] : a[c][0]
+                            } else {
+                                //res += a[c][0] + "" + a[c][1]
+                                if (c === a.length - 1) {
+                                    res += (((a[c][0] + "") === "1") ? "" : ((a[c][0] + "") === "-1" ? "-" : a[c][0])) + "" + a[c][1] + "" + (a[c][2] > 1 ? ("^" + a[c][2]) : "")
+                                } else {
+                                    res += (((a[c][0] + "") === "1") ? "+" : ((a[c][0] + "") === "-1" ? "-" : (a[c][0] > -1 ? "+" + a[c][0] : a[c][0]))) + "" + a[c][1] + "" + (a[c][2] > 1 ? ("^" + a[c][2]) : "")
+                                }
+                            }
+
+                            c--
+                        }
+                        c2++
+                        res += (c2 === OP.length) ? ")" : ")*("
+                        /*if(c2===OP.length){
+                            res += ")"
+                        }else{
+                            res += ")*("
+                        }*/
+                    }
+                    StepsC += 1;
+                    str1 = strToLang("Paso") + StepsC.toString() + ": quad"
+                    str2 = strDevelopment
+                    StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                    str1 = "-> "
+                    str2 = "[ " + str2 + " ]"
+                    str1 = str1 + str2 + " = " + res
+                    Pstrltx(str1)
+                    strltx += "</div>"
+                    strltx += "</div>"
+                    
+                    c=0
+                    c2=0
+                    a=OP.shift()
+                    b=OP.shift()
+                    console.log(`firstRes: ${res}`)
                     while(bandMul){
                         console.log(`a: ${a[0]}`)
                         console.log(`b: ${b}`)
                         bandMul = OP.length>0
+
                         //build Res
-                        StepsC += 1;
-                        str1 = strToLang("Paso") + StepsC.toString() + ": quad"
-                        str2 = strDevelopment
+                        //StepsC += 1;
+                        //str1 = strToLang("Paso") + StepsC.toString() + ": quad"
+                        //str2 = res
                         res = "("
                         c = a.length-1
                         while(c>-1){
@@ -150,13 +194,13 @@ StepsFactor = (str) => {
                         }
                         c=0
                         res += ")"
-                        StepLatex(str1, strDevelopment, str2, str3, res, change, true)
-                        str1 = "-> "
-                        str2 = "[ " + str2 + " ]"
-                        str1 = str1 + str2 + " = " + res
-                        Pstrltx(str1)
-                        strltx += "</div>"
-                        strltx += "</div>"
+                       // StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                       // str1 = "-> "
+                        //str2 = "[ " + str2 + " ]"
+                        //str1 = str1 + str2 + " = " + res
+                        //Pstrltx(str1)
+                        //strltx += "</div>"
+                        //strltx += "</div>"
 
                         while(c<a.length){
                             const arrA = a[c]
@@ -182,24 +226,31 @@ StepsFactor = (str) => {
                                 const charB = arrB[1];
                                 let powB = arrB[2]
                                 let consB = parseInt(arrB[0])
-
+                                let abyb = consA * consB
                                // splitB = parseInt(splitB)
-                                numberArr.push(consA * consB)
+                                //numberArr.push(consA * consB)
                                 //if (powA > 0 || powB > 0){
                                 //powArr.push([(powA + powB), (consA * consB)])
                                 /*}else{
                                     powArr.push(i + c2)
                                 }*/
+
                                 if (charB!=="") {
                                   //  charArr.push(charB)
-                                  powArr.push([(powA + powB), (consA * consB), charB])
+                                  powArr.push([(powA + powB), abyb, charB])
+                                  
                                 } else if (charA !== "") {
                                     //charArr.push(charA)
-                                    powArr.push([(powA + powB), (consA * consB), charA])
+                                    powArr.push([(powA + powB), abyb, charA])
+                                    //subRes[0] += (consA > -1 ? "+" : "") + consA + "*" + consB + charA
                                 } else {
                                     //charArr.push("")
-                                    powArr.push([(powA + powB), (consA * consB), ""])
-                                }    
+                                    powArr.push([(powA + powB), abyb, ""])
+                                    //subRes[0] += (consA > -1 ? "+" : "") + consA + "*" + consB
+                                } 
+                                //subRes[0] = ((consA > -1 && c < (a.length) && c2 < (b.length-1)) ? "+(" : "+(") + consA + charA + "*" + consB + charB + ")" + subRes[0]
+                                subRes[0] = (c === (a.length-1) && c2 === (b.length-1)?"(color(red)(":"+(color(red)(") + consA + charA + "*" + consB + charB + "))" + subRes[0]
+                                //subRes[0] = "(" + subRes[0] + ")"
                                 c2++
                             // i++
                             }
@@ -237,7 +288,7 @@ StepsFactor = (str) => {
                         //resArr = resArr.reverse()
                         StepsC += 1;
                         str1 = strToLang("Paso") + StepsC.toString() + ": quad"
-                        str2 = strDevelopment
+                        str2 = res
                         //c=0
                         console.log(`resArr: ${resArr}`)
                         const firstLot = resArr.pop()
@@ -260,10 +311,17 @@ StepsFactor = (str) => {
                             //}
                             //c++
                         }
+                        //strltx+="<div><div>"
                         
-                        StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                        const redRes = strDevelopment.replace(str2,"color(red)("+str2+")")
+                        strltx += "<div class='card divSteps' style='background: transparent' >"
+                        strltx += "<div class='card-body' style='background: transparent' >"
+                        strltx += "<p>`" + str1 + redRes + "`</p>"
+                        strDevelopment = strDevelopment.replace(str2,"(" + res + ")")
+                       // strltx = strltx.split(str2).join("color(red)(" + res + ")")
+                        //StepLatex(str1, strDevelopment, str2, str3, "("+res+")", false, true)
                         str1 = "-> "
-                        str2 = "[ " + str2 + " ]"
+                        str2 = "[ " + str2 + " ]" + " = [ " + subRes[0] + " ] "
                         str1 = str1 + str2 + " = " + res
                         Pstrltx(str1)
                         strltx += "</div>"
