@@ -16,12 +16,13 @@ factorPow = (STR, S, OP) => {
              OP.push(arrBy)
              c++
          }
+         console.log(`OP2: ${OP}`)
          /*while (c < auxStr) {
              STR.push("*")
              OP.push(arrBy)
              c++
          }*/
-     }
+     }else
      if (aux1Char) {
          let c = 0;
          let c2 = 0;

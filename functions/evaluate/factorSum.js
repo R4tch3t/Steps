@@ -3,13 +3,25 @@ factorSum = (STR, S, OP) => {
     let aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
     let auxChar = auxStr.match(/[A-Z]/gi);
     let aux1Char = aux1Str.match(/[A-Z]/gi);
+    let auxStrPow = auxStr + ""
+    let aux1StrPow = aux1Str + ""
+    let aux1CharPow = aux1Str.match(/[A-Z]/gi);
+    let strSplit = aux1StrPow.split(aux1CharPow).join("")
     console.log(`STR +: ${STR}`);
-    STR.pop();
+    let sign = STR.pop();
+    
+    if (strSplit === "") {
+        strSplit = "1"
+    } else if (strSplit === "-") {
+        strSplit = "-1"
+    }
+
     console.log(`auxStr: ${auxStr}`);
     console.log(`aux1Str: ${aux1Str}`);
     console.log(`auxChar: ${auxChar}`);
     console.log(`aux1Char: ${aux1Char}`);
     str2 = aux1Str + "+" + auxStr;
+    //console.log(`str2+: ${strDevelopment}`)
     if (auxStr.includes(auxChar) && !aux1Str.includes(aux1Char)) {
         const auxTemp = aux1Str;
         strDevelopment = strDevelopment.split(str2);
@@ -42,7 +54,7 @@ factorSum = (STR, S, OP) => {
         strltx += "</div>"
         S.push(res)
     } else if (aux1Str.includes(aux1Char)) {
-
+        
         if (STR[0] === '+' && !auxStr.includes(auxChar)) {
             let nextStr = STR[1] === undefined ? "+" : STR.pop()
 
@@ -64,6 +76,7 @@ factorSum = (STR, S, OP) => {
                 strltx += "</div>"
                 S.push(aux1Str)
                 S.push(res)
+                
 
             } else {
                 strDevelopment = strDevelopment.split(str2 + "+" + nextStr);
@@ -105,17 +118,20 @@ factorSum = (STR, S, OP) => {
                 const mcd = MCDStr(auxStr, aux1Str);
                 let aux = dividestr(auxStr, mcd, 128);
                 let aux1 = dividestr(aux1Str, mcd, 128);
-                res = mcd + "(" + aux1 + aux1Char + "+" + aux + auxChar + ")";
+                res = mcd>1?mcd:"" 
+                res += "(" + aux1 + aux1Char + "+" + aux + auxChar + ")";
+                console.log(`str2+: ${strDevelopment} res: ${res} aux1Char: ${aux1Char}`)
                 res = res.split('1' + aux1Char).join(aux1Char);
                 if (auxChar !== "") {
                     res = res.split('1' + auxChar).join(auxChar);
                 }
                 console.log(mcd);
-
+                
                 StepsC += 1
                 str1 = strToLang("Paso") + StepsC.toString() + ": quad"
                 StepLatex(str1, strDevelopment, str2, str3, res, change, true)
                 str1 = "-> "
+                
                 if (BiggerThan(mcd, "1")) {
                     str2 = "[ " + str2 + " ]=" + mcd + "(color(red)(" + aux1Str + "/" + mcd + ")" + aux1Char + "+color(red)(" + auxStr + "/" + mcd + ")" + auxChar + ")"
                 } else {
@@ -133,7 +149,11 @@ factorSum = (STR, S, OP) => {
                 strltx += "</div>"
 
                 S.push(res)
+                
             }
         }
     }
+    
+    
+    OP.push([["" + auxStrPow,"",0],[strSplit,aux1CharPow,1]])
 }

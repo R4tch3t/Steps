@@ -81,6 +81,7 @@ StepsFactor = (str) => {
                 } else if (strSplit === "-" ){
                     strSplit = "-1"
                 }
+                console.log(`aux1Char--: ${aux1Char}`)
                 //OP.push(sign)
                 OP.push([[sign + "" + auxStr,"",0],[strSplit,aux1Char,1]])
                 //OP.push()
@@ -93,7 +94,7 @@ StepsFactor = (str) => {
                 auxStr = S[S.length - 1] === undefined ? null : S.pop();
                 aux1Str = S[S.length - 1] === undefined ? null : S.pop();
                 console.log(`plusFactor auxStr: ${auxStr} aux1Str: ${aux1Str}`)
-                console.log(`plusFactor OP: ${OP[0]}`)
+                console.log(`plusFactor STR??: ${STR}`)
                 //let arrStr = auxStr.split("");
                // let arr1Str = aux1Str.split("");
                 let c = 0
@@ -102,15 +103,15 @@ StepsFactor = (str) => {
                 let resArr = []
                 let bandMul = true
                 let powArr = []
-                let subRes = ["",""]
+                const subRes = ["", "", ""]
                 const numberArr = []
                 const charArr = []
-                
-
-                if(OP.length>0){
+                if (!STR.length && OP.length > 0) {
+                    console.log(`OP: ${OP}`)
                     let a = null//OP.shift()//.reverse()
                     let b = null//OP.shift().reverse()
                     res = "("
+                    
                     while(c2<OP.length){
                         a=OP[c2]
                         c = a.length - 1
@@ -201,7 +202,7 @@ StepsFactor = (str) => {
                         //Pstrltx(str1)
                         //strltx += "</div>"
                         //strltx += "</div>"
-
+                        
                         while(c<a.length){
                             const arrA = a[c]
                             const charA = arrA[1];
@@ -227,6 +228,11 @@ StepsFactor = (str) => {
                                 let powB = arrB[2]
                                 let consB = parseInt(arrB[0])
                                 let abyb = consA * consB
+                                let powAB = powA + powB
+                                let charsA = ""
+                                let charsB = ""
+                                let charsPow = ""
+                                //let charsB2 = ""
                                // splitB = parseInt(splitB)
                                 //numberArr.push(consA * consB)
                                 //if (powA > 0 || powB > 0){
@@ -234,22 +240,48 @@ StepsFactor = (str) => {
                                 /*}else{
                                     powArr.push(i + c2)
                                 }*/
-
+                                
+                                
                                 if (charB!=="") {
                                   //  charArr.push(charB)
-                                  powArr.push([(powA + powB), abyb, charB])
-                                  
+                                    powArr.push([powAB, abyb, charB])
+                                    charsB = ((consB === 1) ? "" : (consB === -1 ? "-" : consB)) + charB + (powB>1?("^"+powB):"")
+                                    if (powAB>1){
+                                        charsPow = (abyb === 1 ? "" : (abyb === -1 ? "-" : abyb)) + "" + charB + "^(color(red)(" + powA + "+" + powB + "))"
+                                    } else {
+                                        charsPow = (abyb === 1 ? "" : (abyb === -1 ? "-" : abyb)) + "" + charB
+                                    }
+                                    if (charA !== ""){
+                                        charsA = ((consA === 1) ? "" : (consA === -1 ? "-" : consA)) + charA + (powA > 1 ? ("^" + powA) : "")
+                                    }else{
+                                        charsA = "" + consA + charA
+                                    }
                                 } else if (charA !== "") {
                                     //charArr.push(charA)
-                                    powArr.push([(powA + powB), abyb, charA])
+                                    powArr.push([powAB, abyb, charA])
+                                    charsA = ((consA === 1) ? "" : (consA === -1 ? "-" : consA)) + charA + (powA > 1 ? ("^" + powA) : "")
+                                    if (powAB > 1) {
+                                        charsPow = (abyb === 1 ? "" : (abyb === -1 ? "-" : abyb)) + "" + charA + "^(color(red)(" + powA + "+" + powB + "))"
+                                    }else{
+                                        charsPow = (abyb === 1 ? "" : (abyb === -1 ? "-" : abyb)) + "" + charA
+                                    }
+                                    if (charB !== "") {
+                                        charsB = ((consB === 1) ? "" : (consB === -1 ? "-" : consB)) + charB + (powB > 1 ? ("^" + powB) : "")
+                                    } else {
+                                        charsB = "" + consB + charB
+                                    }
                                     //subRes[0] += (consA > -1 ? "+" : "") + consA + "*" + consB + charA
                                 } else {
                                     //charArr.push("")
-                                    powArr.push([(powA + powB), abyb, ""])
+                                    powArr.push([powAB, abyb, ""])
+                                    charsA = "" + consA + charA
+                                    charsB = "" + consB + charB
+                                    charsPow = abyb + "" //(abyb>-1?"+"+abyb:abyb) + ""
                                     //subRes[0] += (consA > -1 ? "+" : "") + consA + "*" + consB
                                 } 
                                 //subRes[0] = ((consA > -1 && c < (a.length) && c2 < (b.length-1)) ? "+(" : "+(") + consA + charA + "*" + consB + charB + ")" + subRes[0]
-                                subRes[0] = (c === (a.length-1) && c2 === (b.length-1)?"(color(red)(":"+(color(red)(") + consA + charA + "*" + consB + charB + "))" + subRes[0]
+                                subRes[0] = (c === (a.length-1) && c2 === (b.length-1)?"(color(red)(":"+(color(red)(") + charsA + "*" + charsB + "))" + subRes[0]
+                                subRes[1] = (c === (a.length - 1) && c2 === (b.length - 1) ? "" : abyb>-1?"+":"") + charsPow + "" + subRes[1]
                                 //subRes[0] = "(" + subRes[0] + ")"
                                 c2++
                             // i++
@@ -260,15 +292,23 @@ StepsFactor = (str) => {
                         c=0
                         c2=0
                         a = []
-                        powArr=powArr.sort()
+                        //powArr=powArr.sort()
                         while(c<powArr.length){
                             if(prevPow===powArr[c][0]){
                                 //c2 += numberArr[c]
                                 c2 += powArr[c][1]
+                                const subB = powArr[c][1]
                                 if (!powArr[c + 1] || prevPow !== powArr[c + 1][0]) {
                                     //resArr.push([c2, charArr[c], powArr[c]])
                                     resArr.push([c2, powArr[c][2], powArr[c][0]])
                                     a.push([c2, powArr[c][2], powArr[c][0]])
+                                    if (powArr[c][2]===""){
+                                        subRes[2] = c2 + "" + powArr[c][2] + (powArr[c][0] > 1 ? "^" + powArr[c][0] : "") + subRes[2]
+                                    }else{
+                                        subRes[2] = "color(red)(" + (subB === 1 ? "+" : (subB === -1 ? "-" : (subB < -1 ? subB : "+" + subB))) + powArr[c][2] + (powArr[c][0] > 1 ? "^" + powArr[c][0] : "") + subRes[2]
+                                    }
+                                }else{
+                                    subRes[2] = c2 + "" + powArr[c][2] + (powArr[c][0] > 1 ? "^" + powArr[c][0] : "") + subRes[2]
                                 }
                             }else{
                                 //c2 = numberArr[c]
@@ -277,11 +317,25 @@ StepsFactor = (str) => {
                                     //resArr.push([c2, charArr[c], powArr[c]])
                                     resArr.push([c2, powArr[c][2], powArr[c][0]])
                                     a.push([c2, powArr[c][2], powArr[c][0]])
+                                    if (powArr[c][2] === "") {
+                                        subRes[2] = (c2 > -1 ? ("+" + c2) : c2) + "" + powArr[c][2] + (powArr[c][0] > 1 ? "^" + powArr[c][0] : "") + subRes[2]
+                                    } else {
+                                        subRes[2] = ((c2 === 1) ? "+" : (c2 === -1 ? "-" : (c2 < -1 ? c2 : "+" + c2))) + "" + powArr[c][2] + (powArr[c][0] > 1 ? "^" + powArr[c][0] : "") + subRes[2]
+                                    }
+                                }else{
+                                   // if (powArr[c][2] === "") {
+                                    //    subRes[2] = (c2 > -1 ? ("+"+c2) : c2) + "" + powArr[c][2] + subRes[2]
+                                    //}else{    
+                                    subRes[2] = ((c2 === 1) ? "+" : (c2 === -1 ? "-" :(c2 < -1 ? c2 : "+" + c2))) + "" + powArr[c][2] + (powArr[c][0] > 1 ? "^" + powArr[c][0] : "") + ")" + subRes[2]
+                                    //}    
                                 }
+                                
                             }
                             prevPow = powArr[c][0]
                             c++
                         }
+                        subRes[2] = "["+subRes[2]+"]"
+                        subRes[2] = subRes[2].split("[+").join("[")
                         //numberArr = numberArr.reverse()
                         //numberArr = numberArr.reverse()
                     
@@ -321,7 +375,7 @@ StepsFactor = (str) => {
                        // strltx = strltx.split(str2).join("color(red)(" + res + ")")
                         //StepLatex(str1, strDevelopment, str2, str3, "("+res+")", false, true)
                         str1 = "-> "
-                        str2 = "[ " + str2 + " ]" + " = [ " + subRes[0] + " ] "
+                        str2 = "[ " + str2 + " ]" + " = [ " + subRes[0] + " ] = [ " + subRes[1] + " ] = " + subRes[2]
                         str1 = str1 + str2 + " = " + res
                         Pstrltx(str1)
                         strltx += "</div>"
@@ -331,10 +385,13 @@ StepsFactor = (str) => {
                         console.log(`powArr: ${powArr}`)
                         console.log(`charArr: ${charArr}`)
                         console.log(`resArr: ${resArr}`)
-                        b=OP.pop();
+                        b=OP.shift();
                         resArr=[];
                         powArr=[];
                         c2=0;
+                        subRes[0]=""
+                        subRes[1]=""
+                        subRes[2]=""
                     }
                 }
                 break
