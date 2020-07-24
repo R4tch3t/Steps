@@ -3,8 +3,8 @@ factorSum = (STR, S, OP) => {
     let aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
     let auxChar = auxStr.match(/[A-Z]/gi);
     let aux1Char = aux1Str.match(/[A-Z]/gi);
-    aux1Str = aux1Str.split("-").join("")
-    auxStr = auxStr.split("-").join("")
+    //aux1Str = aux1Str.split("-").join("")
+    //auxStr = auxStr.split("-").join("")
     let auxStrPow = auxStr + ""
     let aux1StrPow = aux1Str + ""
     let aux1CharPow = aux1Char
@@ -45,11 +45,14 @@ factorSum = (STR, S, OP) => {
             aux1Str = '1';
         }
         if (sign==="-"){
-            res = minusstr(auxStr, aux1Str);
+            res = minusstr(aux1Str, auxStr);
         }else{
             res = plusstr(auxStr, aux1Str);
         }
         res += aux1Char;
+        res = res.split("-1" + aux1Char).join("-" + aux1Char)
+        res = res.split("1" + aux1Char).join("" + aux1Char)
+        console.log("xxres: " + res)
         StepsC += 1
         str1 = strToLang("Paso") + StepsC.toString() + ": quad"
         StepLatex(str1, strDevelopment, str2, str3, res, change, true)
@@ -81,8 +84,10 @@ factorSum = (STR, S, OP) => {
                 if (res > -1){
                     if(STR[STR.length-1]==="-"){
                         STR[STR.length - 1] = "+"
-                        nextSign="+"
                     }
+                    nextSign = "+"
+                }else{
+                    STR[STR.length - 1] = "-"
                 }
                 StepLatex(str1, strDevelopment, str2, str3, nextSign+""+res, change, true)
                 console.log(`strDevelopment: ${strDevelopment} str2: ${str2}`)
@@ -93,7 +98,7 @@ factorSum = (STR, S, OP) => {
                 strltx += "</div>"
                 strltx += "</div>"
                 S.push(aux1Str)
-                S.push(res)
+                S.push(res.split("-").join(""))
                 
 
             } else {
