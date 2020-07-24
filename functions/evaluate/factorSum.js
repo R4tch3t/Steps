@@ -3,9 +3,12 @@ factorSum = (STR, S, OP) => {
     let aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
     let auxChar = auxStr.match(/[A-Z]/gi);
     let aux1Char = aux1Str.match(/[A-Z]/gi);
+    aux1Str = aux1Str.split("-").join("")
+    auxStr = auxStr.split("-").join("")
     let auxStrPow = auxStr + ""
     let aux1StrPow = aux1Str + ""
-    let aux1CharPow = aux1Str.match(/[A-Z]/gi);
+    let aux1CharPow = aux1Char
+    let auxCharPow = auxChar
     let strSplit = aux1StrPow.split(aux1CharPow).join("")
     console.log(`STR +: ${STR}`);
     let sign = STR.pop();
@@ -20,12 +23,12 @@ factorSum = (STR, S, OP) => {
     console.log(`aux1Str: ${aux1Str}`);
     console.log(`auxChar: ${auxChar}`);
     console.log(`aux1Char: ${aux1Char}`);
-    str2 = aux1Str + "+" + auxStr;
+    str2 = aux1Str + sign + auxStr;
     //console.log(`str2+: ${strDevelopment}`)
     if (auxStr.includes(auxChar) && !aux1Str.includes(aux1Char)) {
         const auxTemp = aux1Str;
         strDevelopment = strDevelopment.split(str2);
-        str2 = auxStr + "+" + aux1Str;
+        str2 = auxStr + sign + aux1Str;
         //change = true
         aux1Str = auxStr;
         auxStr = auxTemp;
@@ -41,7 +44,11 @@ factorSum = (STR, S, OP) => {
         if (aux1Str === "") {
             aux1Str = '1';
         }
-        res = plusstr(auxStr, aux1Str);
+        if (sign==="-"){
+            res = minusstr(auxStr, aux1Str);
+        }else{
+            res = plusstr(auxStr, aux1Str);
+        }
         res += aux1Char;
         StepsC += 1
         str1 = strToLang("Paso") + StepsC.toString() + ": quad"
@@ -54,20 +61,31 @@ factorSum = (STR, S, OP) => {
         strltx += "</div>"
         S.push(res)
     } else if (aux1Str.includes(aux1Char)) {
-        
-        if (STR[0] === '+' && !auxStr.includes(auxChar)) {
-            let nextStr = STR[1] === undefined ? "+" : STR.pop()
-
+        let nextSign = STR[STR.length - 2]
+        if ((nextSign === '+' || nextSign === '-') && !auxStr.includes(auxChar)) {
+            let nextStr = STR[1] === undefined ? nextSign : STR.pop()
             console.log(STR)
             if (!nextStr.includes(aux1Char)) {
-                str2 = auxStr + "+" + nextStr;
+                str2 = (sign === "-" ? sign : "") + auxStr + nextSign + nextStr;
                 //auxStr = auxStr.split('x').join('');
                 //nextStr = aux1Str.split('x').join('');
-                res = plusstr(auxStr, nextStr);
+                if (nextSign === "-") {
+                    res = minusstr((sign === "-" ? sign:"")+auxStr, nextStr);
+                } else {
+                    res = plusstr((sign === "-" ? sign : "") + auxStr, nextStr);
+                }
                 //res += "x";
                 StepsC += 1
                 str1 = strToLang("Paso") + StepsC.toString() + ": quad"
-                StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                nextSign = ""
+                if (res > -1){
+                    if(STR[STR.length-1]==="-"){
+                        STR[STR.length - 1] = "+"
+                        nextSign="+"
+                    }
+                }
+                StepLatex(str1, strDevelopment, str2, str3, nextSign+""+res, change, true)
+                console.log(`strDevelopment: ${strDevelopment} str2: ${str2}`)
                 str1 = "-> "
                 str2 = "[ " + str2 + " ]" // + "(color(red)(" + aux1Str + "/" + mcd + ")x+color(red)(" + auxStr + "/" + mcd + "))"
                 str1 = str1 + str2 + " = " + res
@@ -79,9 +97,9 @@ factorSum = (STR, S, OP) => {
                 
 
             } else {
-                strDevelopment = strDevelopment.split(str2 + "+" + nextStr);
-                str2 = aux1Str + "+" + nextStr
-                strDevelopment = strDevelopment.join(str2 + "+" + auxStr);
+                strDevelopment = strDevelopment.split(str2 + sign + nextStr);
+                str2 = aux1Str + sign + nextStr
+                strDevelopment = strDevelopment.join(str2 + sign + auxStr);
                 aux1Str = aux1Str.split(aux1Char).join('');
                 nextStr = nextStr.split(aux1Char).join('');
                 if (nextStr === "") {
@@ -90,7 +108,12 @@ factorSum = (STR, S, OP) => {
                 if (aux1Str === "") {
                     aux1Str = '1';
                 }
-                res = plusstr(aux1Str, nextStr);
+                //res = plusstr(aux1Str, nextStr);
+                if (sign === "-") {
+                    res = minusstr(aux1Str, nextStr);
+                } else {
+                    res = plusstr(aux1Str, nextStr);
+                }
                 res += aux1Char;
                 StepsC += 1;
                 str1 = strToLang("Paso") + StepsC.toString() + ": quad";
@@ -103,6 +126,7 @@ factorSum = (STR, S, OP) => {
                 strltx += "</div>"
                 S.push(res)
                 S.push(auxStr)
+                
             }
         } else {
             aux1Str = aux1Str.split(aux1Char).join("");
@@ -119,9 +143,12 @@ factorSum = (STR, S, OP) => {
                 let aux = dividestr(auxStr, mcd, 128);
                 let aux1 = dividestr(aux1Str, mcd, 128);
                 res = mcd>1?mcd:"" 
-                res += "(" + aux1 + aux1Char + "+" + aux + auxChar + ")";
-                console.log(`str2+: ${strDevelopment} res: ${res} aux1Char: ${aux1Char}`)
+                res += "(" + aux1 + aux1Char + sign + aux + auxChar + ")";
+                
                 res = res.split('1' + aux1Char).join(aux1Char);
+                //res=res.split("--").join("-")
+                //str2=str2.split("--").join("-")
+                console.log(`str2+?: ${strDevelopment} res: ${res} aux1Char: ${aux1Char} str2: ${str2}`)
                 if (auxChar !== "") {
                     res = res.split('1' + auxChar).join(auxChar);
                 }
@@ -138,7 +165,7 @@ factorSum = (STR, S, OP) => {
                     str2 = "[ " + str2 + " ]"
 
                     res = aux1Char !== "" && aux1 === '1' ? aux1Char : aux1 + aux1Char;
-                    res += "+" + (auxChar !== "" && aux === '1' ? auxChar : aux + auxChar);
+                    res += sign + (auxChar !== "" && aux === '1' ? auxChar : aux + auxChar);
                     //res = aux1 + aux1Char + "+" + aux + auxChar;
                     //res = res.split('1' + aux1Char).join(aux1Char);
                     //res = res.split('1' + auxChar).join(auxChar);
@@ -149,11 +176,18 @@ factorSum = (STR, S, OP) => {
                 strltx += "</div>"
 
                 S.push(res)
+
+                if (!auxStrPow.includes(auxCharPow) && !isNumber(STR[STR.length-1])) {
+                    if (sign === "-") {
+                        auxStrPow = "-" + auxStrPow
+                    }
+                    OP.push([["" + auxStrPow,"",0],[strSplit,aux1CharPow,1]])
+                    console.log(`OP+-: ${OP}`)
+                }
                 
             }
         }
+        
     }
     
-    
-    OP.push([["" + auxStrPow,"",0],[strSplit,aux1CharPow,1]])
 }

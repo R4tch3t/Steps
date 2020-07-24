@@ -66,10 +66,11 @@ StepsFactor = (str) => {
         while (STR.length>0) {
             //console.log(STR[STR.length - 1])
             switch (STR[STR.length-1]) {
+            case "-":
             case "+":
                 factorSum(STR, S, OP);
                 break
-            case "-":
+            /*case "-":
                 let sign = STR.pop()
                 let auxStr = S[S.length - 1] === undefined ? "+" : S.pop();
                 let aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
@@ -85,14 +86,14 @@ StepsFactor = (str) => {
                 //OP.push(sign)
                 OP.push([[sign + "" + auxStr,"",0],[strSplit,aux1Char,1]])
                 //OP.push()
-                break
+                break*/
             case "·":
             case "⋅":
             case "×":
             case "*":
                 STR.pop()
-                auxStr = S[S.length - 1] === undefined ? null : S.pop();
-                aux1Str = S[S.length - 1] === undefined ? null : S.pop();
+                let auxStr = S[S.length - 1] === undefined ? null : S.pop();
+                let aux1Str = S[S.length - 1] === undefined ? null : S.pop();
                 console.log(`plusFactor auxStr: ${auxStr} aux1Str: ${aux1Str}`)
                 console.log(`plusFactor STR??: ${STR}`)
                 //let arrStr = auxStr.split("");
