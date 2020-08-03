@@ -38,11 +38,11 @@ factorSum = (STR, S, OP) => {
     if (aux1Str.includes(aux1Char) && auxStr.includes(aux1Char)) {
         auxStr = auxStr.split(aux1Char).join('');
         aux1Str = aux1Str.split(aux1Char).join('');
-        if (auxStr === "") {
-            auxStr = '1';
+        if (auxStr === "" || auxStr === "-") {
+            auxStr += '1';
         }
-        if (aux1Str === "") {
-            aux1Str = '1';
+        if (aux1Str === "" || aux1Str === "-") {
+            aux1Str += '1';
         }
         if (sign==="-"){
             res = minusstr(aux1Str, auxStr);
@@ -107,11 +107,11 @@ factorSum = (STR, S, OP) => {
                 strDevelopment = strDevelopment.join(str2 + sign + auxStr);
                 aux1Str = aux1Str.split(aux1Char).join('');
                 nextStr = nextStr.split(aux1Char).join('');
-                if (nextStr === "") {
-                    nextStr = '1';
+                if (nextStr === "" || nextStr === "-") {
+                    nextStr += '1';
                 }
-                if (aux1Str === "") {
-                    aux1Str = '1';
+                if (aux1Str === "" || aux1Str === "-") {
+                    aux1Str += '1';
                 }
                 //res = plusstr(aux1Str, nextStr);
                 if (sign === "-") {
@@ -135,8 +135,8 @@ factorSum = (STR, S, OP) => {
             }
         } else {
             aux1Str = aux1Str.split(aux1Char).join("");
-            if (aux1Str === "") {
-                aux1Str = '1';
+            if (aux1Str === "" || aux1Str==="-") {
+                aux1Str += '1';
             }
             if (auxChar) {
                 auxStr = auxStr.split(auxChar).join("");
