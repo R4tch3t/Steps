@@ -97,26 +97,34 @@ factorPow = (STR, S, OP) => {
             if (mcdAux === "" || mcdAux === "-") {
                 mcdAux = 1;
             } else if (STR.length > 1) {
+                c=0
                 mcdAux = parseInt(mcdAux);
+                if(mcdAux<0){
+                    mcdAux*=-1
+                }
                 //STR = []
                 console.log(`mcdAux ${mcdAux}`)
-                if (STR[1].includes("x")) {
-                    let strB = STR[1].split(aux1Char).join("")
-                    if (strB === "" || strB === "-") {
-                        strB = "1"
-                    }
-                    mcdAux = parseInt(MCDStr(mcdAux + "", strB));
-                } else if (STR[1].includes("^")) {
-                    if (STR[3].includes("x")) {
-                        charNumber = STR[3].split(aux1Char).join("")
-                        if (charNumber === "") {
-                            charNumber = "1"
+                while(c<STR.length){
+                    if (STR[c].includes("x") || (parseInt(STR[c]) < 0 || parseInt(STR[c]) > 0)) {
+                        let strB = STR[c].split(aux1Char).join("")
+                        if (strB === "" || strB === "-") {
+                            strB = "1"
                         }
-                        mcdAux = parseInt(MCDStr(mcdAux + "", charNumber));
-                    } else {
-                        mcdAux = 1
+                        mcdAux = parseInt(MCDStr(mcdAux + "", strB));
+                    } else if (STR[c].includes("^")) {
+                        if (STR[c+2].includes("x")) {
+                            charNumber = STR[c+2].split(aux1Char).join("")
+                            if (charNumber === "") {
+                                charNumber = "1"
+                            }
+                            mcdAux = parseInt(MCDStr(mcdAux + "", charNumber));
+                        } else {
+                            mcdAux = 1
+                        }
                     }
+                    c++
                 }
+                c=0
                 console.log(`mcdAux ${mcdAux}`)
             }
 
@@ -128,13 +136,14 @@ factorPow = (STR, S, OP) => {
                     break;
                 }
                 charNumber = STR[c].split(aux1Char).join('');
-                //console.log(STR[c])
+                console.log(`STR[c]: ${STR[c]}`)
                 //console.log(aux1Char)  
                 if (STR[c] === ("" + aux1Char)) {
                     poliArr.push("1");
                 } else if (STR[c].includes("" + aux1Char)) {
 
                     // poliArr.push(charNumber);
+                    console.log(`charNumber%mcdAux: ${(parseInt(charNumber) % mcdAux)}`)
                     if ((parseInt(charNumber) % mcdAux) > 0) {
                         poliArr.push(charNumber);
                         bandF = false;
@@ -386,7 +395,6 @@ factorPow = (STR, S, OP) => {
                 prevFactor = minusFactor + ""
             }
 
-
             poliArr = [];
             c = 2;
             charNumber = ''
@@ -561,7 +569,7 @@ factorPow = (STR, S, OP) => {
                                     countC++;
                                 } else {
                                     countC = 0;
-                                    if (poliArr[poliArr.length - 1] < divisor) {
+                                    if (poliArr[poliArr.length - 1] > divisor) {
                                         divisor++;
                                     } else {
                                         countB++;
@@ -588,7 +596,7 @@ factorPow = (STR, S, OP) => {
                 } else if (poliAux.length === 1) {
                     bandF = false;
                 } else {
-                    console.log(`afTPushc2: ${c2}`)
+                    console.log(`afTPushc??2: ${c2}`)
                     xs.push(c2 * -1);
                     // bandG=true;
                     countB = 0;
@@ -614,13 +622,24 @@ factorPow = (STR, S, OP) => {
                                 res += ("-" + aux1Char + (pw > 1 ? "^" + pw : ""));
                             } else if (poliAux[cAux] > 1) {
                                 if (bandG) {
+                                    const absX = x < 0 ? x * -1 : x
+                                    //poliAux[cAux] = poliAux[cAux] * absX
+                                    poliAux[cAux] = poliAux[cAux] * x
+                                    //poli2[cAux] = poliAux[cAux]
+                                    //poliArr[cAux] = poliAux[cAux]
                                     res += ((cAux > 0 ? "+" : "") + (poliAux[cAux] * x) + (aux1Char + (pw > 1 ? "^" + pw : "")));
                                 } else {
                                     res += ((cAux > 0 ? "+" : "") + (poliAux[cAux]) + (aux1Char + (pw > 1 ? "^" + pw : "")));
                                 }
                             } else if (poliAux[cAux] < -1) {
                                 if (bandG) {
-                                    res += ((poliAux[cAux] * x) + (aux1Char + (pw > 1 ? "^" + pw : "")));
+                                    const poliMul = poliAux[cAux] * x
+                                    const absX = x < 0 ? x * -1 : x
+                                    //poliAux[cAux] = poliAux[cAux] * absX
+                                    poliAux[cAux] = poliAux[cAux] * x
+                                    //poli2[cAux] = poliAux[cAux]
+                                    //poliArr[cAux] = poliAux[cAux]
+                                    res += (((poliMul > -1 && cAux > 0) ? "+" : "") + poliMul + (aux1Char + (pw > 1 ? "^" + pw : "")));
                                 } else {
                                     res += ((poliAux[cAux]) + (aux1Char + (pw > 1 ? "^" + pw : "")));
                                 }
@@ -631,29 +650,40 @@ factorPow = (STR, S, OP) => {
                             cAux++;
                             pw--;
                         }
-                        //console.log(`resFactoring: ${res} auxChar: ${aux1Char} `);
+                        console.log(`resFactoring: ${res} auxChar: ${aux1Char} poliAux: ${poliAux} divisor: ${divisor} `);
                         res = res.split("1x").join("x");
                         //res = "(" + (poliAux[0] === 1 ? aux1Char : poliAux[0] + aux1Char) + (poliAux[1] < 0 ? poliAux[1] : "+" + poliAux[1])+")"    
                         if (bandG) {
-                            res += (poliAux[cAux] < 0 ? (poliAux[cAux] * x) : "+" + (poliAux[cAux] * x)) + ")"
+                            //const poliMul = poliAux[cAux] / divisor
+                            const poliMul = poliAux[cAux] * x
+                            const absX = x<0?x*-1:x
+                            //poliAux[cAux] = poliAux[cAux] * absX
+                            poliAux[cAux] = poliAux[cAux] * x
+                            //poli2[cAux] = poliAux[cAux]
+                            //poliArr[cAux] = poliAux[cAux]
+                            res += (poliMul < 0 ? (poliMul) : "+" + (poliMul)) + ")"
                         } else {
                             res += (poliAux[cAux] < 0 ? (poliAux[cAux]) : "+" + (poliAux[cAux])) + ")"
                         }
+
+                        poliArr = poliAux.slice(0, poliAux.length-1);
+                        
                         if (xStr !== "") {
                             //str2 = prevStep
                             console.log(`str2: ${str2}`);
                         }
-
+                        console.log(`resFactoring2: ${res} poliAux[cAux]: ${poliAux[cAux]} x:${x} bandG: ${bandG} `);
                         // prevStep = res
                         if (bandG) {
-                            if (divFactor[countC] === 1) {
-                                res = xStr + "(" + aux1Char + (x < 0 ? divisor + ")" : '+' + divisor + ")") + res;
-                                xStr += "(" + aux1Char + (x < 0 ? divisor + ")" : '+' + divisor + ")");
+                            const poliDiv = divisor / divFactor[countC]
+                            console.log(`divisor: ${divisor} divFactor[countC]: ${divFactor[countC]} poliDiv: ${poliDiv} `);
+                            if (poliDiv === 1 || poliDiv === -1) {
+                                res = xStr + "(" + aux1Char + (x < 0 ? poliDiv + ")" : '+' + poliDiv + ")") + res;
+                                xStr += "(" + aux1Char + (x < 0 ? poliDiv + ")" : '+' + poliDiv + ")");
                             } else {
-                                res = xStr + "(" + divFactor[countC] + aux1Char + (x < 0 ? divisor + ")" : '+' + divisor + ")") + res;
-                                xStr += "(" + divFactor[countC] + aux1Char + (x < 0 ? divisor + ")" : '+' + divisor + ")");
+                                res = xStr + "(" + (x<0?"-":"") + (divFactor[countC]) + aux1Char + (divisor < 0 ? divisor + ")" : '+' + divisor + ")") + res;
+                                xStr += "(" + (x < 0 ? "-" : "") + (divFactor[countC]) + aux1Char + (divisor < 0 ? divisor + ")" : '+' + divisor + ")");
                             }
-
                         } else {
                             res = xStr + "(" + aux1Char + (x < 0 ? x + ")" : '+' + x + ")") + res;
                             xStr += "(" + aux1Char + (x < 0 ? x + ")" : '+' + x + ")");
@@ -665,7 +695,7 @@ factorPow = (STR, S, OP) => {
                         if (poliAux.length === 3) {
                             STR = [];
                         }
-
+                        console.log(`resFactoring3: ${res} divFactor[countC]: ${divFactor[countC]} xStr: ${xStr} `);
                     } else {
                         let xPows = 1;
                         let c3 = 0;
@@ -742,6 +772,7 @@ factorPow = (STR, S, OP) => {
                     Pstrltx(str1)
                     strltx += "</div>"
                     strltx += "</div>"
+                    console.log(`poliAuxLast: ${poliAux}`)
 
                     if (poliArr[poliArr.length - 1] === c2) {
                         if (poliAux.length === 1 /*&& poliAux[0]===0*/ ) {

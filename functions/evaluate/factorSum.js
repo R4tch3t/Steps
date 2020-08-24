@@ -1,3 +1,5 @@
+const { lessThan } = require("react-native-reanimated");
+
 factorSum = (STR, S, OP) => {
     let auxStr = S[S.length - 1] === undefined ? "+" : S.pop();
     let aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
@@ -147,7 +149,7 @@ factorSum = (STR, S, OP) => {
                 const mcd = MCDStr(auxStr, aux1Str);
                 let aux = dividestr(auxStr, mcd, 128);
                 let aux1 = dividestr(aux1Str, mcd, 128);
-                res = mcd>1?mcd:"" 
+                res = (mcd > 1 || mcd < -1) ? mcd : ""
                 res += "(" + aux1 + aux1Char + sign + aux + auxChar + ")";
                 
                 res = res.split('1' + aux1Char).join(aux1Char);
@@ -157,6 +159,7 @@ factorSum = (STR, S, OP) => {
                 if (auxChar !== "") {
                     res = res.split('1' + auxChar).join(auxChar);
                 }
+                res = res.split("--").join("+");
                 console.log(mcd);
                 
                 StepsC += 1
@@ -164,8 +167,8 @@ factorSum = (STR, S, OP) => {
                 StepLatex(str1, strDevelopment, str2, str3, res, change, true)
                 str1 = "-> "
                 
-                if (BiggerThan(mcd, "1")) {
-                    str2 = "[ " + str2 + " ]=" + mcd + "(color(red)(" + aux1Str + "/" + mcd + ")" + aux1Char + "+color(red)(" + auxStr + "/" + mcd + ")" + auxChar + ")"
+                if (BiggerThan(mcd, "1")||LessThan(mcd, "-1")){
+                    str2 = "[ " + str2 + " ]=" + mcd + "(color(red)(" + aux1Str + "/" + mcd + ")" + aux1Char + sign + "color(red)(" + auxStr + "/" + mcd + ")" + auxChar + ")"
                 } else {
                     str2 = "[ " + str2 + " ]"
 
