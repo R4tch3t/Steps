@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "ubuntu": "npm start && react-native run-android",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
