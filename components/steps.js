@@ -94,11 +94,13 @@ export default (props) => {
           onLayout={()=>{
             const {width, height} = Dimensions.get('window');
             txtGExp = stacksVars[stackName].txtGExp === undefined ? '' : stacksVars[stackName].txtGExp
+            console.log(`txtGExp: ${txtGExp}`)
+            console.log(`stackName: ${stackName}`)
+            console.log(stacksVars)
             if (width !== Wwidth || height !== Wheight) {
               setWidth(width)
               setHeight(height)
               reloadHtml()
-              
             }
           }}>
           {/*<Header />*/}

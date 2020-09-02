@@ -99,11 +99,10 @@ stacksfocusG={}
 stacktextInput={}
 stackIsModal = {}
 const getSaveData = async () => {
-try{
-  
+try{  
   let value = await AsyncStorage.getItem('@evalObject')
   stacksVars = value !== null ? JSON.parse(value) : {};
-  
+  console.log(`getSaveData: ${stacksVars} `)
   value = await AsyncStorage.getItem('@evalString');
   if (value !== null) {
     txtGExp = value
@@ -149,6 +148,7 @@ try{
     FCT = value === '1' ? true : false
     //setMDval(value);
   }
+  stacksVars.init = 1
 }catch(e){
 
 }
@@ -203,7 +203,8 @@ const App: () => React$Node = () => {
 
   const stackSteps = (props) => {
     const {navigation} = props
-
+    console.log(`stacksSteps: ${stacksVars} `)
+    console.log(stacksVars)
     if (stacksVars[props.route.name]===undefined){
       stacksVars[props.route.name]={txtGExp: txtGExp}
     }
@@ -275,6 +276,72 @@ const App: () => React$Node = () => {
       </Stack.Navigator>
     );
   }
+  
+  const stepsRender = () => {
+    if (bandNew) {
+      new Promise((resolve, reject)=>{
+        resolve(1)
+      }).then(() => setBandNew(false))
+      return <></>
+    } else if (stacks === null){ 
+      return <></>
+    }else
+      return (
+        <NavigationContainer onStateChange={stateStack} >
+          <Drawer.Navigator initialRouteName={nameStack}>
+          <Drawer.Screen name={strToLang('configLabel')} 
+            component={stackConfig}
+            options={{
+              drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'briefcase' : 'briefcase'}></Icon>
+            }}
+          />
+          <Drawer.Screen name="CamScan" 
+            component={stackCamScan}
+            options={{
+              drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'camera' : 'camera'}></Icon>
+            }}
+          />
+          {
+            stacks.map((stack, index) => 
+              <Drawer.Screen key={index}  name={stack.name} 
+                component={stackSteps}
+                options={{
+                  drawerIcon: config => <Icon
+                    size={23}
+                    type = 'font-awesome'
+                    name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
+                }}
+              />
+            )
+          }
+          <Drawer.Screen name={strToLang('newStack')} 
+            component={newStack}
+            options={{
+              drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'plus' : 'plus'}></Icon>
+            }}
+          />
+          <Drawer.Screen name={strToLang('delStack')} 
+            component={newStack}
+            options={{
+              drawerIcon: config => <Icon
+                size={23}
+                type = 'font-awesome'
+                name={Platform.OS === 'android' ? 'trash' : 'trash'}></Icon>
+            }}
+          /> 
+          </Drawer.Navigator>
+        </NavigationContainer>
+      );
+  }
 
   const stackCamScan = () => {
     return (
@@ -285,10 +352,12 @@ const App: () => React$Node = () => {
       </Stack.Navigator>
     );
   }
-
+  if (!stacksVars.init) {
+    getSaveData();
+  } 
   if (bandIns === null) {
-    if (html === null){
-      getSaveData();
+    if (html === null){ 
+     //getSaveData();
       installFiles();
     }
   return (
@@ -299,6 +368,7 @@ const App: () => React$Node = () => {
     </>)
   }
   if (bandIns === false) {
+    
   return (
     <>
     <StatusBar barStyle="dark-content" />
@@ -314,70 +384,10 @@ const App: () => React$Node = () => {
     </>)
   }
   if (bandIns === true){
-    if (bandNew) {
-      new Promise((resolve, reject)=>{
-        resolve(1)
-      }).then(() => setBandNew(false))
-      return <></>
-    } else if (stacks === null){
-      return <></>
-    }else
-    return (
-      <NavigationContainer onStateChange={stateStack} >
-        <Drawer.Navigator initialRouteName={nameStack}>
-         <Drawer.Screen name={strToLang('configLabel')} 
-          component={stackConfig}
-          options={{
-            drawerIcon: config => <Icon
-              size={23}
-              type = 'font-awesome'
-              name={Platform.OS === 'android' ? 'briefcase' : 'briefcase'}></Icon>
-          }}
-         />
-         <Drawer.Screen name="CamScan" 
-          component={stackCamScan}
-          options={{
-            drawerIcon: config => <Icon
-              size={23}
-              type = 'font-awesome'
-              name={Platform.OS === 'android' ? 'camera' : 'camera'}></Icon>
-          }}
-         />
-        {
-          stacks.map((stack, index) => 
-            <Drawer.Screen key={index}  name={stack.name} 
-              component={stackSteps}
-              options={{
-                drawerIcon: config => <Icon
-                  size={23}
-                  type = 'font-awesome'
-                  name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
-              }}
-            />
-          )
-        }
-        <Drawer.Screen name={strToLang('newStack')} 
-          component={newStack}
-          options={{
-            drawerIcon: config => <Icon
-              size={23}
-              type = 'font-awesome'
-              name={Platform.OS === 'android' ? 'plus' : 'plus'}></Icon>
-          }}
-         />
-        <Drawer.Screen name={strToLang('delStack')} 
-          component={newStack}
-          options={{
-            drawerIcon: config => <Icon
-              size={23}
-              type = 'font-awesome'
-              name={Platform.OS === 'android' ? 'trash' : 'trash'}></Icon>
-          }}
-         /> 
-        </Drawer.Navigator>
-      </NavigationContainer>
-    );
-  }    
+    
+      return stepsRender()
+    
+  }     
 };
 
 const styles = StyleSheet.create({
