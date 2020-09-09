@@ -19,8 +19,10 @@ endIndex = 0;
 
 export default (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
-    const [styleFun, setStyleFun] = React.useState(styles.styleFun)
-    const [styleTextFun, setStyleTextFun] = React.useState({})
+    const [styleFun, setStyleFun] = React.useState([styles.styleFun, styles.styleFun])
+    //const [styleFun2, setStyleFun2] = React.useState(styles.styleFun2)
+    const [styleTextFun, setStyleTextFun] = React.useState([{}, {}])
+    //const [styleTextFun2, setStyleTextFun2] = React.useState({})
     const [styleKey, setStyleKey] = React.useState(styles.styleKey)
     const [styleTextKey, setStyleTextKey] = React.useState(styles.textStyle)
     const [isModal, setIsModal] = React.useState(false)
@@ -33,10 +35,13 @@ export default (props) => {
             stackIsModal = value !== null ? JSON.parse(value) : {};
             if (stackIsModal[stackName] !== undefined) {
                 if (stackIsModal[stackName].isModal === 1) {
-                    setStyleFun(styles.styleFunAct)
+                    //const newStyle = styleFun
+                    styleFun[0] = styles.styleFunAct
+                    setStyleFun(styleFun)
                     setIsModal(true)
                     //setModalVisible(true)
-                    setStyleTextFun(styles.textStyle)
+                    styleTextFun[0] = styles.textStyle
+                    setStyleTextFun(styleTextFun)
                     stacktextInput[stackName]._textInput.setNativeProps({
                         showSoftInputOnFocus: false
                     })
@@ -65,18 +70,24 @@ export default (props) => {
         new Promise((resolve, reject)=>{
             if (!isModal) {
                 //stacksfocusG[stackName].focusG()
-                setStyleFun(styles.styleFunAct)
+                styleFun[0] = styles.styleFunAct
+                setStyleFun(styleFun)
+                //setStyleFun(styles.styleFunAct)
                 setIsModal(true)
                 setModalVisible(true)
-                setStyleTextFun(styles.textStyle)
+                styleTextFun[0] = styles.textStyle
+                //setStyleTextFun(styles.textStyle)
+                setStyleTextFun(styleTextFun)
                 stackIsModal[stackName]={isModal: 1}
                 setObjSave('@isModal', stackIsModal)
             // setSaveData('@isModal', '1')
             }else{
-                setStyleFun(styles.styleFun)
+                styleFun[0] = styles.styleFun
+                setStyleFun(styleFun)
+                //setStyleFun(styles.styleFun)
                 setIsModal(false)
                 setModalVisible(false)
-                setStyleTextFun({})
+                setStyleTextFun([{},{}])
                 stackIsModal[stackName]={isModal: 0}
                 setObjSave('@isModal', stackIsModal)
                 //setSaveData('@isModal', '0')
@@ -146,8 +157,8 @@ export default (props) => {
         return [{
                 text: 'MathString',
                 testID: 'show1',
-                style: styleFun,
-                styleText: styleTextFun,
+                style: styleFun[0],
+                styleText: styleTextFun[0],
                 onPress: () => showMathFunctions(),
             },
             {
@@ -157,13 +168,13 @@ export default (props) => {
                 styleText: styleTextKey,
                 onPress: () => Linking.openURL("market://details?id=com.google.android.inputmethod.latin"),
             },
-            /*{
-                text: strToLang('delStack'),
-                testID: 'reset',
-                style: [styleKey, {backgroundColor: "red"}],
-                styleText: styleTextKey,
-                onPress: delStack,
-            },*/
+            {
+                text: 'PixelScan',
+                testID: 'showP',
+                style: [styleFun[1], {marginLeft: 15}],
+                styleText: styleTextFun[1],
+                //onPress: delStack,
+            },
         ];
     }
     /*replaceRange(s, start, end, substitute) {
@@ -281,7 +292,8 @@ export default (props) => {
                             key={index}
                             testID={button.testID}
                         >
-                        <Text style={button.styleText}>{button.text}</Text>
+                            <Text style={button.styleText}>{button.text}</Text>
+
                         </TouchableOpacity>)
                     }
                 </View>
@@ -300,6 +312,12 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         //elevation: 2,
     },
+    styleFun2: {
+        padding: 3,
+        borderRadius: 30,
+        marginLeft: 15
+        //elevation: 2,
+    },
     styleKey: {
         marginLeft: 15,
         padding: 3,
@@ -307,6 +325,12 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     styleFunAct: {
+        padding: 3,
+        borderRadius: 30,
+        elevation: 2,
+        backgroundColor: "#2196F3"
+    },
+    styleFunAct2: {
         padding: 3,
         borderRadius: 30,
         elevation: 2,
