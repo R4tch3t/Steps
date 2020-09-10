@@ -26,6 +26,7 @@ export default (props) => {
     const [styleKey, setStyleKey] = React.useState(styles.styleKey)
     const [styleTextKey, setStyleTextKey] = React.useState(styles.textStyle)
     const [isModal, setIsModal] = React.useState(false)
+    const [isPixel, setIsPixel] = React.useState(false)
     const [isDataLoad, setIsDataLoad] = React.useState(false)
     const stackName = props.route.name
 
@@ -87,7 +88,8 @@ export default (props) => {
                 //setStyleFun(styles.styleFun)
                 setIsModal(false)
                 setModalVisible(false)
-                setStyleTextFun([{},{}])
+                styleTextFun[0] = {}
+                setStyleTextFun(styleTextFun)
                 stackIsModal[stackName]={isModal: 0}
                 setObjSave('@isModal', stackIsModal)
                 //setSaveData('@isModal', '0')
@@ -96,6 +98,38 @@ export default (props) => {
         }).then(() => _focusText())
         
         
+    }
+
+    const showPixelScan = () => {
+        if (!isPixel) {
+            //stacksfocusG[stackName].focusG()
+            styleFun[1] = styles.styleFunAct
+            setStyleFun(styleFun)
+            //setStyleFun(styles.styleFunAct)
+            setIsPixel(true)
+            //setModalVisible(true)
+            styleTextFun[1] = styles.textStyle
+            //setStyleTextFun(styles.textStyle)
+            setStyleTextFun(styleTextFun)
+            /*stackIsModal[stackName] = {
+                isModal: 1
+            }*/
+            //setObjSave('@isModal', stackIsModal)
+            // setSaveData('@isModal', '1')
+        } else {
+            styleFun[1] = styles.styleFun
+            setStyleFun(styleFun)
+            //setStyleFun(styles.styleFun)
+            setIsPixel(false)
+            //setModalVisible(false)
+            styleTextFun[1] = {}
+            setStyleTextFun(styleTextFun)
+            /*stackIsModal[stackName] = {
+                isModal: 0
+            }
+            setObjSave('@isModal', stackIsModal)*/
+            //setSaveData('@isModal', '0')
+        }
     }
 
     const delStack = async () => {
@@ -162,19 +196,22 @@ export default (props) => {
                 onPress: () => showMathFunctions(),
             },
             {
+                text: 'PixelScan',
+                testID: 'showP',
+                style: [styleFun[1], {
+                    marginLeft: 15
+                }],
+                styleText: styleTextFun[1],
+                onPress: () => showPixelScan(),
+            },
+            {
                 text: 'Gboard',
                 testID: 'reset',
                 style: [styleKey, {backgroundColor: "green"}],
                 styleText: styleTextKey,
                 onPress: () => Linking.openURL("market://details?id=com.google.android.inputmethod.latin"),
             },
-            {
-                text: 'PixelScan',
-                testID: 'showP',
-                style: [styleFun[1], {marginLeft: 15}],
-                styleText: styleTextFun[1],
-                //onPress: delStack,
-            },
+            
         ];
     }
     /*replaceRange(s, start, end, substitute) {

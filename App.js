@@ -197,7 +197,6 @@ const App: () => React$Node = () => {
         }
         break;
     }
-      
     
   }
 
