@@ -17,9 +17,21 @@ export default (props) => {
     })
   ).current;*/
   if (props.modalVisible){
-    Animated.spring(pan, { toValue: { x: -250, y: 0 } }).start();
+    Animated.spring(pan, {
+      toValue: {
+        x: -250,
+        y: 0
+      },
+      useNativeDriver: true
+    }).start();
   }else{
-    Animated.spring(pan, { toValue: { x: -100, y: 0 } }).start();
+    Animated.spring(pan, {
+      toValue: {
+        x: -100,
+        y: 0
+      },
+      useNativeDriver: true
+    }).start();
   }
   const replaceRange=(s, start, end, substitute) => {
     return s.substring(0, start) + substitute + s.substring(end);

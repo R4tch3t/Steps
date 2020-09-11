@@ -1,4 +1,4 @@
-const { lessThan } = require("react-native-reanimated");
+//const { lessThan } = require("react-native-reanimated");
 
 factorSum = (STR, S, OP) => {
     let auxStr = S[S.length - 1] === undefined ? "+" : S.pop();

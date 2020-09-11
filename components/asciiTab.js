@@ -88,7 +88,7 @@ export default (props) => {
                 //setStyleFun(styles.styleFun)
                 setIsModal(false)
                 setModalVisible(false)
-                styleTextFun[0] = {}
+                styleTextFun[0] = {color: 'black'};
                 setStyleTextFun(styleTextFun)
                 stackIsModal[stackName]={isModal: 0}
                 setObjSave('@isModal', stackIsModal)
@@ -122,7 +122,9 @@ export default (props) => {
             //setStyleFun(styles.styleFun)
             setIsPixel(false)
             //setModalVisible(false)
-            styleTextFun[1] = {}
+            styleTextFun[1] = {
+                color: "black"
+            }
             setStyleTextFun(styleTextFun)
             /*stackIsModal[stackName] = {
                 isModal: 0

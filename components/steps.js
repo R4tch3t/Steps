@@ -19,6 +19,7 @@ import onChangeText from '../functions/onChangeText.js'
 
 import loading from '../functions/loading.js'
 import AsciiTab from './asciiTab.js'
+import PixelScan from './pixelScan.js'
 
 txtGExp=''
 heightFix = 160
