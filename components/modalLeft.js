@@ -5,7 +5,7 @@ import { Animated, View, StyleSheet, Text, TouchableOpacity, Dimensions, ScrollV
 export default (props) => {
   const density = (PixelRatio.get() * 160) / 2.54
   const {width, height} = Dimensions.get('window');
-  const modalH = (height-density)<400 ? 185 : 265
+  const modalH = (height-density)<360 ? 185 : 265
   const pan = useRef(new Animated.ValueXY()).current; 
   console.log(`density: ${density} / height: ${height} = ${height - density}`)
   /*const panResponder = useRef(
