@@ -26,7 +26,9 @@ export default (navigation) => {
             color = '#f50'
             onPress = {
                 () => {
-                    stacktextInput[nameStack]._textInput.blur()
+                    if (stacktextInput[nameStack]){
+                        stacktextInput[nameStack]._textInput.blur()
+                    }
                     navigation.toggleDrawer()
                 }
             } />

@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import ModalLeft from "./modalLeft"
 import ModalRight from "./modalRight"
+import { captureScreen } from "react-native-view-shot";
 
 const IsIOS = Platform.OS === 'ios';
 startIndex = 0;
@@ -19,9 +20,10 @@ endIndex = 0;
 
 export default (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
-    const [styleFun, setStyleFun] = React.useState([styles.styleFun, styles.styleFun])
+    const [styleFun, setStyleFun] = React.useState([styles.styleFun, styles.styleFunAct2])
     //const [styleFun2, setStyleFun2] = React.useState(styles.styleFun2)
-    const [styleTextFun, setStyleTextFun] = React.useState([{}, {}])
+    const [styleTextFun, setStyleTextFun] = React.useState([{color: 'white', fontWeight: "bold"}, 
+                                                            {color: 'white', fontWeight: "bold"}])
     //const [styleTextFun2, setStyleTextFun2] = React.useState({})
     const [styleKey, setStyleKey] = React.useState(styles.styleKey)
     const [styleTextKey, setStyleTextKey] = React.useState(styles.textStyle)
@@ -46,6 +48,9 @@ export default (props) => {
                     stacktextInput[stackName]._textInput.setNativeProps({
                         showSoftInputOnFocus: false
                     })
+                }else{
+                    styleTextFun[0] = {color: 'black'}
+                    setStyleTextFun(styleTextFun)
                 }
             }
         }catch(e){
@@ -101,7 +106,7 @@ export default (props) => {
     }
 
     const showPixelScan = () => {
-        if (!isPixel) {
+        /*if (!isPixel) {
             //stacksfocusG[stackName].focusG()
             styleFun[1] = styles.styleFunAct
             setStyleFun(styleFun)
@@ -111,9 +116,7 @@ export default (props) => {
             styleTextFun[1] = styles.textStyle
             //setStyleTextFun(styles.textStyle)
             setStyleTextFun(styleTextFun)
-            /*stackIsModal[stackName] = {
-                isModal: 1
-            }*/
+            
             //setObjSave('@isModal', stackIsModal)
             // setSaveData('@isModal', '1')
         } else {
@@ -126,12 +129,32 @@ export default (props) => {
                 color: "black"
             }
             setStyleTextFun(styleTextFun)
-            /*stackIsModal[stackName] = {
-                isModal: 0
-            }
-            setObjSave('@isModal', stackIsModal)*/
             //setSaveData('@isModal', '0')
-        }
+        }*/
+        captureScreen({
+            format: "jpg",
+            quality: 0.8
+        }).then(
+            uri => {
+                console.log("Image saved to", uri)
+                nameStack = "PixelScan"
+                //uriPixel = {uri}
+                setUriPixel({uri})
+                if (pixelG.length===0){
+                    pixelG=[{name: "PixelScan"}]
+                    //setPixelSG(pixelG)
+                    //new Promise((resolve, reject) => {
+                    setBandNewG(true)
+                    setPixelSG(pixelG)
+                }else{
+                    //setBandNewG(true)
+                    navigationG.navigate("PixelScan")
+                }
+                  //  resolve(1)
+               // })
+            },
+            error => console.error("Oops, snapshot failed", error)
+        );
     }
 
     const delStack = async () => {
@@ -373,7 +396,7 @@ const styles = StyleSheet.create({
         padding: 3,
         borderRadius: 30,
         elevation: 2,
-        backgroundColor: "#2196F3"
+        backgroundColor: "blueviolet"
     },
     centeredView: {
         flex: 1,

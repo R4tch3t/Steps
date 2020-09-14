@@ -17,9 +17,9 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import onChangeText from '../functions/onChangeText.js'
 
-import loading from '../functions/loading.js'
+//import loading from '../functions/loading.js'
 import AsciiTab from './asciiTab.js'
-import PixelScan from './pixelScan.js'
+//import PixelScan from './pixelScan.js'
 
 txtGExp=''
 heightFix = 160
@@ -108,6 +108,7 @@ export default (props) => {
               reloadHtml()
             }
           }}>
+            
           {
             /*<Header />*/}
           
@@ -137,6 +138,7 @@ export default (props) => {
               />
 
             </View>
+            
             <WebView
               //injectedJavaScript={'true'}
               //domStorageEnabled={true}

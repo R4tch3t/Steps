@@ -30,6 +30,7 @@ import {Icon} from 'react-native-elements'
 import headerLeft from './components/headerLeft'
 import headerRight from './components/headerRight'
 import Steps from './components/steps.js'
+import PixelScan from './components/pixelScan.js'
 import Config from './components/config.js'
 import CamScan from './components/camScan.js'
 import NewDelStack from './components/newDelStack.js'
@@ -85,7 +86,10 @@ toDecimalVal = 1
 MoreDVal = 0
 DegRad = 0
 setStacksG=null
+setPixelSG=null
 stacksG = [{name: 'Steps'}]
+pixelG = [{name: 'PixelScan'}]
+uriPixel=null
 stackLength=2
 //setBandInsG=null
 setBandNewG=null
@@ -98,6 +102,7 @@ stackchangeRangeSelG={}
 stacksfocusG={}
 stacktextInput={}
 stackIsModal = {}
+navigationG = null
 const getSaveData = async () => {
 try{  
   let value = await AsyncStorage.getItem('@evalObject')
@@ -158,8 +163,10 @@ const App: () => React$Node = () => {
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
   let [stacks, setStacks] = React.useState(null);
+  const [pixelS, setPixelS] = React.useState(pixelG);
   const [bandNew, setBandNew] = React.useState(false)
   setStacksG = setStacks
+  setPixelSG = setPixelS
   //stacksG=stacks
   //setBandInsG = setBandIns
   setBandNewG = setBandNew
@@ -182,6 +189,7 @@ const App: () => React$Node = () => {
       case strToLang('delStack'):
       case strToLang('configLabel'):
       case 'CamScan':
+      case 'PixelScan':
         return;
       default:
         nameStack = s.routeNames[s.index]
@@ -207,12 +215,42 @@ const App: () => React$Node = () => {
     if (stacksVars[props.route.name]===undefined){
       stacksVars[props.route.name]={txtGExp: txtGExp}
     }
-
+    navigationG = navigation
     return (
       <Stack.Navigator>
         <Stack.Screen name={props.route.name} component={Steps}
           options={{
             title: 'Steps',
+            headerLeft: ()=>headerLeft(navigation),
+            headerRight: ()=>headerRight(navigation),
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center'
+          }} 
+        
+        />
+      </Stack.Navigator>
+    );
+  }
+
+  const stackPixel = (props) => {
+    const {navigation} = props
+    console.log(`stacksSteps: ${stacksVars} `)
+    console.log(stacksVars)
+    /*if (stacksVars[props.route.name]===undefined){
+      stacksVars[props.route.name]={txtGExp: txtGExp}
+    }*/
+
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name={props.route.name} component={PixelScan}
+          options={{
+            title: 'PixelScan',
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {
@@ -277,6 +315,7 @@ const App: () => React$Node = () => {
   }
   
   const stepsRender = () => {
+    console.log(`nameStack: ${nameStack}`)
     if (bandNew) {
       new Promise((resolve, reject)=>{
         resolve(1)
@@ -306,6 +345,19 @@ const App: () => React$Node = () => {
                 name={Platform.OS === 'android' ? 'camera' : 'camera'}></Icon>
             }}
           />
+          {
+            pixelS.map((stack, index) => 
+              <Drawer.Screen key={index}  name={stack.name} 
+                component={stackPixel}
+                options={{
+                  drawerIcon: config => <Icon
+                    size={23}
+                    type = 'font-awesome'
+                    name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
+                }}
+              />
+            )
+          }
           {
             stacks.map((stack, index) => 
               <Drawer.Screen key={index}  name={stack.name} 
