@@ -1,5 +1,6 @@
 
 export default (t,setHtml) => {
+    //t = t.split('–').join('-');
     txtGExp = t
     /*heightFix = 170
     let c = 0

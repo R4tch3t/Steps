@@ -33,7 +33,7 @@ export default () => {
     
     return (
       <>
-        <StatusBar backgroundColor="#f4511e" barStyle="default" />
+        <StatusBar backgroundColor="green" barStyle="default" />
         <SafeAreaView>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"

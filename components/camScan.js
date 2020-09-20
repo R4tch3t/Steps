@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     StyleSheet,
     View,
     Button,
     StatusBar,
+    Animated
   //  BackHandler,
 } from 'react-native';
 import {
-  Text
+  Text,
+  Icon
 } from 'react-native-elements'
 import {RNCamera} from 'react-native-camera';
 import onChangeText from '../functions/onChangeText.js'
-
+bandOpt = false;
 export default ({navigation}) => {
-  const [txt, setTxt] = React.useState('')
-  const [bounds, setBounds] = React.useState({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}})
+  const [txt, setTxt] = React.useState('');
+  const [bounds, setBounds] = React.useState({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}});
+  const pan = useRef(new Animated.ValueXY()).current;
+  const camRef = useRef();
+  //const [styleOpt, setStyleOpt] = React.useState([styles.modalView,{opacity: 0}]);
+  const fadeAnim = useRef(new Animated.Value(0)).current
+  //let bandOpt = false;
   const toSteps = () => {
     const txtS = txt
     navigation.navigate(nameStack);
@@ -25,11 +32,58 @@ export default ({navigation}) => {
     }
   }
   
+  const takePhoto = async () => {
+    if (camRef.current) {
+      const options = {
+        quality: 0.8,
+        base64: false
+      };
+      const data = await camRef.current.takePictureAsync(options);
+      console.log(data.uri);
+      const uri = data.uri
+      imageG.uri = {uri};
+      navigationG.navigate("PixelScan");
+      if (setUriPixel !== null) {
+        setUriPixel(imageG);
+      }
+      cropLast();
+    }
+  };
+
+  const toggleOptions = () => {
+    let toValue = 1;
+    let toY = 20;
+    console.log(bandOpt);
+    if (bandOpt) {
+      toValue=0;
+      toY=7;
+    }
+    bandOpt = !bandOpt
+    Animated.timing(
+      fadeAnim, {
+        toValue: toValue,
+        duration: 1000,
+        useNativeDriver: true
+      }
+    ).start();
+
+    Animated.spring(pan, {
+      toValue: {
+        x: 0,
+        y: toY,
+      },
+      useNativeDriver: true,
+    }).start();
+    
+  }
+
+
     return (
       <>
-        <StatusBar backgroundColor="#f4511e" barStyle="default" />
+        <StatusBar backgroundColor="green" barStyle="default" />
         <View style={styles.body}>
           <RNCamera
+            ref={camRef}
             /*ref={ref => {
               this.camera = ref;
             }}*/
@@ -55,6 +109,7 @@ export default ({navigation}) => {
               buttonPositive: 'Ok',
               buttonNegative: 'Cancel',
             }}
+            
             onTextRecognized={({textBlocks})=>{
               //console.log(textBlocks)
               if(textBlocks.length>0){
@@ -77,6 +132,31 @@ export default ({navigation}) => {
                         height: bounds.size.height, width: bounds.size.width 
                       }} 
           />
+          <View style={styles.props} >
+            <Icon
+            name = 'bars'
+            type = 'font-awesome'
+            color = 'white'
+            onPress = {
+                toggleOptions
+            } />
+          </View>
+          <Animated.View
+            style={[ styles.modalView, {transform: [{ translateX: pan.x }, { translateY: pan.y }], opacity: fadeAnim} ]}
+          >
+            <Icon
+            name = 'edit'
+            type = 'font-awesome'
+            color = 'white'
+            onPress = {toSteps}
+            />
+            <Icon
+            name = 'file-photo-o'
+            type = 'font-awesome'
+            color = 'white'
+            onPress = {takePhoto}
+            />
+          </Animated.View>
           <View style={styles.viewResults} >
             <Text style={styles.txtResult}>{txt}</Text>
             <Button
@@ -116,4 +196,28 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  modalView: {
+    // ...StyleSheet.absoluteFill,
+    //  width: 100,
+    //height: 100,
+    position: 'absolute',
+    top: 50,
+    right: 22,
+    zIndex: 998
+  },
+  props:{
+     position: 'absolute',
+      width: 50,
+      height: 50,
+      top: 10,
+      right: 10,
+      opacity: 0.5,
+      borderRadius: 50,
+      borderColor: 'white',
+      borderWidth: 3,
+      backgroundColor: 'black',
+      bottom: 1,
+      textAlignVertical: 'center',
+      paddingTop: 8
+  }
 });

@@ -9,7 +9,6 @@ import {
     Linking,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
 import ModalLeft from "./modalLeft"
 import ModalRight from "./modalRight"
 import { captureScreen } from "react-native-view-shot";
@@ -22,7 +21,7 @@ export default (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
     const [styleFun, setStyleFun] = React.useState([styles.styleFun, styles.styleFunAct2])
     //const [styleFun2, setStyleFun2] = React.useState(styles.styleFun2)
-    const [styleTextFun, setStyleTextFun] = React.useState([{color: 'white', fontWeight: "bold"}, 
+    const [styleTextFun, setStyleTextFun] = React.useState([{color: 'black', fontWeight: "bold"}, 
                                                             {color: 'white', fontWeight: "bold"}])
     //const [styleTextFun2, setStyleTextFun2] = React.useState({})
     const [styleKey, setStyleKey] = React.useState(styles.styleKey)
@@ -49,7 +48,7 @@ export default (props) => {
                         showSoftInputOnFocus: false
                     })
                 }else{
-                    styleTextFun[0] = {color: 'black'}
+                    styleTextFun[0] = {color: 'black', fontWeight: "bold"}
                     setStyleTextFun(styleTextFun)
                 }
             }
@@ -93,7 +92,7 @@ export default (props) => {
                 //setStyleFun(styles.styleFun)
                 setIsModal(false)
                 setModalVisible(false)
-                styleTextFun[0] = {color: 'black'};
+                styleTextFun[0] = {color: 'black', fontWeight: "bold"};
                 setStyleTextFun(styleTextFun)
                 stackIsModal[stackName]={isModal: 0}
                 setObjSave('@isModal', stackIsModal)
@@ -133,23 +132,28 @@ export default (props) => {
         }*/
         captureScreen({
             format: "jpg",
-            quality: 0.8
+            quality: 1
         }).then(
             uri => {
                 console.log("Image saved to", uri)
                 nameStack = "PixelScan"
-                //uriPixel = {uri}
-                setUriPixel({uri})
-                if (pixelG.length===0){
+                imageG.uri = {uri};
+                //setBandNewG(true)
+                /*if (pixelG.length===0){
                     pixelG=[{name: "PixelScan"}]
                     //setPixelSG(pixelG)
                     //new Promise((resolve, reject) => {
                     setBandNewG(true)
                     setPixelSG(pixelG)
-                }else{
+                }else{*/
                     //setBandNewG(true)
                     navigationG.navigate("PixelScan")
-                }
+                    if (setUriPixel !== null) {
+                      setUriPixel(imageG);
+                    }
+                    cropLast();
+                    
+                //}
                   //  resolve(1)
                // })
             },

@@ -29,6 +29,7 @@ export default (props) => {
     const [txtExp, setTxtExp] = React.useState('');
     const [Wwidth, setWidth] = React.useState(0);
     const [Wheight, setHeight] = React.useState(0);
+    const [backgroundColor, setBackground] = React.useState('green');
     const stackName = props.route.name
 
     stacksetGHtml[stackName]={setGHtml: setHtml}
@@ -52,15 +53,15 @@ export default (props) => {
     };
 
     const reloadHtml = () => {
-        new Promise((resolve, reject) => {
+        //new Promise((resolve, reject) => {
             setHtml('')
-            resolve(1)
+        /*    resolve(1)
         }).then(() => {
-            new Promise((resolve, reject) => {
+            new Promise((resolve, reject) => {*/
                 evaluating(txtGExp)
-                resolve(1)
+            /*    resolve(1)
             })
-        })
+        })*/
     };
     
     
@@ -84,7 +85,7 @@ export default (props) => {
     
     return(
      <>
-      <StatusBar backgroundColor="#f4511e" barStyle="default" />
+      < StatusBar backgroundColor = {backgroundColor} barStyle = "default" / >
       <SafeAreaView>
         <ScrollView
           scrollEnabled={false}
@@ -107,6 +108,7 @@ export default (props) => {
               setHeight(height)
               reloadHtml()
             }
+            setBackground(backgroundColor)
           }}>
             
           {

@@ -14,6 +14,7 @@ Preprocess = (s, setHtml) => {
             strOrigin = strOrigin.split('sen').join("s")
             //re = new RegExp('tan', 'g')
             strOrigin = strOrigin.split('tan').join("t")
+           // strOrigin = strOrigin.split('–').join("-");
             cleanstrD(strOrigin)
             //re = new RegExp("\\)\\(", 'g')
             strDevelopment = strDevelopment.split(')(').join(")*(")

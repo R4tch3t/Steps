@@ -89,7 +89,6 @@ setStacksG=null
 setPixelSG=null
 stacksG = [{name: 'Steps'}]
 pixelG = [{name: 'PixelScan'}]
-uriPixel=null
 stackLength=2
 //setBandInsG=null
 setBandNewG=null
@@ -224,7 +223,7 @@ const App: () => React$Node = () => {
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: 'green',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -254,7 +253,7 @@ const App: () => React$Node = () => {
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: 'blueviolet',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -278,7 +277,7 @@ const App: () => React$Node = () => {
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: 'green',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -301,7 +300,7 @@ const App: () => React$Node = () => {
             headerLeft: ()=>headerLeft(navigation),
             headerRight: ()=>headerRight(navigation),
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: 'blueviolet',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -353,7 +352,7 @@ const App: () => React$Node = () => {
                   drawerIcon: config => <Icon
                     size={23}
                     type = 'font-awesome'
-                    name={Platform.OS === 'android' ? 'edit' : 'edit'}></Icon>
+                    name={Platform.OS === 'android' ? 'photo' : 'photo'}></Icon>
                 }}
               />
             )
@@ -395,6 +394,7 @@ const App: () => React$Node = () => {
   }
 
   const stackCamScan = () => {
+    bandOpt = false;
     return (
       <Stack.Navigator mode="modal">
         <Stack.Screen name="CamScan" component={CamScan}

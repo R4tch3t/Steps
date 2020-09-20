@@ -73,13 +73,13 @@ export default (navigation) => {
             raised
             name = 'trash'
             type = 'font-awesome'
-            color = '#f50'
+            color = 'red'
             onPress = {delStack} />
             <Icon
             raised
             name = 'camera'
             type = 'font-awesome'
-            color = '#f50'
+            color = 'red'
             onPress = {
                 () => navigation.navigate('CamScan')
             } />
