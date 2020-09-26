@@ -9,8 +9,10 @@ import {
   ScrollView,
   Dimensions,
   Alert,
-  NativeModules
+  ActivityIndicator,
+  Animated
 } from 'react-native';
+import {Icon} from 'react-native-elements'
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
@@ -20,9 +22,10 @@ import {
 import vision from '@react-native-firebase/ml-vision';
 import ViewShot from 'react-native-view-shot';
 import ImagePicker from 'react-native-image-crop-picker';
+import ImageToggle from './ImageToggle'
+import IconToggle from './IconToggle'
 //import StaticServer from 'react-native-static-server';
 setUriPixel=null
-
 cropLast = null
 const {width, height} = Dimensions.get('window');
 imageG = {
@@ -31,12 +34,24 @@ imageG = {
   height: height,
   mime: 'jpg',
 };
+bandDocumentPixel = false;
+setUrisPixels = null;
+import setObjSave from '../functions/setObjSave'
 //processDocument=null
 export default () => {
     //const [uri, setUri] = React.useState(uriPixel);
+    console.log(`urisPixelsScan: ${urisPixels}`);
+    console.log(urisPixels);
     const [image, setIm] = React.useState(imageG);
-    
+    const [arrImage, setArrImage] = React.useState(urisPixels);
+    const pan = React.useRef(new Animated.ValueXY()).current;
+    const fadeAnim = React.useRef(new Animated.Value(0)).current
+    const [Wwidth, setWidth] = React.useState(0);
+    const [Wheight, setHeight] = React.useState(0);
+    let scrollRef = React.useRef();
+   // setUrisPixels = setArrImage
     setUriPixel = setIm;
+    setUrisPixels = setArrImage;
     /*const [uri, setUri] = React.useState({uri: "file:///data/user/0/com.adonaysoft.steps/cache/images.jpeg"})
     console.log('hi?')
     const onCapture = uri => {
@@ -156,6 +171,7 @@ export default () => {
   }
 
 const processDocument2 = async fileName => {
+  bandDocumentPixel = true;
   const sendUri = 'https://api.mathpix.com/v3/text';
   const bodyJSON = {
     src: fileName,
@@ -170,8 +186,8 @@ const processDocument2 = async fileName => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      app_id: 'bebetovictor_gmail_com_624c02',
-      app_key: '95cbf36020ce3e06f9a9',
+      app_id: 'xxxxxxxxxx',
+      app_key: 'xxxxxxxxx',
     },
     body: JSON.stringify(bodyJSON),
   });
@@ -179,6 +195,7 @@ const processDocument2 = async fileName => {
   const responseJson = await response.json().then(r => {
     console.log("responseD: ")
     console.log(r);
+    bandDocumentPixel = false;
     addStack(true, r.data[0].value);
   });
   /*
@@ -271,7 +288,39 @@ try{
     });
   });
   */
-      };;
+      };
+
+  const toggleOptions = () => {
+    let toValue = 1;
+    let duration = 1000;
+    let toY = 20;
+    let toX = -100;
+    let bandRotated = false;
+    console.log(bandOpt);
+    if (bandOpt) {
+      toValue = 0;
+      toY = 7;
+      toX = 200;
+      duration = 100;
+    }
+    bandOpt = !bandOpt
+    Animated.timing(
+      fadeAnim, {
+        toValue: toValue,
+        duration: duration,
+        useNativeDriver: true
+      }
+    ).start();
+
+    Animated.spring(pan, {
+      toValue: {
+        x: toX,
+        y: toY,
+      },
+      useNativeDriver: true,
+    }).start();
+
+  }
 
   const pickSingle=(cropit, circular = false, mediaType) => {
     ImagePicker.openPicker({
@@ -290,16 +339,23 @@ try{
       cropperActiveWidgetColor: 'white',
       cropperToolbarWidgetColor: '#3498DB',
       forceJpg: true,
-      freeStyleCropEnabled: true
+      freeStyleCropEnabled: true,
+      includeBase64: true
     })
       .then((image) => {
         console.log('received image', image);
-        setIm({
+        image.data = `data:image/jpeg;base64,${image.data}`;
+        const newImage = {
           uri: {uri: image.path},
           width: image.width,
           height: image.height,
           mime: image.mime,
-        });
+        }
+        urisPixels.push(newImage);
+        setObjSave("@urisPixels", urisPixels);
+        setArrImage(urisPixels)
+        processDocument2(image.data);
+        setIm(newImage);
         /*this.setState({
           image: {
             uri: image.path,
@@ -324,6 +380,28 @@ try{
         'Before open cropping only, please select image'
       );
     }
+    /*const newImage = {
+          uri: image.uri,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+        }*/
+    console.log(urisPixels)
+    urisPixels.push({
+      uri: image.uri,
+      width: image.width,
+      height: image.height,
+      mime: image.mime,
+    });
+    setObjSave("@urisPixels", urisPixels);
+    setArrImage(urisPixels)
+    console.log(urisPixels)
+    console.log(urisPixels.length)
+    //setIm(newImage);
+    cropIt(image)   
+  }
+
+  const cropIt = (image) => {
     
     ImagePicker.openCropper({
       path: image.uri.uri,
@@ -375,25 +453,102 @@ try{
         Alert.alert(e.message ? e.message : e);
       });
   }
+  const reloadStack = () => {
+    new Promise((resolve, reject) => {
+      setHtml('')
+      resolve(1)
+    }).then(() => {
+      new Promise((resolve, reject) => {
+        evaluating(txtGExp)
+        resolve(1)
+      })
+    })
+  };
 
-  return (
-    <>
+  const hOnLayout = () => {
+      const {
+        width,
+        height
+      } = Dimensions.get('window');
+      console.log(`_onLayoutPixel? ${width}`)
+      console.log(Wwidth)
+       //if (width !== Wwidth || height !== Wheight) {
+      scrollRef.setNativeProps({style: {width: width, height: height}});   
+      setWidth(width)
+      setHeight(height)
+        // bandDocumentPixel=false
+         //reloadHtml()
+       //}
+  }
+
+  //if(width&&height){
+  return (<>
       <StatusBar backgroundColor="green" barStyle="default" />
-      <SafeAreaView>
-        <View View style={styles.preview}>
-          <Image
-            fadeDuration={0}
-            source={image.uri}
-            style={{height: image.height, width: image.width}}
-          />
+        <View onLayout={hOnLayout}  style={styles.preview}>
+        
+            {bandDocumentPixel &&<View style={styles.layoutPixel} >
+            <Image
+              fadeDuration={0}
+              source={image.uri}
+              style={{height: image.height, width: image.width}}
+            />
+            <ActivityIndicator size="large" style={{position: 'absolute', zIndex: 999999}}  color="#00ff00" />
+            </View>}
+          
+          <View  style={styles.props} >
+            <Icon
+              raised
+              name = 'history'
+              type = 'font-awesome'
+              color = 'white'
+              onPress={toggleOptions}
+              />
+          </View>
+          {!bandDocumentPixel&&
+          <IconToggle 
+            raised
+            name = 'file-photo-o'
+            type = 'font-awesome'
+            color = 'black'
+            size = {300}
+            onPress = {()=>{pickSingle(true)}} />
+            }
+          
+          <Animated.View
+            style={[ styles.modalView, {transform: [{ translateX: pan.x }, { translateY: pan.y }], opacity: fadeAnim} ]}
+          >
+            
+            <ScrollView 
+              ref={component => scrollRef = component}
+              style={[styles.scrollView, {height: Wheight-200}]} >
+              {arrImage.map((image, index) =>
+                <View key={index} style={{marginBottom: 15, borderRadius: 50, right: 0}} >
+                  
+                  <ImageToggle uri={image.uri} style={{borderRadius: 60}} onPress={()=>{cropIt(image)}} size={64} />
+                  
+                </View>
+              )}
+            </ScrollView>
+            
+          </Animated.View>
+          
         </View>
-      </SafeAreaView>
-    </>
+</>
+
   );
+  /*}else{
+    return <></>
+  }*/
 }
 const styles = StyleSheet.create({
     scrollView: {
-        backgroundColor: Colors.lighter
+        backgroundColor: Colors.lighter,
+        borderRadius: 5,
+       // borderColor: 'black',
+       // borderWidth: 0.3,
+         backgroundColor: 'white',
+        elevation: 2,
+        zIndex:99999
     },
     engine: {
         position: 'absolute',
@@ -415,13 +570,15 @@ const styles = StyleSheet.create({
         borderRadius: 50
     },
     preview: {
-        flex: 1,
         display: 'flex',
-        left: 0,
-        alignContent: 'stretch',
-        alignItems: 'stretch',
-        width: '100%',
-        height: '100%'
+        flex: 1,
+        //left: 0,
+        justifyContent: 'center',
+        //textAlignVertical: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        //width: 100,
+        height: 1000
     },
     sectionDescription: {
         marginTop: 8,
@@ -446,4 +603,35 @@ const styles = StyleSheet.create({
         height: height,
         width: width,
     },
+    modalView: {
+      position: 'absolute',
+      top: 60,
+      right: -100,
+      zIndex: 999999
+    },
+    props: {
+      position: 'absolute',
+      width: 73,
+      height: 73,
+      top: 0,
+      right: 25,
+      opacity: 0.5,
+      borderRadius: 50,
+      borderColor: 'white',
+      borderWidth: 3,
+      backgroundColor: 'black',
+      bottom: 1,
+      textAlignVertical: 'center',
+      // paddingTop: 8
+    },
+    layoutPixel:{
+        //position: 'absolute',
+        display: 'flex',
+          flex: 1,
+          //left: 0,
+          justifyContent: 'center',
+          //textAlignVertical: 'center',
+          alignItems: 'center',
+          alignContent: 'center',
+    }
 });
