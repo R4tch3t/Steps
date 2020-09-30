@@ -149,7 +149,9 @@ export default (props) => {
                     //setBandNewG(true)
                     navigationG.navigate("PixelScan")
                     if (setUriPixel !== null) {
-                      setUriPixel(imageG);
+                        /*urisPixels.push(imageG);
+                        setUrisPixels(urisPixels);*/
+                        setUriPixel(imageG);
                     }
                     cropLast();
                     
@@ -307,6 +309,7 @@ export default (props) => {
                         style={props.style}
                         onTextInput = {
                             (e) => {
+                                bandRotate = false;
                                 let rangeStart = e.nativeEvent.range.start;
                                 let rangeEnd = e.nativeEvent.range.end;
                                 let txt = e.nativeEvent.text;
@@ -326,9 +329,15 @@ export default (props) => {
                                 changeRangeSel()
                             }
                         }
-                        onBlur={()=>{ setModalVisible(false) }}
+                        onBlur = {
+                            () => {
+                                bandRotate = false;
+                                setModalVisible(false)
+                            }
+                        }
                         onFocus = {
                             () => {
+                                bandRotate = false;
                                // txtGExp = stacksVars[nameStack].txtGExp === undefined ? '' : stacksVars[nameStack].txtGExp
                                 if (isModal) {
                                     setModalVisible(true)

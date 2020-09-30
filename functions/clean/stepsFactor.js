@@ -17,13 +17,14 @@ StepsFactor = (str) => {
         //Data clean
         if (BSC){
             console.log('DepurarI ' + str)
-            // STR=DepurarI(str)
+            STR=DepurarI(str)
         }
         else{
             console.log('DepurarR ' + str)
             STR=DepurarR(str)
         }
         console.log('AfterDepurar: ' + str)
+
         
         while (STR.length>0) {
             switch (PrefF(STR[STR.length-1])) {

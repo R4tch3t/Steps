@@ -58,9 +58,13 @@ export default (navigation) => {
 
             setObjSave("@evalObject", stacksVars)
             setObjSave("@stacksNames", stacksG)
-
+            //imageG = null
+            const newImg = []
+            setObjSave("@urisPixels", newImg);
+            urisPixels=[];
             resolve(1)
         }).then(() => new Promise((resolve, reject) => {
+            bandRotate = false;
             setBandNewG(true)
             setStacksG(stacksG)
             resolve(1)

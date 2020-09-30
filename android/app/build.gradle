@@ -136,6 +136,7 @@ android {
         multiDexEnabled true
         versionCode 6
         versionName "3.0"
+        vectorDrawables.useSupportLibrary = true
         missingDimensionStrategy 'react-native-camera', 'mlkit'
     }
     splits {

@@ -25,6 +25,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import ImageToggle from './ImageToggle'
 import IconToggle from './IconToggle'
 //import StaticServer from 'react-native-static-server';
+
 setUriPixel=null
 cropLast = null
 const {width, height} = Dimensions.get('window');
@@ -186,8 +187,8 @@ const processDocument2 = async fileName => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      app_id: 'xxxxxxxxxx',
-      app_key: 'xxxxxxxxx',
+      app_id: 'bebetovictor_gmail_com_624c02',
+      app_key: '95cbf36020ce3e06f9a9',
     },
     body: JSON.stringify(bodyJSON),
   });
@@ -324,8 +325,8 @@ try{
 
   const pickSingle=(cropit, circular = false, mediaType) => {
     ImagePicker.openPicker({
-      width: 500,
-      height: 500,
+      width: width,
+      height: height,
       cropping: cropit,
       cropperCircleOverlay: circular,
       sortOrder: 'none',
@@ -333,14 +334,15 @@ try{
       compressImageMaxHeight: 1000,
       compressImageQuality: 1,
       compressVideoPreset: 'MediumQuality',
-      includeExif: true,
+      //includeExif: true,
       cropperStatusBarColor: 'white',
       cropperToolbarColor: 'white',
       cropperActiveWidgetColor: 'white',
       cropperToolbarWidgetColor: '#3498DB',
       forceJpg: true,
       freeStyleCropEnabled: true,
-      includeBase64: true
+      includeBase64: true,
+
     })
       .then((image) => {
         console.log('received image', image);
@@ -369,6 +371,10 @@ try{
       .catch((e) => {
         console.log(e);
         Alert.alert(e.message ? e.message : e);
+      }).finally(()=>{
+        
+        setStepsWidth(boundsStep.width)
+        setStepsHeight(boundsStep.height)
       });
   }
 
@@ -473,7 +479,7 @@ try{
       console.log(`_onLayoutPixel? ${width}`)
       console.log(Wwidth)
        //if (width !== Wwidth || height !== Wheight) {
-      scrollRef.setNativeProps({style: {width: width, height: height}});   
+      //scrollRef.setNativeProps({style: {width: width, height: height}});   
       setWidth(width)
       setHeight(height)
         // bandDocumentPixel=false

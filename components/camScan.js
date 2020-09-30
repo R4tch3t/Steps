@@ -4,12 +4,12 @@ import {
     View,
     Button,
     StatusBar,
-    Animated
+    Animated,
   //  BackHandler,
 } from 'react-native';
 import {
   Text,
-  Icon
+  Icon,
 } from 'react-native-elements'
 import {RNCamera} from 'react-native-camera';
 import onChangeText from '../functions/onChangeText.js'
@@ -35,7 +35,7 @@ export default ({navigation}) => {
   const takePhoto = async () => {
     if (camRef.current) {
       const options = {
-        quality: 0.8,
+        quality: 0.3,
         base64: false
       };
       const data = await camRef.current.takePictureAsync(options);
@@ -52,24 +52,28 @@ export default ({navigation}) => {
 
   const toggleOptions = () => {
     let toValue = 1;
+    let duration = 1000; 
     let toY = 20;
+    let toX = -100;
     console.log(bandOpt);
     if (bandOpt) {
       toValue=0;
       toY=7;
+      toX=200;
+      duration = 100;
     }
     bandOpt = !bandOpt
     Animated.timing(
       fadeAnim, {
         toValue: toValue,
-        duration: 1000,
+        duration: duration,
         useNativeDriver: true
       }
     ).start();
 
     Animated.spring(pan, {
       toValue: {
-        x: 0,
+        x: toX,
         y: toY,
       },
       useNativeDriver: true,
@@ -132,29 +136,36 @@ export default ({navigation}) => {
                         height: bounds.size.height, width: bounds.size.width 
                       }} 
           />
-          <View style={styles.props} >
+          <View  style={styles.props} >
             <Icon
-            name = 'bars'
-            type = 'font-awesome'
-            color = 'white'
-            onPress = {
-                toggleOptions
-            } />
+              raised
+              name = 'bars'
+              type = 'font-awesome'
+              color = 'white'
+              onPress={toggleOptions}
+              />
           </View>
           <Animated.View
             style={[ styles.modalView, {transform: [{ translateX: pan.x }, { translateY: pan.y }], opacity: fadeAnim} ]}
           >
+            <View style={{marginBottom: 15, right: 0}} >
+              <Icon
+                raised
+                name = 'edit'
+                type = 'font-awesome'
+                color = 'black'
+                size = {32}
+                onPress = {toSteps}
+              />
+            </View>
             <Icon
-            name = 'edit'
-            type = 'font-awesome'
-            color = 'white'
-            onPress = {toSteps}
-            />
-            <Icon
-            name = 'file-photo-o'
-            type = 'font-awesome'
-            color = 'white'
-            onPress = {takePhoto}
+              raised
+              backgroundColor='black'
+              name = 'photo'
+              type = 'font-awesome'
+              color = 'black'
+              size = {32}
+              onPress = {takePhoto}
             />
           </Animated.View>
           <View style={styles.viewResults} >
@@ -201,16 +212,16 @@ const styles = StyleSheet.create({
     //  width: 100,
     //height: 100,
     position: 'absolute',
-    top: 50,
-    right: 22,
+    top: 60,
+    right: -100,
     zIndex: 998
   },
   props:{
      position: 'absolute',
-      width: 50,
-      height: 50,
-      top: 10,
-      right: 10,
+      width: 73,
+      height: 73,
+      top: 0,
+      right: 5,
       opacity: 0.5,
       borderRadius: 50,
       borderColor: 'white',
@@ -218,6 +229,6 @@ const styles = StyleSheet.create({
       backgroundColor: 'black',
       bottom: 1,
       textAlignVertical: 'center',
-      paddingTop: 8
+     // paddingTop: 8
   }
 });

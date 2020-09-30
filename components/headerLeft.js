@@ -3,6 +3,7 @@ import {View} from 'react-native'
 import {Icon} from 'react-native-elements'
 import setObjSave from '../functions/setObjSave'
 addStack = (bandP, txt) => {
+    bandRotate = false;
     nameStack = `Steps ${stacksG.length+1}`
     stacksG.push({
         name: `Steps ${stacksG.length+1}`

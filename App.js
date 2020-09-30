@@ -16,6 +16,8 @@ import {
   Text,
   StatusBar,
   ActivityIndicator,
+  Dimensions,
+  useWindowDimensions
 } from 'react-native';
 //import loading from './html/Loading.html'
 import install from './functions/install.js'
@@ -102,6 +104,8 @@ stacksfocusG={}
 stacktextInput={}
 stackIsModal = {}
 navigationG = null
+urisPixels = [];
+boundsStep = null;
 const getSaveData = async () => {
 try{  
   let value = await AsyncStorage.getItem('@evalObject')
@@ -152,20 +156,51 @@ try{
     FCT = value === '1' ? true : false
     //setMDval(value);
   }
+  value = await AsyncStorage.getItem('@urisPixels');
+  if (value !== null) {
+    // value previously stored
+    
+    //if(value==='{}'||value==='[]'){
+      //console.log(`urisPixelsV0: ${value}`);
+      //value=[]
+    //}else{
+      value = JSON.parse(value)
+   // }
+    urisPixels = value
+    console.log(`urisPixelsV: ${value[0]}`);
+    console.log(value);
+    //setMDval(value);
+  }
+  value = await AsyncStorage.getItem('@boundsStep');
+  if (value !== null) {
+    value = JSON.parse(value);
+    boundsStep = value;
+
+  }else{
+    const {width, height} = Dimensions.get('window');
+    boundsStep={width: width, height:height}
+  }
+  
   stacksVars.init = 1
 }catch(e){
 
 }
 }
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
 
 const App: () => React$Node = () => { 
   const [bandIns, setBandIns] = React.useState(null);
   const [html, setHtml] = React.useState(null);
   let [stacks, setStacks] = React.useState(null);
   const [pixelS, setPixelS] = React.useState(pixelG);
-  const [bandNew, setBandNew] = React.useState(false)
+  const [bandNew, setBandNew] = React.useState(false);
+  const [dimensions, setDimensions] = React.useState({ window, screen });
   setStacksG = setStacks
   setPixelSG = setPixelS
+  //const window = useWindowDimensions();
+  console.log(`AppWindow:`)
+  console.log(window)
   //stacksG=stacks
   //setBandInsG = setBandIns
   setBandNewG = setBandNew
@@ -182,7 +217,23 @@ const App: () => React$Node = () => {
       console.log('Error  ' + error);
     })//.finally(() => setStacks(stacksG));
   };
+  const onChange = ({ window, screen }) => {
+      console.log(`onChange: `)
+      //console.log(window)
+      bandRotate = false
+      console.log(`bandRotate_1: ${bandRotate}`)
+      boundsStep = {width: window.width, height: window.height}
+      setDimensions({ window, screen });
+    };
+
+    React.useEffect(() => {
+      Dimensions.addEventListener("change", onChange);
+      return () => {
+        Dimensions.removeEventListener("change", onChange);
+      };
+    });
   const stateStack = (s) => {
+    bandRotate = false;
     switch (s.routeNames[s.index]){
       case strToLang('newStack'):
       case strToLang('delStack'):
@@ -268,6 +319,7 @@ const App: () => React$Node = () => {
   }
 
   const newStack = (props) => {
+    
     const {navigation} = props
     return (
       <Stack.Navigator>
