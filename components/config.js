@@ -26,18 +26,35 @@ export default () => {
     const [mDval, setMDval] = React.useState(MoreDVal===1 ? true : false);
     const [toRad, setToRad] = React.useState(DegRad === 1 ? true : false);
     const [toFact, setToFact] = React.useState(FCT);
-    
+    const [stateRotate, setStateRotate] = React.useState(0);
     const setSaveData = async (item, val) => {
       await AsyncStorage.setItem(item, val);
     }
     
+    let firstRotate = true
     return (
       <>
         <StatusBar backgroundColor="green" barStyle="default" />
-        <SafeAreaView>
+        <SafeAreaView onLayout={()=>{console.log("onLayoutSafe")}} >
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
+            style={styles.scrollView}
+            onContentSizeChange={
+              ()=>{
+                try{
+                if(firstRotate){
+                  firstRotate = false;
+                  bandChangeOut = true;
+                }else{
+                ChangeBounds().then(()=>{
+                  
+              })}
+            }catch(e){
+              
+            }
+            }
+            }
+            >
             {/*<Header />*/}
 
             <View style={styles.body}>

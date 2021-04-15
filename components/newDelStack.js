@@ -29,6 +29,9 @@ export default (props) => {
   }
   
    const newStack = () => {
+   // bandRotate = false;
+    //boundsStep = {width: boundsStep.height, height: boundsStep.width}
+    rotateOut = true
     nameStack = `Steps ${stacksG.length+1}`
     stacksG.push({
       name: `Steps ${stacksG.length+1}`
@@ -95,6 +98,7 @@ export default (props) => {
 
             resolve(1)
         }).then(() => new Promise((resolve, reject) => {
+            bandRotate = false;
             setBandNewG(true)
             setStacksG(stacksG)
             resolve(1)

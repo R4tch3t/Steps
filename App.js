@@ -71,6 +71,7 @@ import {} from './functions/mathString/plusStr'
 import {} from './functions/process/preProcess'
 import {} from './functions/process/createHtml'
 import {} from './functions/lang'
+import {} from './functions/handleRotate'
 
 import {enableScreens} from 'react-native-screens';
 
@@ -79,7 +80,7 @@ enableScreens();
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-locaLang = RNLocalize.getLocales()
+locaLang = RNLocalize.getLocales();
 strOrigin=''
 strltx = ''
 strDevelopment = ''
@@ -106,6 +107,14 @@ stackIsModal = {}
 navigationG = null
 urisPixels = [];
 boundsStep = null;
+boundsStack = {}
+bandChangeOut = false;
+bandRotate = false;
+stateRotated = 0;
+stateRotated2 = 0;
+rotateOut = false
+isRotate = false
+stackIsOpen={}
 const getSaveData = async () => {
 try{  
   let value = await AsyncStorage.getItem('@evalObject')
@@ -171,16 +180,18 @@ try{
     console.log(value);
     //setMDval(value);
   }
-  value = await AsyncStorage.getItem('@boundsStep');
-  if (value !== null) {
-    value = JSON.parse(value);
-    boundsStep = value;
 
-  }else{
-    const {width, height} = Dimensions.get('window');
-    boundsStep={width: width, height:height}
+  if(boundsStep===null){
+    /*value = await AsyncStorage.getItem('@boundsStep');
+    if (value !== null) {
+      value = JSON.parse(value);
+      boundsStep = value;
+
+    }else{*/
+      const {width, height} = Dimensions.get('window');
+      boundsStep={width: width, height:height}
+    //}
   }
-  
   stacksVars.init = 1
 }catch(e){
 
@@ -196,6 +207,7 @@ const App: () => React$Node = () => {
   const [pixelS, setPixelS] = React.useState(pixelG);
   const [bandNew, setBandNew] = React.useState(false);
   const [dimensions, setDimensions] = React.useState({ window, screen });
+  const navigationRef = React.useRef(null);
   setStacksG = setStacks
   setPixelSG = setPixelS
   //const window = useWindowDimensions();
@@ -217,42 +229,102 @@ const App: () => React$Node = () => {
       console.log('Error  ' + error);
     })//.finally(() => setStacks(stacksG));
   };
+
   const onChange = ({ window, screen }) => {
       console.log(`onChange: `)
       //console.log(window)
-      bandRotate = false
+     // bandRotate = false
+     // bandChange = true
+      //stateRotated = 3
       console.log(`bandRotate_1: ${bandRotate}`)
-      boundsStep = {width: window.width, height: window.height}
-      setDimensions({ window, screen });
-    };
+     // boundsStep = {width: window.width, height: window.height}
+      //setDimensions({ window, screen });
+  };
 
-    React.useEffect(() => {
-      Dimensions.addEventListener("change", onChange);
-      return () => {
-        Dimensions.removeEventListener("change", onChange);
-      };
-    });
+  React.useEffect(() => {
+    Dimensions.addEventListener("change", onChange);
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    };
+  });
+
   const stateStack = (s) => {
-    bandRotate = false;
+      /*if(bandChange){ 
+        bandRotate = false;
+        firstRotate = true;
+       // stateRotated = 0
+      }*/
+     // bandRotate = false;
+     
+      console.log(`stateTack? ${rotateOut} name: ${s.routeNames[s.index]} lastName: ${nameStack}`)
     switch (s.routeNames[s.index]){
       case strToLang('newStack'):
       case strToLang('delStack'):
       case strToLang('configLabel'):
       case 'CamScan':
       case 'PixelScan':
+        if(rotateOut){
+          //bandRotate = true
+        }else{
+          //bandRotate = false
+          //rotateOut = true
+        }
+      //rotateOut = false
+       /*else{
+        bandRotate = false;
+      }*/
+      
+      //nameStack = s.routeNames[s.index]
         return;
       default:
+        
+        /*if(nameStack.includes("Step")&&nameStack!==s.routeNames[s.index]){
+          if(bandRotate){
+            bandRotate = false;
+            stateRotated = 2;
+          }
+        }else if(!nameStack.includes("Step")){
+          if(rotateOut){
+            rotateOut=false
+            bandRotate = true;
+          }
+        }*/
+
         nameStack = s.routeNames[s.index]
         txtGExp = stacksVars[nameStack].txtGExp
+        if(boundsStack[nameStack]){
+         // bandRotate = boundsStack[nameStack].width !== boundsStep.width
+          if(boundsStack[nameStack].width !== boundsStep.width){
+             stacksetGHtml[nameStack].reloadHtml()
+          }
+        }else{
+          if(bandRotate){
+           // bandRotate=false
+          //  boundsStep={width: boundsStep.height, height: boundsStep.width}
+          }
+        }
         //stacksfocusG[nameStack].focusG()
         //startIndex = txtGExp !== undefined ? txtGExp.length : 0
+        console.log(txtGExp)
         if (txtGExp === undefined) {
+
+        /*if(rotateOut){
+          rotateOut=false
+          bandRotate = true;
+        }else{
+          bandRotate = false;
+        }*/
+          
           startIndex = 0
           endIndex = 0
         } else {
+        /*else{
+          bandRotate = false;
+        }*/  
           startIndex = txtGExp.length
           endIndex = txtGExp.length
         }
+        
         break;
     }
     
@@ -260,11 +332,42 @@ const App: () => React$Node = () => {
 
   const stackSteps = (props) => {
     const {navigation} = props
-    console.log(`stacksSteps: ${stacksVars} `)
-    console.log(stacksVars)
+    console.log(`stacksSteps: ${stacksVars[props.route.name]} `)
+    console.log(`rotateOut: ${rotateOut}`)
+    /*if(rotateOut){
+      bandRotate=true
+      rotateOut=false
+    }else{*/
+      if(!stackIsOpen[props.route.name]){
+        firstRotate = true
+        bandRotate=true
+        stackIsOpen[props.route.name]={b: true}
+      }else{
+        bandRotate=false
+      }
+      
+    //}
+    //firstRotate = true
+   // stateRotated = 0;
+    //if (stateRotated === 0) {
+      /*if(rotateOut){
+       // rotateOut=false
+        bandRotate = true;
+      }else{
+        bandRotate = false;
+      }*/
+      //stateRotated = 0;
+      //bandChange = false;
+     // firstRotate = true;
+    //}
+    /*if(!rotateOut){
+      rotateOut=true
+    } */     
+    //bandRotate = false;
     if (stacksVars[props.route.name]===undefined){
       stacksVars[props.route.name]={txtGExp: txtGExp}
     }
+    boundsStack[props.route.name]={width: boundsStep.width, height: boundsStep.height}
     navigationG = navigation
     return (
       <Stack.Navigator>
@@ -290,8 +393,8 @@ const App: () => React$Node = () => {
 
   const stackPixel = (props) => {
     const {navigation} = props
-    console.log(`stacksSteps: ${stacksVars} `)
-    console.log(stacksVars)
+    console.log(`stacksPixel: ${stacksVars} `)
+    console.log(bandRotate)
     /*if (stacksVars[props.route.name]===undefined){
       stacksVars[props.route.name]={txtGExp: txtGExp}
     }*/
@@ -344,9 +447,10 @@ const App: () => React$Node = () => {
   }
 
   const stackConfig = ({navigation}) => {
+    //bandRotate = false;
     return (
-      <Stack.Navigator>
-        <Stack.Screen name={strToLang('configLabel')} component={Config}
+      <Stack.Navigator >
+        <Stack.Screen  name={strToLang('configLabel')} component={Config}
           options={{
             title: 'Config',
             headerLeft: ()=>headerLeft(navigation),
@@ -358,13 +462,23 @@ const App: () => React$Node = () => {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
-            headerTitleAlign: 'center'
+            headerTitleAlign: 'center',
+          
           }}
         />
       </Stack.Navigator>
     );
   }
-  
+  const onReady = () =>{
+  const unsubscribe = navigationRef.current?.addListener('state', (e) => {
+  // You can get the raw navigation state (partial state object of the root navigator)
+  console.log(e.data.state);
+
+  // Or get the full state object with `getRootState()`
+  console.log(navigationRef.current.getCurrentRoute());
+});
+  }
+
   const stepsRender = () => {
     console.log(`nameStack: ${nameStack}`)
     if (bandNew) {
@@ -376,9 +490,11 @@ const App: () => React$Node = () => {
       return <></>
     }else
       return (
-        <NavigationContainer onStateChange={stateStack} >
-          <Drawer.Navigator initialRouteName={nameStack}>
-          <Drawer.Screen name={strToLang('configLabel')} 
+        <NavigationContainer  ref={navigationRef} onStateChange={stateStack} >
+          <Drawer.Navigator 
+         initialRouteName={nameStack}>
+          <Drawer.Screen
+            name={strToLang('configLabel')} 
             component={stackConfig}
             options={{
               drawerIcon: config => <Icon
@@ -446,7 +562,7 @@ const App: () => React$Node = () => {
   }
 
   const stackCamScan = () => {
-    bandOpt = false;
+    //bandOpt = false;
     return (
       <Stack.Navigator mode="modal">
         <Stack.Screen name="CamScan" component={CamScan}

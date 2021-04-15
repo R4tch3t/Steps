@@ -10,9 +10,12 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.adonaysoft.steps.bitmap.*;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 public class MainApplication extends Application implements ReactApplication {
-
+  private static AppOpenManager appOpenManager;
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
@@ -41,12 +44,18 @@ public class MainApplication extends Application implements ReactApplication {
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
   }
-
+  
   @Override
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        @Override
+        public void onInitializationComplete(InitializationStatus initializationStatus) {
+        }
+    });
+    appOpenManager = new AppOpenManager(this);
   }
 
   /**

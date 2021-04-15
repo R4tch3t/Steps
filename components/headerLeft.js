@@ -2,8 +2,9 @@ import React from 'react';
 import {View} from 'react-native'
 import {Icon} from 'react-native-elements'
 import setObjSave from '../functions/setObjSave'
+
 addStack = (bandP, txt) => {
-    bandRotate = false;
+    bandRotate = true;
     nameStack = `Steps ${stacksG.length+1}`
     stacksG.push({
         name: `Steps ${stacksG.length+1}`
@@ -20,6 +21,7 @@ addStack = (bandP, txt) => {
                 // const countC = char.length;
                  stacksfocusG[nameStack].focusG();
                  txtGExp = txt;
+                 bandRotate=false;
                  stackevalGlobal[nameStack].evalGlobal(txtGExp);
                  /*if (startIndex < endIndex) {
                    endIndex = startIndex;

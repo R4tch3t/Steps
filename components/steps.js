@@ -12,44 +12,51 @@ import {
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import {
-    WebView
-} from 'react-native-webview';
 import AsyncStorage from '@react-native-community/async-storage';
 import onChangeText from '../functions/onChangeText.js'
 
 //import loading from '../functions/loading.js'
 import AsciiTab from './asciiTab.js'
+import WebSteps from './renderHtml.js'
+
 //import PixelScan from './pixelScan.js'
 txtGExp=''
 heightFix = 160
-let stateRotated = 0;
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
-let firstRotate = true
-setStepsWidth = null
-setStepsHeight = null
-bandRotate = false
+
+//setStepsWidth = null
+//setStepsHeight = null
+isRotate = false
+firstRotate = true;
 export default (props) => {
+    
     let {width, height} = Dimensions.get('window');
     const window = useWindowDimensions();
-    const [html, setHtml] = React.useState('');
-    const [txtExp, setTxtExp] = React.useState('');
-    let [Wwidth, setWidth] = React.useState(boundsStep.width);
-    let [Wheight, setHeight] = React.useState(boundsStep.height);
+    //let [dimensions, setDimensions] = React.useState({width: boundsStep.width, height: boundsStep.height})
+    const [state, setState] = React.useState({
+      dimensions: {width: 0, height: 0},
+      html: ''
+    })
+    //const [html, setHtml] = React.useState('');
+    //const [txtExp, setTxtExp] = React.useState('');
+   // let [Wwidth, setWidth] = React.useState(boundsStep.width);
+    //let [Wheight, setHeight] = React.useState(boundsStep.height);
     //let Wwidth = window.width
     //let Wheight = window.height
-    setStepsWidth = setWidth;
-    setStepsHeight = setHeight;
+    //setStepsWidth = setWidth;
+    //setStepsHeight = setHeight;
+    
     const [backgroundColor, setBackground] = React.useState('green');
     const stackName = props.route.name
+    
     //let [bandRotate, setBandRotate] = React.useState(false);
-    let webRef = React.useRef();
-    const [dimensions, setDimensions] = React.useState({ window, screen });
+   // let webRef = React.useRef();
+    //const [dimensions, setDimensions] = React.useState({ window, screen });
   
 
-    stacksetGHtml[stackName]={setGHtml: setHtml}
-    stackGTxtExp[stackName]={setGTxtExp: setTxtExp}
+    stacksetGHtml[stackName]={setGHtml: setState}
+    //stackGTxtExp[stackName]={setGTxtExp: setTxtExp}
     
     const evaluating = text => {
         /*new Promise((resolve, reject) => {
@@ -62,26 +69,34 @@ export default (props) => {
                 stacksVars[stackName]={txtGExp: text}
                 
                 setObjSave("@evalObject", stacksVars)
-                setTxtExp(text)
-                onChangeText(text, setHtml)
+                stackGTxtExp[stackName].setGTxtExp(text)
+                onChangeText(text, stacksetGHtml[stackName].setGHtml)
+                
                // resolve(1)
             //})
         //})
     };
-
     const reloadHtml = () => {
-        new Promise((resolve, reject) => {
-            setHtml('')
+       /* new Promise((resolve, reject) => {
+            stacksetGHtml[stackName].setGHtml('')
+            //isRotate = false;
             //setBandRotate(true)
             resolve(1)
         }).then(() => {
-            new Promise((resolve, reject) => {
-                evaluating(txtGExp)
-               resolve(1)
-            })
-        })
+            new Promise((resolve, reject) => {*/
+              console.log(`stacksetGHtml[stackName].setGHtml: ${stacksetGHtml[stackName].setGHtml}`)
+              console.log(`dimensions: `)
+             // console.log(dimensions)
+              //stacksetGHtml[stackName].setGHtml('')
+             // setDimensions(dimensions)
+             
+              evaluating(txtGExp)
+                
+              // resolve(1)
+            /*})
+        })*/
     };
-    
+    stacksetGHtml[stackName].reloadHtml=reloadHtml
     
     stackevalGlobal[stackName]={evalGlobal: evaluating}
     const setSaveData = async (item, val) => {
@@ -98,6 +113,17 @@ export default (props) => {
         await AsyncStorage.setItem(item, jsonValue);
       }catch(e){
 
+      }
+    }
+
+    const sleep = (milliseconds) => {
+      return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    const waitAndSleep = async() => {
+      while(true){
+        sleep(100);
+        
       }
     }
     
@@ -119,7 +145,7 @@ export default (props) => {
     return(
      <>
       <StatusBar backgroundColor = {backgroundColor} barStyle = "default" />
-      <SafeAreaView>
+      <SafeAreaView >
          <ScrollView
           scrollEnabled={false}
           //contentInsetAdjustmentBehavior="automatic"
@@ -127,39 +153,65 @@ export default (props) => {
          // keyboardDismissMode="none"
          
           keyboardShouldPersistTaps='handled'
-          
-          onLayout={()=>{
+          onLayout={()=>{console.log(`onLayout: `)}}
+          onContentSizeChange={()=>{
+           try{
             txtGExp = stacksVars[stackName].txtGExp === undefined ? '' : stacksVars[stackName].txtGExp
             
             const cWidth = Dimensions.get('window').width;
             const cHeight = Dimensions.get('window').height;
            // const window = useWindowDimensions();
-           console.log(`bandRotate: ${bandRotate} cWidth ${cWidth} cHeight: ${cHeight} `);
-           
-           new Promise(async (resolve, reject) => {
-             if (bandRotate) {
+           console.log(`bandRotate??: ${bandRotate} width ${state.dimensions.width} cHeight: ${boundsStep.height} stateRotated: ${stateRotated} firstRotate: ${firstRotate}`);
+          console.log(`firstRotate: ${firstRotate} isRotate: ${isRotate}`)
+            if (!isRotate) {
+              isRotate = true;
               
-              if (stateRotated===0){
-                boundsStep = {width: boundsStep.height, height: boundsStep.width}
-                width=boundsStep.width
-                height = boundsStep.height
-                stateRotated=1
-              } else if (stateRotated<1) {
-                stateRotated++
-              }else{
-                stateRotated=0
+              /*if(firstRotate){
+                reloadHtml()
+                firstRotate = false
+                bandRotate=true
+
+              }else{*/
+               if (stateRotated<1){  
+                 stateRotated++
+                // stateRotated=stateRotated===2?0:stateRotated+1
+                if(state.dimensions.width!==boundsStep.width){
+                  //setState({dimensions: {width: boundsStep.width, height: boundsStep.height}, html: html+' '})
+                  boundsStack[stackName]={width: boundsStep.width, height: boundsStep.height}
+                  reloadHtml()
+                }else{
+                HandleRotate().then(()=>{
+                  //if(boundsStack[stackName].width === boundsStep.height){
+                    
+                   //dimensions={width: boundsStep.width, height: boundsStep.height}
+                   //stateRotated = 1
+                   const {html} = state
+                   boundsStack[stackName]={width: boundsStep.width, height: boundsStep.height}
+                   setState({dimensions: {width: boundsStep.width, height: boundsStep.height}, html: html+' '})
+                    // reloadHtml() 
+                   // bandRotate=false
+                  isRotate = false;
+                 //}
+                 /*else{
+                   sleep(300);
+                   isRotate = false
+                 }*/
+                  console.log(`_onLayoutSteps: boundsStep.width: ${boundsStep.width} boundsStep.height: ${boundsStep.height}  firstRotate: ${firstRotate}`);
+                  //reloadHtml()
+                
+                })
               }
-              
-              //setWidth(width)
-            }else{
-              bandRotate=true
-              //reloadHtml()
+               
+        } else if (stateRotated>0) {
+            stateRotated=0
+            isRotate=false
+        }else{
+            stateRotated++
+        }
             }
-             resolve(1)
-           }).then(()=>{
-            reloadHtml()
-           })
-            
+            /*}else{
+                  bandRotate=true
+                }*/
             
             //console.log(width)
            // console.log(height)
@@ -173,28 +225,8 @@ export default (props) => {
              
             // if (stateRotated===1) {
 
-               console.log(`_onLayoutSteps: boundsStep.width: ${boundsStep.width} === Wwidth ${Wwidth} firstRotate: ${firstRotate}`);
-              if(!firstRotate){
-
-                //boundsStep = {width: boundsStep.height, height: boundsStep.width}
-                //setObjSave("@boundsStep", boundsStep);
-                //Wwidth = boundsStep.width
-                //Wheight = boundsStep.height
-               /*if (boundsStep.width <= boundsStep.height) {
-                boundsStep = {width: boundsStep.height, height: boundsStep.width}
-                setObjSave("@boundsStep", boundsStep);
-                Wwidth = boundsStep.width
-                Wheight = boundsStep.height
-              }else  
-                if (boundsStep.width >= boundsStep.height) {
-                  boundsStep = {width: boundsStep.height, height: boundsStep.width}
-                  setObjSave("@boundsStep", boundsStep);
-                  Wwidth = boundsStep.width
-                  Wheight = boundsStep.height
-                }*/
-
-            }
-            firstRotate=false
+               
+              
               /*else if (boundsStep.width === Wwidth){
                 if (Wwidth>=Wheight){
                   boundsStep = {width: Wheight, height: Wwidth}
@@ -285,7 +317,13 @@ export default (props) => {
             setHeight(height)
             reloadHtml()*/
            // setBackground(backgroundColor)
-          }}>
+          }catch(e){
+
+          }
+
+          }}
+        
+          >
             
           {
             /*<Header />*/}
@@ -312,31 +350,20 @@ export default (props) => {
                 placeholder={strToLang('typeAnPH')}
                 //keyboardType={Device.isAndroid ? "numeric" : "number-pad"}
                 //selectTextOnFocus={true}
-                defaultValue={txtExp}
+                //defaultValue={txtExp}
                 route={props.route}
               />
 
             </View>
             
-            <WebView
-              
-              //injectedJavaScript={'true'}
-              //domStorageEnabled={true}
-              ref={component =>  webRef = component}
-              allowFileAccess={true}
-              allowFileAccessFromFileURLs={true}
-              allowUniversalAccessFromFileURLs={true}
-              // originWhitelist={['*']}
-              scalesPageToFit={true}
-              
-            
-              /*onNavigationStateChange = {
-                onNavigationStateChange.bind(this)
-              }*/
-              source={{html: html}}
-              //automaticallyAdjustContentInsets={true}
-              //scrollEnabled={true}
-              style={[styles.webView,{width: boundsStep.width, height: boundsStep.height - heightFix}]}
+            <WebSteps
+              html={state.html}
+              difDimensions = {{width: state.dimensions.width, height: state.dimensions.height}}
+              //difWidth={dimensions.width}
+              //difHeight={dimensions.height}
+              styles={styles}
+              heightFix={heightFix}
+              stackName={stackName}
             />
           </View>
 

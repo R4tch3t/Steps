@@ -59,7 +59,8 @@ createHtmlatex = (setHtml) => {
         body+="<script type='text/javascript' src='"+matrixModalPath+"'></script>"
         body+="<script type='text/javascript'>"+FadeInLatex()+"</script>"*/
         body+="</body></html>"
-        setHtml(head+body)
+        setHtml({dimensions: {width: boundsStep.width, height: boundsStep.height}, html: head+body})
+        isRotate = false;
         //changeRangeSelG()
        // print(pathHtml)
         //_ = webLayer.init(pathHtml, head, body, Latex)

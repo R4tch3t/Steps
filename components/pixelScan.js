@@ -43,6 +43,7 @@ export default () => {
     //const [uri, setUri] = React.useState(uriPixel);
     console.log(`urisPixelsScan: ${urisPixels}`);
     console.log(urisPixels);
+   // bandRotate = false;
     const [image, setIm] = React.useState(imageG);
     const [arrImage, setArrImage] = React.useState(urisPixels);
     const pan = React.useRef(new Animated.ValueXY()).current;
@@ -50,6 +51,7 @@ export default () => {
     const [Wwidth, setWidth] = React.useState(0);
     const [Wheight, setHeight] = React.useState(0);
     let scrollRef = React.useRef();
+    let bandOpt = false
    // setUrisPixels = setArrImage
     setUriPixel = setIm;
     setUrisPixels = setArrImage;
@@ -141,12 +143,12 @@ export default () => {
     //const processed = await vision().cloudTextRecognizerProcessImage(localPath);
 
     console.log('Found text in document: ', processed.text);
-    
+    //bandDocumentPixel = false;
     processed.blocks[0].text = cleanBlock(processed.blocks[0].text);
     if (processed.blocks.length===1){
       processed.text = cleanBlock(processed.text);
       
-      text0 = processed.text;
+      let text0 = processed.text;
       text0 = text0.split(text0[text0.length - 1]).join(''); 
       text0 = text0.split('–').join('-');
       let auxChar = text0.match(/[aA-zZ][0-9]/gi);
@@ -164,11 +166,13 @@ export default () => {
     }else{
       addStack(true, processed.blocks[0].text); 
     }
+
     processed.blocks.forEach(block => {
       console.log('Found block with text: ', block.text);
       console.log('Confidence in block: ', block.confidence);
       console.log('Languages found in block: ', block.recognizedLanguages);
     });
+    
   }
 
 const processDocument2 = async fileName => {
@@ -289,7 +293,7 @@ try{
     });
   });
   */
-      };
+};
 
   const toggleOptions = () => {
     let toValue = 1;
@@ -356,7 +360,8 @@ try{
         urisPixels.push(newImage);
         setObjSave("@urisPixels", urisPixels);
         setArrImage(urisPixels)
-        processDocument2(image.data);
+        //processDocument2(image.data);
+        processDocument(image.path);
         setIm(newImage);
         /*this.setState({
           image: {
@@ -372,9 +377,29 @@ try{
         console.log(e);
         Alert.alert(e.message ? e.message : e);
       }).finally(()=>{
-        
-        setStepsWidth(boundsStep.width)
-        setStepsHeight(boundsStep.height)
+
+        console.log(`beforePick`)
+        console.log(boundsStep)
+        /*if (boundsStep.height < boundsStep.width){
+           //boundsStep = {width: boundsStep.height, height: boundsStep.width}
+           if(width>height){
+            boundsStep = {width: height, height: width}
+          }else{
+            boundsStep = {width: width, height: height}
+          }
+        }else{
+          if(width>height){
+            boundsStep = {width: height, height: width}
+          }else{
+            boundsStep = {width: width, height: height}
+          }
+        }*/
+       // bandRotate = true
+        console.log(`afterPick`)
+        console.log(boundsStep)
+       /* setStepsWidth(boundsStep.width)
+        setStepsHeight(boundsStep.height)*/
+      
       });
   }
 
@@ -426,9 +451,10 @@ try{
       .then(image => {
         //console.log('received cropped image', image);
         console.log(image.path.split('file://').join(''));
-        //processDocument(image.path);
+        processDocument(image.path);
         image.data = `data:image/jpeg;base64,${image.data}`;
-        processDocument2(image.data);
+        //processDocument2(image.data);
+        
         /*NativeModules.Bitmap.getPixels(image.path.split('file://').join(''))
           .then(image => {
             console.log(image.path);

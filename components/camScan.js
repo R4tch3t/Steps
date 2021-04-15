@@ -13,7 +13,7 @@ import {
 } from 'react-native-elements'
 import {RNCamera} from 'react-native-camera';
 import onChangeText from '../functions/onChangeText.js'
-bandOpt = false;
+//bandOpt = false;
 export default ({navigation}) => {
   const [txt, setTxt] = React.useState('');
   const [bounds, setBounds] = React.useState({origin: {x: 0, y: 0 }, size: {width: 0, height: 0}});
@@ -21,7 +21,8 @@ export default ({navigation}) => {
   const camRef = useRef();
   //const [styleOpt, setStyleOpt] = React.useState([styles.modalView,{opacity: 0}]);
   const fadeAnim = useRef(new Animated.Value(0)).current
-  //let bandOpt = false;
+  
+  let bandOpt = false;
   const toSteps = () => {
     const txtS = txt
     navigation.navigate(nameStack);

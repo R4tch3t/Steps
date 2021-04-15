@@ -29,7 +29,10 @@ export default (props) => {
     const [isModal, setIsModal] = React.useState(false)
     const [isPixel, setIsPixel] = React.useState(false)
     const [isDataLoad, setIsDataLoad] = React.useState(false)
+    const [txtExp, setTxtExp] = React.useState('');
     const stackName = props.route.name
+
+    stackGTxtExp[stackName]={setGTxtExp: setTxtExp}
 
     const getSaveData = async () => {
         try{
@@ -355,7 +358,7 @@ export default (props) => {
                         placeholder={props.placeholder}
                         multiline={true}
                         ref={component => stacktextInput[stackName]={_textInput: component} }
-                        defaultValue={props.defaultValue}
+                        defaultValue={txtExp}
                     />
                 
                 <View style={{flexDirection: 'row'}}>

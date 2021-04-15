@@ -16,6 +16,7 @@
       "oauth_client": [
         {
           "client_id": "317631322290-l0bdeq88eij1pspo3ooa530hdn5lncaq.apps.googleusercontent.com",
+          "client_email": "bebetovictor@gmail.com",
           "client_type": 3
         }
       ],
@@ -29,6 +30,7 @@
           "other_platform_oauth_client": [
             {
               "client_id": "317631322290-l0bdeq88eij1pspo3ooa530hdn5lncaq.apps.googleusercontent.com",
+              "client_email": "bebetovictor@gmail.com",
               "client_type": 3
             }
           ]
