@@ -153,16 +153,17 @@ export default (props) => {
          // keyboardDismissMode="none"
          
           keyboardShouldPersistTaps='handled'
-          onLayout={()=>{console.log(`onLayout: `)}}
-          onContentSizeChange={()=>{
+          onContentSizeChange={()=>{}}
+          onLayout={()=>{
            try{
+             console.log(`onLayout: `)
             txtGExp = stacksVars[stackName].txtGExp === undefined ? '' : stacksVars[stackName].txtGExp
             
             const cWidth = Dimensions.get('window').width;
             const cHeight = Dimensions.get('window').height;
            // const window = useWindowDimensions();
-           console.log(`bandRotate??: ${bandRotate} width ${state.dimensions.width} cHeight: ${boundsStep.height} stateRotated: ${stateRotated} firstRotate: ${firstRotate}`);
-          console.log(`firstRotate: ${firstRotate} isRotate: ${isRotate}`)
+            console.log(`bandRotate??: ${bandRotate} width ${state.dimensions.width} cHeight: ${boundsStep.height} stateRotated: ${stateRotated} firstRotate: ${firstRotate}`);
+            console.log(`firstRotate: ${firstRotate} isRotate: ${isRotate}`)
             if (!isRotate) {
               isRotate = true;
               

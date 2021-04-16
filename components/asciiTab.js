@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ModalLeft from "./modalLeft"
 import ModalRight from "./modalRight"
 import { captureScreen } from "react-native-view-shot";
+import {Icon} from 'react-native-elements'
 
 const IsIOS = Platform.OS === 'ios';
 startIndex = 0;

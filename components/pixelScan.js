@@ -24,6 +24,7 @@ import ViewShot from 'react-native-view-shot';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageToggle from './ImageToggle'
 import IconToggle from './IconToggle'
+
 //import StaticServer from 'react-native-static-server';
 
 setUriPixel=null
@@ -137,9 +138,9 @@ export default () => {
   };
 
   const processDocument=async (localPath) => {
-    //const processed = await vision().textRecognizerProcessImage(localPath);
+    const processed = await vision().textRecognizerProcessImage(localPath);
     //const processed = await vision().imageLabelerProcessImage(localPath);
-    const processed = await vision().cloudDocumentTextRecognizerProcessImage(localPath);
+    //const processed = await vision().cloudDocumentTextRecognizerProcessImage(localPath);
     //const processed = await vision().cloudTextRecognizerProcessImage(localPath);
 
     console.log('Found text in document: ', processed.text);
@@ -191,8 +192,8 @@ const processDocument2 = async fileName => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      app_id: 'bebetovictor_gmail_com_624c02',
-      app_key: '95cbf36020ce3e06f9a9',
+      app_id: '',
+      app_key: '',
     },
     body: JSON.stringify(bodyJSON),
   });
@@ -375,7 +376,7 @@ try{
       })
       .catch((e) => {
         console.log(e);
-        Alert.alert(e.message ? e.message : e);
+    //    Alert.alert(e.message ? e.message : e);
       }).finally(()=>{
 
         console.log(`beforePick`)
@@ -482,7 +483,7 @@ try{
       })
       .catch(e => {
         console.log(e);
-        Alert.alert(e.message ? e.message : e);
+      //  Alert.alert(e.message ? e.message : e);
       });
   }
   const reloadStack = () => {
