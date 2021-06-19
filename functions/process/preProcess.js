@@ -6,10 +6,12 @@ Preprocess = (s, setHtml) => {
     //try {
         //if !V.ThreadActive && !V.isEditing {
             //let re = new RegExp(' ','g')
+            //let bandPows = {}
+            //s=DevPow(s);
             strOrigin = s.split(' ').join("")
             strDevelopment = ""
             //re = new RegExp('cos', 'g')
-            let strOrigin = strOrigin.toLowerCase().split('cos').join("c")
+            strOrigin = strOrigin.toLowerCase().split('cos').join("c")
             //re = new RegExp('sen', 'g')
             strOrigin = strOrigin.split('sen').join("s")
             //re = new RegExp('tan', 'g')
@@ -28,8 +30,37 @@ Preprocess = (s, setHtml) => {
             var ev = ''
             //if (s.includes(/x/i)) {
             if (s.match(/[A-Z]/gi)){
-                console.log(s.match(/[A-Z]/gi))
-                ev = StepsFactor(s);
+                s=DevPow(s);
+                strOrigin = s.split(' ').join("");
+                strDevelopment = ""
+                strOrigin = strOrigin.toLowerCase().split('cos').join("c")
+                strOrigin = strOrigin.split('sen').join("s")
+                strOrigin = strOrigin.split('tan').join("t")
+                cleanstrD(strOrigin)
+                strDevelopment = strDevelopment.split(')(').join(")*(")
+            
+                console.log(s.match(/[A-Z]/gi));
+                const a = s.match(/[A-Z]/gi)
+                let bandEv = true;
+                let lastE = a[0];
+                a.map((e)=>{
+                    if(lastE!==e){
+                        bandEv = false;
+                    }
+                    lastE=e;
+                });
+
+                if(bandEv){
+                  /*  const strD = strDevelopment.split(')^');
+                    console.log("strD");
+                    console.log(strD);
+                    */
+                    
+                    ev = StepsFactor(s);
+                }else{
+                    ev=strToLang("WrongEx");
+                   // ev = Evaluate(s)
+                }
             }else{
                 ev = Evaluate(s)
             }

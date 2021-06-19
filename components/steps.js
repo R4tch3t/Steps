@@ -121,9 +121,48 @@ export default (props) => {
     }
 
     const waitAndSleep = async() => {
-      while(true){
-        sleep(100);
+      console.log(`bandRotate??: ${bandRotate} width ${state.dimensions.width} cHeight: ${boundsStep.height} stateRotated: ${stateRotated} firstRotate: ${firstRotate}`);
+      console.log(`firstRotate: ${firstRotate} isRotate: ${isRotate}`)
+      let c = 0;
+      if(stateRotated===3){
+        //stateRotated=2
+        return false
+      }else if(stateRotated>3){
+        stateRotated=0
+      }
+      while(stateRotated<3){
+        await sleep(133);
+        /*if(c>10){
+          c=0;
+          stateRotated++;
+        }
+        c++*/
+        stateRotated++
+      }
+     // stateRotated=0;
+     
+      if(state.dimensions.width!==boundsStep.width){
+          //setState({dimensions: {width: boundsStep.width, height: boundsStep.height}, html: html+' '})
+          boundsStack[stackName]={width: boundsStep.width, height: boundsStep.height}
+          reloadHtml()
+       //   isRotate = false;
+        }else{
+        HandleRotate().then(()=>{
+          //if(boundsStack[stackName].width === boundsStep.height){
+            
+            //dimensions={width: boundsStep.width, height: boundsStep.height}
+            //stateRotated = 1
+            const {html} = state
+            boundsStack[stackName]={width: boundsStep.width, height: boundsStep.height}
+            setState({dimensions: {width: boundsStep.width, height: boundsStep.height}, html: html+' '})
+            // reloadHtml() 
+            // bandRotate=false
+        //  isRotate = false;
+          //}
+          console.log(`_onLayoutSteps: boundsStep.width: ${boundsStep.width} boundsStep.height: ${boundsStep.height}  firstRotate: ${firstRotate}`);
+          //reloadHtml()
         
+        })
       }
     }
     
@@ -162,17 +201,20 @@ export default (props) => {
             const cWidth = Dimensions.get('window').width;
             const cHeight = Dimensions.get('window').height;
            // const window = useWindowDimensions();
-            console.log(`bandRotate??: ${bandRotate} width ${state.dimensions.width} cHeight: ${boundsStep.height} stateRotated: ${stateRotated} firstRotate: ${firstRotate}`);
-            console.log(`firstRotate: ${firstRotate} isRotate: ${isRotate}`)
+            
+            
             if (!isRotate) {
               isRotate = true;
+              waitAndSleep();
+            }else if(stateRotated>2){
+              isRotate = false;
+              stateRotated=0
+              waitAndSleep()
+            }
+            stateRotated++
+            /*if (!isRotate) {
+              isRotate = true;
               
-              /*if(firstRotate){
-                reloadHtml()
-                firstRotate = false
-                bandRotate=true
-
-              }else{*/
                if (stateRotated<1){  
                  stateRotated++
                 // stateRotated=stateRotated===2?0:stateRotated+1
@@ -193,10 +235,6 @@ export default (props) => {
                    // bandRotate=false
                   isRotate = false;
                  //}
-                 /*else{
-                   sleep(300);
-                   isRotate = false
-                 }*/
                   console.log(`_onLayoutSteps: boundsStep.width: ${boundsStep.width} boundsStep.height: ${boundsStep.height}  firstRotate: ${firstRotate}`);
                   //reloadHtml()
                 
@@ -209,7 +247,7 @@ export default (props) => {
         }else{
             stateRotated++
         }
-            }
+            }*/
             /*}else{
                   bandRotate=true
                 }*/
@@ -359,6 +397,7 @@ export default (props) => {
             
             <WebSteps
               html={state.html}
+              //difDimensions = {{width: state.dimensions.width, height: state.dimensions.height}}
               difDimensions = {{width: state.dimensions.width, height: state.dimensions.height}}
               //difWidth={dimensions.width}
               //difHeight={dimensions.height}

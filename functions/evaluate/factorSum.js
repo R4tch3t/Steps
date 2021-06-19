@@ -25,7 +25,13 @@ factorSum = (STR, S, OP) => {
     console.log(`aux1Str: ${aux1Str}`);
     console.log(`auxChar: ${auxChar}`);
     console.log(`aux1Char: ${aux1Char}`);
+
+
     str2 = aux1Str + sign + auxStr;
+    if(aux1Str.includes('^')){
+        S.push(str2);
+        return;
+    }
     //console.log(`str2+: ${strDevelopment}`)
     if (auxStr.includes(auxChar) && !aux1Str.includes(aux1Char)) {
         const auxTemp = aux1Str;
@@ -35,8 +41,8 @@ factorSum = (STR, S, OP) => {
         aux1Str = auxStr;
         auxStr = auxTemp;
         strDevelopment = strDevelopment.join(str2);
-
     }
+
     if (aux1Str.includes(aux1Char) && auxStr.includes(aux1Char)) {
         auxStr = auxStr.split(aux1Char).join('');
         aux1Str = aux1Str.split(aux1Char).join('');
@@ -51,6 +57,7 @@ factorSum = (STR, S, OP) => {
         }else{
             res = plusstr(auxStr, aux1Str);
         }
+
         res += aux1Char;
         res = res.split("-1" + aux1Char).join("-" + aux1Char)
         res = res.split("1" + aux1Char).join("" + aux1Char)
@@ -136,66 +143,89 @@ factorSum = (STR, S, OP) => {
                 
             }
         } else {
-            aux1Str = aux1Str.split(aux1Char).join("");
-            if (aux1Str === "" || aux1Str==="-") {
-                aux1Str += '1';
-            }
-            if (auxChar) {
-                auxStr = auxStr.split(auxChar).join("");
-            } else {
-                auxChar = "";
-            }
-            if (isNumber(auxStr) && isNumber(aux1Str)) {
-                const mcd = MCDStr(auxStr, aux1Str);
-                let aux = dividestr(auxStr, mcd, 128);
-                let aux1 = dividestr(aux1Str, mcd, 128);
-                res = (mcd > 1 || mcd < -1) ? mcd : ""
-                res += "(" + aux1 + aux1Char + sign + aux + auxChar + ")";
-                
-                res = res.split('1' + aux1Char).join(aux1Char);
-                //res=res.split("--").join("-")
-                //str2=str2.split("--").join("-")
-                console.log(`str2+?: ${strDevelopment} res: ${res} aux1Char: ${aux1Char} str2: ${str2}`)
-                if (auxChar !== "") {
-                    res = res.split('1' + auxChar).join(auxChar);
+            console.log('aux1STR: ')
+                let powN = 1; 
+                if(aux1Str.includes("^")){
+                    aux1Char=aux1Char+"^";
+                    const sPow = aux1Str.split(aux1Char);
+                    powN=parseInt(sPow[1]);
+                    aux1Char+=powN;
+                    //aux1Str = aux1Str.split(aux1Char+"^").join("");
+                    aux1Str = sPow[0];
+                    strSplit=sPow[0];
+                }else{
+                    aux1Str = aux1Str.split(aux1Char).join("");
                 }
-                res = res.split("--").join("+");
-                console.log(mcd);
                 
-                StepsC += 1
-                str1 = strToLang("Paso") + StepsC.toString() + ": quad"
-                StepLatex(str1, strDevelopment, str2, str3, res, change, true)
-                str1 = "-> "
-                
-                if (BiggerThan(mcd, "1")||LessThan(mcd, "-1")){
-                    str2 = "[ " + str2 + " ]=" + mcd + "(color(red)(" + aux1Str + "/" + mcd + ")" + aux1Char + sign + "color(red)(" + auxStr + "/" + mcd + ")" + auxChar + ")"
+                console.log(aux1Str)
+                if (aux1Str === "" || aux1Str==="-") {
+                    aux1Str += '1';
+                }
+                if (auxChar) {
+                    auxStr = auxStr.split(auxChar).join("");
                 } else {
-                    str2 = "[ " + str2 + " ]"
-
-                    res = aux1Char !== "" && aux1 === '1' ? aux1Char : aux1 + aux1Char;
-                    res += sign + (auxChar !== "" && aux === '1' ? auxChar : aux + auxChar);
-                    //res = aux1 + aux1Char + "+" + aux + auxChar;
-                    //res = res.split('1' + aux1Char).join(aux1Char);
-                    //res = res.split('1' + auxChar).join(auxChar);
+                    auxChar = "";
                 }
-                str1 = str1 + str2 + " = " + res
-                Pstrltx(str1)
-                strltx += "</div>"
-                strltx += "</div>"
-
-                S.push(res)
-
-                if (!auxStrPow.includes(auxCharPow) && !isNumber(STR[STR.length-1])) {
-                    if (sign === "-") {
-                        auxStrPow = "-" + auxStrPow
+                if (isNumber(auxStr) && isNumber(aux1Str)) {
+                    const mcd = MCDStr(auxStr, aux1Str);
+                    let aux = dividestr(auxStr, mcd, 128);
+                    let aux1 = dividestr(aux1Str, mcd, 128);
+                    res = (mcd > 1 || mcd < -1) ? mcd : ""
+                    res += "(" + aux1 + aux1Char + sign + aux + auxChar + ")";
+                    
+                    res = res.split('1' + aux1Char).join(aux1Char);
+                    //res=res.split("--").join("-")
+                    //str2=str2.split("--").join("-")
+                    console.log(`str2+?: ${strDevelopment} res: ${res} aux1Char: ${aux1Char} str2: ${str2}`)
+                    if (auxChar !== "") {
+                        res = res.split('1' + auxChar).join(auxChar);
                     }
-                    OP.push([["" + auxStrPow,"",0],[strSplit,aux1CharPow,1]])
-                    console.log(`OP+-: ${OP}`)
-                }
-                
-            }
+                    res = res.split("--").join("+");
+                    console.log(mcd);
+                    
+                    StepsC += 1
+                    str1 = strToLang("Paso") + StepsC.toString() + ": quad"
+                    StepLatex(str1, strDevelopment, str2, str3, res, change, true)
+                    str1 = "-> "
+                    
+                    if (BiggerThan(mcd, "1")||LessThan(mcd, "-1")){
+                        str2 = "[ " + str2 + " ]=" + mcd + "(color(red)(" + aux1Str + "/" + mcd + ")" + aux1Char + sign + "color(red)(" + auxStr + "/" + mcd + ")" + auxChar + ")"
+                    } else {
+                        str2 = "[ " + str2 + " ]"
+
+                        res = aux1Char !== "" && aux1 === '1' ? aux1Char : aux1 + aux1Char;
+                        res += sign + (auxChar !== "" && aux === '1' ? auxChar : aux + auxChar);
+                        //res = aux1 + aux1Char + "+" + aux + auxChar;
+                        //res = res.split('1' + aux1Char).join(aux1Char);
+                        //res = res.split('1' + auxChar).join(auxChar);
+                    }
+                    str1 = str1 + str2 + " = " + res
+                    Pstrltx(str1)
+                    strltx += "</div>"
+                    strltx += "</div>"
+
+                    S.push(res)
+
+                    if (!auxStrPow.includes(auxCharPow) && !isNumber(STR[STR.length-1])) { 
+                        if (sign === "-") {
+                            auxStrPow = "-" + auxStrPow
+                        }
+                        OP.push([["" + auxStrPow,"",0],[strSplit,aux1CharPow,powN]])
+                        console.log(`OP+-: ${OP}`)
+                    } 
+                    
+                }/*else if(aux1Str.includes("^")){
+                    console.log("aux1Str.includes: "+aux1Str);
+                    //res=
+                    //S.push(res)
+                }*/
+            /*}else{
+                console.log("aux1Str.includes: "+aux1Str+" "+auxStr);
+                res=aux1Str+sign+auxStr
+                S.push(res)
+            }*/
         }
         
     }
-    
+    console.log('S: '+S);
 }

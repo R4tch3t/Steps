@@ -1,7 +1,9 @@
+
 genStepsSumFactor = (STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow) => {
     if (factorStack.length < 2) {
         return
     }
+    console.log("genStepsSum")
     StepsC += 1;
     str1 = strToLang("Paso") + StepsC.toString() + ": quad"
     //const sign = STR[STR.length - 1]
@@ -144,6 +146,7 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
         }
     }
     console.log("factorS: " + factorStack)
+    console.log(STR)
     while (STR.length) {
         switch (STR[STR.length - 1]) {
             case "-":
@@ -168,7 +171,6 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                     //STRR.push(lastB+aux1Char)
                 } else if (STR.length === 0 && !bandEnd) {
                     console.log(`STRR: ${STRR}`)
-
                 }
                 bandEnd = false
                 if (a !== null) {
@@ -262,9 +264,10 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                                 }
                             }
                             //factorStack.push([auxA,"+"])
-                            console.log(`auxA.includes(aux1Char): ${factorStack}`)
+                            console.log(`auxA.includes(aux1Char): ${factorStack}`);
                             if (STR.length > 1) {
                                 const nextNum = STR[STR.length - 1]
+                                
                                 if (!nextNum.includes(aux1Char)) {
                                     genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow)
 
@@ -279,10 +282,11 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                                     }
                                 }
                             } else if (STR.length === 0) {
+                                console.log("factorStack: "+factorStack)
                                 if (factorStack.length > 1) {
                                     genStepsSumFactor(STRR, factorStack, lastMCD, aux1Char, lastPow, maxPow)
                                 } else {
-                                    while (factorStack.length) {
+                                    while (factorStack.length>0) {
                                         factorStack.pop()
                                     }
                                     STRR.push(a + "")
@@ -344,6 +348,8 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                         }
                     }
                 }
+                console.log(STR);
+                
                 break;
             case "*":
                 sign = STR.pop()
@@ -428,9 +434,11 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                 }
                 break;
             case "^":
+                console.log("^")
+                console.log(OPR)
                 STR.pop()
                 a = parseInt(OPR.pop())
-                b = OPR.pop().split(aux1Char).join("")
+                b = (OPR.length?OPR.pop():'1').split(aux1Char).join("")
                 if (b === "") {
                     b = "1"
                 }
@@ -545,6 +553,7 @@ SumExpFactor = (STR, auxStr, aux1SStr, aux1Char) => {
                 OPR.push(STR.pop())
         }
     }
+    console.log("STRR::")
     console.log(STRR)
     if (STRR[2] === "^" && (STRR[1] + "") === (maxPow + "")) {
         aux1SStr[0] = STRR.shift() + ""

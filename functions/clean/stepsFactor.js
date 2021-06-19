@@ -63,7 +63,10 @@ StepsFactor = (str) => {
         }
         S.splice(0)
         OP = []
-        console.log(`STR steps: ${STR}`);
+        console.log(`STR steps: ${STR} ${bandMatchFactor}`);
+        if(bandMatchFactor){
+            STR=cleanstrDF(STR+"");
+        }
         while (STR.length>0) {
             //console.log(STR[STR.length - 1])
             switch (STR[STR.length-1]) {
@@ -95,6 +98,7 @@ StepsFactor = (str) => {
                 STR.pop()
                 let auxStr = S[S.length - 1] === undefined ? null : S.pop();
                 let aux1Str = S[S.length - 1] === undefined ? null : S.pop();
+                console.log(OP)
                 console.log(`plusFactor auxStr: ${auxStr} aux1Str: ${aux1Str}`)
                 console.log(`plusFactor STR??: ${STR}`)
                 //let arrStr = auxStr.split("");
@@ -367,7 +371,7 @@ StepsFactor = (str) => {
                             //}
                             //c++
                         }
-                        //strltx+="<div><div>"
+                        //strltx+="<div><div>"+
                         
                         const redRes = strDevelopment.replace(str2,"color(red)("+str2+")")
                         strltx += "<div class='card divSteps' style='background: transparent' >"

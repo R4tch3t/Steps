@@ -28,7 +28,8 @@ export default (props) => {
               source={{html: html}}
               //automaticallyAdjustContentInsets={true}
               //scrollEnabled={true}
-              style={[styles.webView,{width: difDimensions.width, height: difDimensions.height - heightFix}]}
+              style={[styles.webView,{width: '100%', height: difDimensions.height - heightFix}]}
+             // style={[styles.webView,{width: difDimensions.width, height: difDimensions.height - heightFix}]}
             />
         </>
     )

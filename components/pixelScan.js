@@ -192,8 +192,8 @@ const processDocument2 = async fileName => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      app_id: '',
-      app_key: '',
+      app_id: 'bebetovictor_gmail_com_624c02',
+      app_key: '95cbf36020ce3e06f9a9',
     },
     body: JSON.stringify(bodyJSON),
   });

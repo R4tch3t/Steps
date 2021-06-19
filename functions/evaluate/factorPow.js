@@ -1,20 +1,21 @@
 factorPow = (STR, S, OP) => {
      STR.pop();
      console.log(`STR factorPow^: ${STR}`);
-     auxStr = S[S.length - 1] === undefined ? "+" : S.pop();
-     aux1Str = S[S.length - 1] === undefined ? "+" : S.pop();
+     auxStr = !S[S.length - 1] ? "+" : S.pop();
+     aux1Str = !S[S.length - 1] ? "+" : S.pop();
      auxChar = auxStr.match(/[A-Z]/gi);
      aux1Char = aux1Str.match(/[A-Z]/gi);
      console.log(`auxStr: ${auxStr}`);
      console.log(`aux1Str: ${aux1Str}`);
+     console.log(OP);
      if (OP.length) {
-         let c = 0
-         console.log(`OP: ${OP}`)
-         STR.push("*")
-         const arrBy = OP.pop()
+         let c = 0;
+         console.log(`OP: ${OP}`);
+         STR.push("*");
+         const arrBy = OP.pop();
          while (c < auxStr) {
-             OP.push(arrBy)
-             c++
+             OP.push(arrBy);
+             c++;
          }
          console.log(`OP2: ${OP}`)
          /*while (c < auxStr) {
@@ -24,6 +25,46 @@ factorPow = (STR, S, OP) => {
          }*/
      }else
      if (aux1Char) {
+        let auxNumb = parseInt(auxStr);
+        let match1Str = aux1Str.match(/[-+*/]/gi);
+         //auxNumb=auxStr.split(auxNumb);
+        console.log(auxNumb);
+        console.log("match1Str");
+        console.log(match1Str);
+        /*if(auxNumb>1){
+            let cS = STR.length-1
+            while(cS>-1&&STR[cS-2]!=="*"){
+
+                cS--;
+
+            }
+
+            if(parseInt(STR[cS-2])){
+                if(STR[cS-3]==="^"){
+                    
+                }
+            }
+
+        }
+         if(match1Str&&auxNumb){
+            let s = '('+aux1Str+')'
+            while(auxNumb>1){
+                s+='*('+aux1Str+')';
+                auxNumb--;
+            }
+            strOrigin = s.split(' ').join("")
+            strDevelopment = ""
+            let strOrigin = strOrigin.toLowerCase().split('cos').join("c")
+            strOrigin = strOrigin.split('sen').join("s")
+            strOrigin = strOrigin.split('tan').join("t")
+            cleanstrD(strOrigin)
+            strDevelopment = strDevelopment.split(')(').join(")*(")
+            
+            //removeSteps();
+            //S=[]
+            S.push(StepsFactor(s))
+            return false
+         }*/
          let c = 0;
          let c2 = 0;
          let poliArr = [];
@@ -39,14 +80,14 @@ factorPow = (STR, S, OP) => {
          let minusFactor = '';
          let minPow = 1;
          let lastPow = 0;
-         let aux1SStr = [aux1Str]
-             
+         let aux1SStr = [aux1Str];
+
             //factoring Ruffini poly's
             STR = SumExpFactor(STR, auxStr, aux1SStr, aux1Char)
             aux1Str = aux1SStr[0]
             console.log(`STR ${STR}`)
-            console.log(`aux1StrAftrGoo ${aux1SStr}`)
-            console.log(`auxStr ${auxStr}`)
+            console.log(`aux1StrAftrGoo ${aux1SStr}`);
+            console.log(`auxStr ${auxStr}`);
             //console.log(`aux1Char ${aux1Char}`)
 
             //STR=[]
@@ -118,12 +159,14 @@ factorPow = (STR, S, OP) => {
                     } else if (scanChar.includes("^")) {
                         scanChar = STR[c+2].toString()
                         if (scanChar.includes(aux1Char)) {
+
                             charNumber = scanChar.split(aux1Char).join("")
                             console.log(`charNumber: ${charNumber}`)
                             if (charNumber === "" || charNumber === "-") {
                                 charNumber = "1"
                             }
                             mcdAux = parseInt(MCDStr(mcdAux + "", charNumber));
+
                         } else {
                             mcdAux = 1
                         }
@@ -150,7 +193,7 @@ factorPow = (STR, S, OP) => {
                 } else if (STR[c].includes("" + aux1Char)) {
 
                     // poliArr.push(charNumber);
-                    console.log(`charNumber%mcdAux: ${(parseInt(charNumber) % mcdAux)}`)
+                    console.log(`charNumber%mcdAux: ${(parseInt(charNumber) % mcdAux)}`);
                     if ((parseInt(charNumber) % mcdAux) > 0) {
                         poliArr.push(charNumber);
                         bandF = false;
@@ -591,8 +634,8 @@ factorPow = (STR, S, OP) => {
                     if (c2 < 0) {
                         c2 *= -1;
                         const poliL = poli2[poli2.length - 1] < 0 ? (poli2[poli2.length - 1] * -1) : poli2[poli2.length - 1];
-
-                        if (c2 < poliL) {
+                        console.log(poliL);
+                        if (c2 <= poliL) {
 
                             if (bandG) {
                                 if (countC < divFactor.length - 1) {
@@ -760,7 +803,7 @@ factorPow = (STR, S, OP) => {
                         let c3 = 0;
                         let prevC = "";
                         xs = xs.sort();
-                        console.log(`xs: ${xs}`)
+                        console.log(`xs: ${xs}`);
                         while (c3 < xs.length) {
                             if (xs[c3] === prevC) {
                                 xPows++;
@@ -793,10 +836,13 @@ factorPow = (STR, S, OP) => {
                                     console.log(`c2: ${c2}`)
                                     console.log(`poliArr ${poliArr}`);
                                     console.log(`poli2 ${poli2}`);
-                                    const resSplit = res.split(sPow)
+                                    const resSplit = res.split(sPow);
+
                                     if (resSplit.length > 2) {
                                         res = resSplit.join("");
-                                        res = sPow + "^" + xPows + res;
+                                        //if(xs.length)
+                                        xPows = resSplit.length - 1
+                                        res = sPow + "^" + (xPows) + res;
                                         if (prevFactor !== "") {
                                             res = res.split(sPow + "^" + xPows + prevFactor + "(").join(prevFactor + "(" + sPow + "^" + xPows);
                                         }
@@ -922,7 +968,7 @@ factorPow = (STR, S, OP) => {
             res = "(x" + (x < 0 ? x + ")" : '+' + x + ")");*/
             S.push(res);
      }
-     
+     console.log(S);
      console.log(`pow ${auxStr}`);
      console.log(`pow1 ${aux1Str}`);
 }
